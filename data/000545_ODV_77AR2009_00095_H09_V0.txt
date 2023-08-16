@@ -1,0 +1,32 @@
+﻿//<sdn_reference xlink:href="https://cdi.seadatanet.org/report/edmo/545/77AR2009_00095_H09" xlink:role="isDescribedBy" xlink:type="SDN:L23::CDI"/>
+//
+//SDN_parameter_mapping
+//<subject>SDN:LOCAL:DEPH</subject><object>SDN:P01::ADEPZZ01</object><units>SDN:P06::ULAA</units>
+//<subject>SDN:LOCAL:TEMP</subject><object>SDN:P01::TEMPPR01</object><units>SDN:P06::UPAA</units>
+//<subject>SDN:LOCAL:PSAL</subject><object>SDN:P01::PSLTZZ01</object><units>SDN:P06::UUUU</units>
+//<subject>SDN:LOCAL:PHPH</subject><object>SDN:P01::PHXXZZXX</object><units>SDN:P06::UUPH</units>
+//<subject>SDN:LOCAL:DOX1</subject><object>SDN:P01::DOXYZZXX</object><units>SDN:P06::UMLL</units>
+//<subject>SDN:LOCAL:HSUL</subject><object>SDN:P01::H2SXZZXX</object><units>SDN:P06::UPOX</units>
+//<subject>SDN:LOCAL:PHOS</subject><object>SDN:P01::PHOSZZXX</object><units>SDN:P06::UPOX</units>
+//<subject>SDN:LOCAL:TPHS</subject><object>SDN:P01::TPHSZZXX</object><units>SDN:P06::UPOX</units>
+//<subject>SDN:LOCAL:NTRI</subject><object>SDN:P01::NTRIZZXX</object><units>SDN:P06::UPOX</units>
+//<subject>SDN:LOCAL:NTRA</subject><object>SDN:P01::NTRAZZXX</object><units>SDN:P06::UPOX</units>
+//<subject>SDN:LOCAL:AMON</subject><object>SDN:P01::AMONZZXX</object><units>SDN:P06::UPOX</units>
+//<subject>SDN:LOCAL:NTOT</subject><object>SDN:P01::NTOTZZXX</object><units>SDN:P06::UPOX</units>
+//<subject>SDN:LOCAL:ALKY</subject><object>SDN:P01::ALKYZZXX</object><units>SDN:P06::UPOX</units>
+//<subject>SDN:LOCAL:SLCA</subject><object>SDN:P01::SLCAZZXX</object><units>SDN:P06::UPOX</units>
+//<subject>SDN:LOCAL:PN1P</subject><object>SDN:P01::NTOTZZZZ</object><units>SDN:P06::UPOX</units>
+//<subject>SDN:LOCAL:PC1P</subject><object>SDN:P01::MDMAP010</object><units>SDN:P06::UPOX</units>
+//<subject>SDN:LOCAL:TOCW</subject><object>SDN:P01::CORGZZTL</object><units>SDN:P06::UPOX</units>
+//<subject>SDN:LOCAL:CPHL</subject><object>SDN:P01::CPHLZZXX</object><units>SDN:P06::UMMC</units>
+//
+Cruise	Station	Type	yyyy-mm-ddThh:mm:ss.sss	Longitude [degrees_east]	Latitude [degrees_north]	LOCAL_CDI_ID	EDMO_CODE	Bot. Depth [m]	DEPH [meter]	QV:SEADATANET	TEMP [Celsius degree]	QV:SEADATANET	PSAL [P.S.U.]	QV:SEADATANET	PHPH [pH unit]	QV:SEADATANET	DOX1 [ml/l]	QV:SEADATANET	HSUL [micromole/l]	QV:SEADATANET	PHOS [micromole/l]	QV:SEADATANET	TPHS [micromole/l]	QV:SEADATANET	NTRI [micromole/l]	QV:SEADATANET	NTRA [micromole/l]	QV:SEADATANET	AMON [micromole/l]	QV:SEADATANET	NTOT [micromole/l]	QV:SEADATANET	ALKY [micromole/l]	QV:SEADATANET	SLCA [micromole/l]	QV:SEADATANET	PN1P [micromole/l]	QV:SEADATANET	PC1P [micromole/l]	QV:SEADATANET	TOCW [micromole/l]	QV:SEADATANET	CPHL [milligram/m3]	QV:SEADATANET
+77AR2009	S�RGRUND	B	2009-01-27T15:50:00.000	+011.163000	+58.265500	77AR2009_00095_H09	545	63	0.0	1	3.52	1	24.598	1		9	7.760	1		9	0.71	1	1.14	1	0.33	1	6.80	1	0.22	1	18.4	1		9	12.1	1		9		9		9		9
+									5.0	1	3.50	1	24.788	1		9	7.720	1		9	0.75	1	1.13	1	0.33	1	6.82	1	0.22	1	18.6	1		9	12.0	1		9		9		9		9
+									10.0	1	3.79	1	25.795	1		9	7.520	1		9	0.73	1	1.17	1	0.31	1	6.81	1	0.15	1	18.8	1		9	11.9	1		9		9		9		9
+									15.0	1	4.66	1	28.929	1		9	7.230	1		9	0.73	1	1.09	1	0.27	1	7.33	1	0.16	1	17.4	1		9	11.0	1		9		9		9		9
+									20.0	1	4.83	1	31.244	1		9	7.170	1		9	0.67	1	0.84	1	0.24	1	7.46	1	0.22	1	16.0	1		9	8.7	1		9		9		9		9
+									30.0	1	5.21	1	34.000	1		9	7.030	1		9	0.60	1	0.78	1	0.12	1	6.78	1	0.25	1	14.0	1		9	5.8	1		9		9		9		9
+									40.0	1	5.48	1	34.414	1		9	6.990	1		9	0.59	1	0.78	1	0.10	1	6.67	1	0.13	1	13.7	1		9	4.7	1		9		9		9		9
+									50.0	1	5.71	1	34.641	1		9		9		9	0.58	1	0.81	1	0.09	1	6.92	1	0.05	6	13.1	1		9	4.1	1		9		9		9		9
+									62.0	1	5.84	1	34.668	1		9	6.870	1		9	0.63	1	0.80	1	0.09	1	6.87	1	0.05	6	14.0	1		9	4.1	1		9		9		9		9

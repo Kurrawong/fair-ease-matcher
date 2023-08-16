@@ -1,0 +1,109 @@
+{
+    "columns": [
+        {
+            "Cruise": {},
+            "Station": {},
+            "Type": {},
+            "yyyy-mm-ddThh:mm:ss.sss": {},
+            "Longitude [degrees_east]": {},
+            "Latitude [degrees_north]": {},
+            "LOCAL_CDI_ID": {},
+            "EDMO_CODE": {},
+            "Bot. Depth [m]": {
+                "column_unit_text": "[meter]",
+                "column_unit_urn": "SDN:P06::ULAA"
+            },
+            "DEPH [meter]": {
+                "column_vocabulary_urn": "SDN:P01::ADEPZZ01",
+                "column_unit_text": "[meter]",
+                "column_unit_urn": "SDN:P06::ULAA"
+            },
+            "QV:SEADATANET": {},
+            "TEMP [Celsius degree]": {
+                "column_vocabulary_urn": "SDN:P01::TEMPPR01",
+                "column_unit_text": "[Celsius degree]",
+                "column_unit_urn": "SDN:P06::UPAA"
+            },
+            "PSAL [P.S.U.]": {
+                "column_vocabulary_urn": "SDN:P01::PSLTZZ01",
+                "column_unit_text": "[P.S.U.]",
+                "column_unit_urn": "SDN:P06::UUUU"
+            },
+            "PHPH [pH unit]": {
+                "column_vocabulary_urn": "SDN:P01::PHXXZZXX",
+                "column_unit_text": "[pH unit]",
+                "column_unit_urn": "SDN:P06::UUPH"
+            },
+            "DOX1 [ml/l]": {
+                "column_vocabulary_urn": "SDN:P01::DOXYZZXX",
+                "column_unit_text": "[ml/l]",
+                "column_unit_urn": "SDN:P06::UMLL"
+            },
+            "HSUL [micromole/l]": {
+                "column_vocabulary_urn": "SDN:P01::H2SXZZXX",
+                "column_unit_text": "[micromole/l]",
+                "column_unit_urn": "SDN:P06::UPOX"
+            },
+            "PHOS [micromole/l]": {
+                "column_vocabulary_urn": "SDN:P01::PHOSZZXX",
+                "column_unit_text": "[micromole/l]",
+                "column_unit_urn": "SDN:P06::UPOX"
+            },
+            "TPHS [micromole/l]": {
+                "column_vocabulary_urn": "SDN:P01::TPHSZZXX",
+                "column_unit_text": "[micromole/l]",
+                "column_unit_urn": "SDN:P06::UPOX"
+            },
+            "NTRI [micromole/l]": {
+                "column_vocabulary_urn": "SDN:P01::NTRIZZXX",
+                "column_unit_text": "[micromole/l]",
+                "column_unit_urn": "SDN:P06::UPOX"
+            },
+            "NTRA [micromole/l]": {
+                "column_vocabulary_urn": "SDN:P01::NTRAZZXX",
+                "column_unit_text": "[micromole/l]",
+                "column_unit_urn": "SDN:P06::UPOX"
+            },
+            "AMON [micromole/l]": {
+                "column_vocabulary_urn": "SDN:P01::AMONZZXX",
+                "column_unit_text": "[micromole/l]",
+                "column_unit_urn": "SDN:P06::UPOX"
+            },
+            "NTOT [micromole/l]": {
+                "column_vocabulary_urn": "SDN:P01::NTOTZZXX",
+                "column_unit_text": "[micromole/l]",
+                "column_unit_urn": "SDN:P06::UPOX"
+            },
+            "ALKY [micromole/l]": {
+                "column_vocabulary_urn": "SDN:P01::ALKYZZXX",
+                "column_unit_text": "[micromole/l]",
+                "column_unit_urn": "SDN:P06::UPOX"
+            },
+            "SLCA [micromole/l]": {
+                "column_vocabulary_urn": "SDN:P01::SLCAZZXX",
+                "column_unit_text": "[micromole/l]",
+                "column_unit_urn": "SDN:P06::UPOX"
+            },
+            "PN1P [micromole/l]": {
+                "column_vocabulary_urn": "SDN:P01::NTOTZZZZ",
+                "column_unit_text": "[micromole/l]",
+                "column_unit_urn": "SDN:P06::UPOX"
+            },
+            "PC1P [micromole/l]": {
+                "column_vocabulary_urn": "SDN:P01::MDMAP010",
+                "column_unit_text": "[micromole/l]",
+                "column_unit_urn": "SDN:P06::UPOX"
+            },
+            "TOCW [micromole/l]": {
+                "column_vocabulary_urn": "SDN:P01::CORGZZTL",
+                "column_unit_text": "[micromole/l]",
+                "column_unit_urn": "SDN:P06::UPOX"
+            },
+            "CPHL [milligram/m3]": {
+                "column_vocabulary_urn": "SDN:P01::CPHLZZXX",
+                "column_unit_text": "[milligram/m3]",
+                "column_unit_urn": "SDN:P06::UMMC"
+            }
+        }
+    ]
+}
