@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<csw:GetRecordByIdResponse xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml" xmlns:ows="http://www.opengis.net/ows" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:srv="http://www.isotc211.org/2005/srv" xmlns:gmi="http://www.isotc211.org/2005/gmi" xmlns:gts="http://www.isotc211.org/2005/gts" xmlns:pubSub="http://www.opengis.net/pubsub/1.0" xmlns:gml32="http://www.opengis.net/gml/3.2" xmlns:ows11="http://www.opengis.net/ows/1.1" xmlns:xacml="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <gmi:MI_Metadata xsi:schemaLocation="http://www.isotc211.org/2005/gmi http://www.isotc211.org/2005/gmi/gmi.xsd">
+    <gmd:fileIdentifier>
+        <gco:CharacterString>4A36591A6B9ADA8CC6231207891A600CF8E9FC8D</gco:CharacterString>
+    </gmd:fileIdentifier>
+    <gmd:hierarchyLevel>
+        <gmd:MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_ScopeCode" codeListValue="series" codeSpace="ISOTC211/19115">series</gmd:MD_ScopeCode>
+    </gmd:hierarchyLevel>
+    <gmd:hierarchyLevelName>
+        <gco:CharacterString>series</gco:CharacterString>
+    </gmd:hierarchyLevelName>
+    <gmd:dateStamp>
+        <gco:Date>2012-08-26T00:00:00Z</gco:Date>
+    </gmd:dateStamp>
+    <gmd:identificationInfo>
+        <gmd:MD_DataIdentification>
+            <gmd:citation>
+                <gmd:CI_Citation>
+                    <gmd:title>
+                        <gco:CharacterString>GLOBAL OCEAN ALONG-TRACK L3 SEA SURFACE HEIGHTS REPROCESSED (1993-ONGOING) TAILORED FOR DATA ASSIMILATION</gco:CharacterString>
+                    </gmd:title>
+                    <gmd:date>
+                        <gmd:CI_Date>
+                            <gmd:date>
+<gco:Date>2012-08-26T00:00:00Z</gco:Date>
+                            </gmd:date>
+                            <gmd:dateType>
+<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="creation" codeSpace="ISOTC211/19115">creation</gmd:CI_DateTypeCode>
+                            </gmd:dateType>
+                        </gmd:CI_Date>
+                    </gmd:date>
+                    <gmd:date>
+                        <gmd:CI_Date>
+                            <gmd:date>
+<gco:Date>2012-08-26T00:00:00Z</gco:Date>
+                            </gmd:date>
+                            <gmd:dateType>
+<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision" codeSpace="ISOTC211/19115">revision</gmd:CI_DateTypeCode>
+                            </gmd:dateType>
+                        </gmd:CI_Date>
+                    </gmd:date>
+                </gmd:CI_Citation>
+            </gmd:citation>
+            <gmd:abstract>
+                <gco:CharacterString>'''Short description:'''
+
+Altimeter satellite along-track sea surface heights anomalies (SLA) computed with respect to a twenty-year [1993, 2012] mean with a 1Hz (~7km) sampling. It serves in delayed-time applications.
+This product is processed by the DUACS multimission altimeter data processing system. It processes data from all altimeter missions available (e.g. Sentinel-6A, Jason-3, Sentinel-3A, Sentinel-3B, Saral/AltiKa, Cryosat-2, Jason-1, Jason-2, Topex/Poseidon, ERS-1, ERS-2, Envisat, Geosat Follow-On, HY-2A, HY-2B, etc.). The system exploits the most recent datasets available based on the enhanced OGDR/NRT+IGDR/STC production. All the missions are homogenized with respect to a reference mission. Part of the processing is fitted to the Global ocean. (see QUID document or http://duacs.cls.fr [http://duacs.cls.fr] pages for processing details). 
+The product gives additional variables (e.g. Mean Dynamic Topography, Dynamic Atmospheric Correction, Ocean Tides, Long Wavelength Errors) that can be used to change the physical content for specific needs (see PUM document for details)
+
+“’Associated products”’
+A time invariant product https://resources.marine.copernicus.eu/product-detail/SEALEVEL_GLO_NOISE_L4_NRT_OBSERVATIONS_008_032/INFORMATION describing the noise level of along-track measurements is available. It is associated to the sla_filtered variable. It is a gridded product. One file is provided for the global ocean and those values must be applied for Arctic and Europe products. For Mediterranean and Black seas, one value is given in the QUID document.
+
+'''DOI (product)''':
+https://doi.org/10.48670/moi-00146</gco:CharacterString>
+            </gmd:abstract>
+            <gmd:graphicOverview>
+                <gmd:MD_BrowseGraphic>
+                    <gmd:fileName>
+                        <gco:CharacterString>https://wekeo-broker.apps.mercator.dpi.wekeo.eu/previews/EO_MO_DAT_SEALEVEL_GLO_PHY_L3_MY_008_062_cmems_obs-sl_glo_phy-ssh_my_j3n-l3-duacs_PT1S_202207.png</gco:CharacterString>
+                    </gmd:fileName>
+                    <gmd:fileType>
+                        <gco:CharacterString>image/png</gco:CharacterString>
+                    </gmd:fileType>
+                </gmd:MD_BrowseGraphic>
+            </gmd:graphicOverview>
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords>
+                    <gmd:keyword>
+                        <gco:CharacterString>arctic-ocean</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>satellite-observation</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>multi-year</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>Not Applicable</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>sea_surface_height_above_sea_level</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>global-ocean</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>sea_surface_height_above_geoid</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>marine-safety</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>Level 3</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>coastal-marine-environment</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>weather-climate-and-seasonal-forecasting</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>Oceanographic geographical features</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>marine-resources</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>WEKEO</gco:CharacterString>
+                    </gmd:keyword>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            <gmd:extent>
+                <gmd:EX_Extent>
+                    <gmd:geographicElement>
+                        <gmd:EX_GeographicBoundingBox>
+                            <gmd:westBoundLongitude>
+<gco:Decimal>-180.0</gco:Decimal>
+                            </gmd:westBoundLongitude>
+                            <gmd:eastBoundLongitude>
+<gco:Decimal>180.0</gco:Decimal>
+                            </gmd:eastBoundLongitude>
+                            <gmd:southBoundLatitude>
+<gco:Decimal>-90.0</gco:Decimal>
+                            </gmd:southBoundLatitude>
+                            <gmd:northBoundLatitude>
+<gco:Decimal>90.0</gco:Decimal>
+                            </gmd:northBoundLatitude>
+                        </gmd:EX_GeographicBoundingBox>
+                    </gmd:geographicElement>
+                </gmd:EX_Extent>
+            </gmd:extent>
+            <gmd:extent>
+                <gmd:EX_Extent>
+                    <gmd:temporalElement>
+                        <gmd:EX_TemporalExtent/>
+                    </gmd:temporalElement>
+                </gmd:EX_Extent>
+            </gmd:extent>
+        </gmd:MD_DataIdentification>
+    </gmd:identificationInfo>
+    <gmd:contentInfo>
+        <gmd:MD_CoverageDescription>
+            <gmd:attributeDescription>
+                <gco:RecordType>arctic-ocean</gco:RecordType>
+            </gmd:attributeDescription>
+            <gmd:contentType>
+                <gmd:MD_CoverageContentTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CoverageContentTypeCode" codeListValue="physicalMeasurement" codeSpace="ISOTC211/19115">physicalMeasurement</gmd:MD_CoverageContentTypeCode>
+            </gmd:contentType>
+        </gmd:MD_CoverageDescription>
+    </gmd:contentInfo>
+    <gmd:contentInfo>
+        <gmd:MD_CoverageDescription>
+            <gmd:attributeDescription>
+                <gco:RecordType>satellite-observation</gco:RecordType>
+            </gmd:attributeDescription>
+            <gmd:contentType>
+                <gmd:MD_CoverageContentTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CoverageContentTypeCode" codeListValue="physicalMeasurement" codeSpace="ISOTC211/19115">physicalMeasurement</gmd:MD_CoverageContentTypeCode>
+            </gmd:contentType>
+        </gmd:MD_CoverageDescription>
+    </gmd:contentInfo>
+    <gmd:contentInfo>
+        <gmd:MD_CoverageDescription>
+            <gmd:attributeDescription>
+                <gco:RecordType>multi-year</gco:RecordType>
+            </gmd:attributeDescription>
+            <gmd:contentType>
+                <gmd:MD_CoverageContentTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CoverageContentTypeCode" codeListValue="physicalMeasurement" codeSpace="ISOTC211/19115">physicalMeasurement</gmd:MD_CoverageContentTypeCode>
+            </gmd:contentType>
+        </gmd:MD_CoverageDescription>
+    </gmd:contentInfo>
+    <gmd:contentInfo>
+        <gmd:MD_CoverageDescription>
+            <gmd:attributeDescription>
+                <gco:RecordType>Not Applicable</gco:RecordType>
+            </gmd:attributeDescription>
+            <gmd:contentType>
+                <gmd:MD_CoverageContentTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CoverageContentTypeCode" codeListValue="physicalMeasurement" codeSpace="ISOTC211/19115">physicalMeasurement</gmd:MD_CoverageContentTypeCode>
+            </gmd:contentType>
+        </gmd:MD_CoverageDescription>
+    </gmd:contentInfo>
+    <gmd:contentInfo>
+        <gmd:MD_CoverageDescription>
+            <gmd:attributeDescription>
+                <gco:RecordType>sea_surface_height_above_sea_level</gco:RecordType>
+            </gmd:attributeDescription>
+            <gmd:contentType>
+                <gmd:MD_CoverageContentTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CoverageContentTypeCode" codeListValue="physicalMeasurement" codeSpace="ISOTC211/19115">physicalMeasurement</gmd:MD_CoverageContentTypeCode>
+            </gmd:contentType>
+        </gmd:MD_CoverageDescription>
+    </gmd:contentInfo>
+    <gmd:contentInfo>
+        <gmd:MD_CoverageDescription>
+            <gmd:attributeDescription>
+                <gco:RecordType>global-ocean</gco:RecordType>
+            </gmd:attributeDescription>
+            <gmd:contentType>
+                <gmd:MD_CoverageContentTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CoverageContentTypeCode" codeListValue="physicalMeasurement" codeSpace="ISOTC211/19115">physicalMeasurement</gmd:MD_CoverageContentTypeCode>
+            </gmd:contentType>
+        </gmd:MD_CoverageDescription>
+    </gmd:contentInfo>
+    <gmd:contentInfo>
+        <gmd:MD_CoverageDescription>
+            <gmd:attributeDescription>
+                <gco:RecordType>sea_surface_height_above_geoid</gco:RecordType>
+            </gmd:attributeDescription>
+            <gmd:contentType>
+                <gmd:MD_CoverageContentTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CoverageContentTypeCode" codeListValue="physicalMeasurement" codeSpace="ISOTC211/19115">physicalMeasurement</gmd:MD_CoverageContentTypeCode>
+            </gmd:contentType>
+        </gmd:MD_CoverageDescription>
+    </gmd:contentInfo>
+    <gmd:contentInfo>
+        <gmd:MD_CoverageDescription>
+            <gmd:attributeDescription>
+                <gco:RecordType>marine-safety</gco:RecordType>
+            </gmd:attributeDescription>
+            <gmd:contentType>
+                <gmd:MD_CoverageContentTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CoverageContentTypeCode" codeListValue="physicalMeasurement" codeSpace="ISOTC211/19115">physicalMeasurement</gmd:MD_CoverageContentTypeCode>
+            </gmd:contentType>
+        </gmd:MD_CoverageDescription>
+    </gmd:contentInfo>
+    <gmd:contentInfo>
+        <gmd:MD_CoverageDescription>
+            <gmd:attributeDescription>
+                <gco:RecordType>Level 3</gco:RecordType>
+            </gmd:attributeDescription>
+            <gmd:contentType>
+                <gmd:MD_CoverageContentTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CoverageContentTypeCode" codeListValue="physicalMeasurement" codeSpace="ISOTC211/19115">physicalMeasurement</gmd:MD_CoverageContentTypeCode>
+            </gmd:contentType>
+        </gmd:MD_CoverageDescription>
+    </gmd:contentInfo>
+    <gmd:contentInfo>
+        <gmd:MD_CoverageDescription>
+            <gmd:attributeDescription>
+                <gco:RecordType>coastal-marine-environment</gco:RecordType>
+            </gmd:attributeDescription>
+            <gmd:contentType>
+                <gmd:MD_CoverageContentTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CoverageContentTypeCode" codeListValue="physicalMeasurement" codeSpace="ISOTC211/19115">physicalMeasurement</gmd:MD_CoverageContentTypeCode>
+            </gmd:contentType>
+        </gmd:MD_CoverageDescription>
+    </gmd:contentInfo>
+    <gmd:contentInfo>
+        <gmd:MD_CoverageDescription>
+            <gmd:attributeDescription>
+                <gco:RecordType>weather-climate-and-seasonal-forecasting</gco:RecordType>
+            </gmd:attributeDescription>
+            <gmd:contentType>
+                <gmd:MD_CoverageContentTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CoverageContentTypeCode" codeListValue="physicalMeasurement" codeSpace="ISOTC211/19115">physicalMeasurement</gmd:MD_CoverageContentTypeCode>
+            </gmd:contentType>
+        </gmd:MD_CoverageDescription>
+    </gmd:contentInfo>
+    <gmd:contentInfo>
+        <gmd:MD_CoverageDescription>
+            <gmd:attributeDescription>
+                <gco:RecordType>Oceanographic geographical features</gco:RecordType>
+            </gmd:attributeDescription>
+            <gmd:contentType>
+                <gmd:MD_CoverageContentTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CoverageContentTypeCode" codeListValue="physicalMeasurement" codeSpace="ISOTC211/19115">physicalMeasurement</gmd:MD_CoverageContentTypeCode>
+            </gmd:contentType>
+        </gmd:MD_CoverageDescription>
+    </gmd:contentInfo>
+    <gmd:contentInfo>
+        <gmd:MD_CoverageDescription>
+            <gmd:attributeDescription>
+                <gco:RecordType>marine-resources</gco:RecordType>
+            </gmd:attributeDescription>
+            <gmd:contentType>
+                <gmd:MD_CoverageContentTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CoverageContentTypeCode" codeListValue="physicalMeasurement" codeSpace="ISOTC211/19115">physicalMeasurement</gmd:MD_CoverageContentTypeCode>
+            </gmd:contentType>
+        </gmd:MD_CoverageDescription>
+    </gmd:contentInfo>
+    <gmd:distributionInfo>
+        <gmd:MD_Distribution/>
+    </gmd:distributionInfo>
+</gmi:MI_Metadata>
+</csw:GetRecordByIdResponse>

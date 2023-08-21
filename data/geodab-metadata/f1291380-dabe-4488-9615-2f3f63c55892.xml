@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<csw:GetRecordByIdResponse xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml" xmlns:ows="http://www.opengis.net/ows" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:srv="http://www.isotc211.org/2005/srv" xmlns:gmi="http://www.isotc211.org/2005/gmi" xmlns:gts="http://www.isotc211.org/2005/gts" xmlns:pubSub="http://www.opengis.net/pubsub/1.0" xmlns:gml32="http://www.opengis.net/gml/3.2" xmlns:ows11="http://www.opengis.net/ows/1.1" xmlns:xacml="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <gmi:MI_Metadata uuid="0727b34e-9291-4d58-9899-ce1d4514b693" xsi:schemaLocation="http://www.isotc211.org/2005/gmi http://www.isotc211.org/2005/gmi/gmi.xsd">
+    <gmd:fileIdentifier>
+        <gco:CharacterString>f1291380-dabe-4488-9615-2f3f63c55892</gco:CharacterString>
+    </gmd:fileIdentifier>
+    <gmd:hierarchyLevelName>
+        <gco:CharacterString>dataset</gco:CharacterString>
+    </gmd:hierarchyLevelName>
+    <gmd:contact gco:nilReason="inapplicable"/>
+    <gmd:dateStamp>
+        <gco:Date>2020-12-04</gco:Date>
+    </gmd:dateStamp>
+    <gmd:metadataStandardName>
+        <gco:CharacterString>ISO 19115-2 Geographic Information - Metadata - Part 2: Extensions for Imagery and Gridded Data</gco:CharacterString>
+    </gmd:metadataStandardName>
+    <gmd:metadataStandardVersion>
+        <gco:CharacterString>ISO 19115-2:2009(E)</gco:CharacterString>
+    </gmd:metadataStandardVersion>
+    <gmd:identificationInfo>
+        <gmd:MD_DataIdentification>
+            <gmd:citation>
+                <gmd:CI_Citation>
+                    <gmd:title>
+                        <gco:CharacterString>Map Layer: Karenia brevis Cell Counts</gco:CharacterString>
+                    </gmd:title>
+                    <gmd:date>
+                        <gmd:CI_Date>
+                            <gmd:date>
+<gco:Date>2014-08-18</gco:Date>
+                            </gmd:date>
+                            <gmd:dateType>
+<gmd:CI_DateTypeCode codeList="https://data.noaa.gov/resources/iso19139/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="creation">creation</gmd:CI_DateTypeCode>
+                            </gmd:dateType>
+                        </gmd:CI_Date>
+                    </gmd:date>
+                </gmd:CI_Citation>
+            </gmd:citation>
+            <gmd:abstract>
+                <gco:CharacterString>This dataset contains "Karenia brevis" data from Texas, Mississippi, Alabama, and Florida, as well as data along the Florida Shelf in the Gulf of Mexico and along the eastern coast of Florida in the North Atlantic Ocean. 
+                    The full description of the dataset can be found within NCEI archive data with Accession 0120767.</gco:CharacterString>
+            </gmd:abstract>
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords>
+                    <gmd:keyword>
+                        <gco:CharacterString>Earth Science &gt; Oceans</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>Earth Science &gt; Terrestrial Hydrosphere &gt; Water Quality/Water Chemistry &gt; Contaminants &gt; Harmful Algal Blooms (HABs)</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:type>
+                        <gmd:MD_KeywordTypeCode codeList="https://data.noaa.gov/resources/iso19139/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
+                    </gmd:type>
+                    <gmd:thesaurusName xlink:title="GCMD Science Keywords">
+                        <gmd:CI_Citation uuid="227737d0-428b-11df-9879-0800200c9a66">
+                            <gmd:title>
+<gco:CharacterString>Global Change Master Directory (GCMD) Science Keywords</gco:CharacterString>
+                            </gmd:title>
+                            <gmd:date>
+<gmd:CI_Date>
+    <gmd:date>
+        <gco:Date>2020-01-09</gco:Date>
+    </gmd:date>
+    <gmd:dateType>
+        <gmd:CI_DateTypeCode codeList="https://data.noaa.gov/resources/iso19139/schema/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</gmd:CI_DateTypeCode>
+    </gmd:dateType>
+</gmd:CI_Date>
+                            </gmd:date>
+                            <gmd:edition>
+<gco:CharacterString>9.1</gco:CharacterString>
+                            </gmd:edition>
+                            <gmd:citedResponsibleParty xlink:title="GCMD Landing Page">
+<gmd:CI_ResponsibleParty uuid="1edb41d0-428a-11df-9879-0800200c9a66">
+    <gmd:organisationName>
+        <gco:CharacterString>NASA Goddard Space Flight Center, Earth Science Data and Information System</gco:CharacterString>
+    </gmd:organisationName>
+    <gmd:contactInfo>
+        <gmd:CI_Contact>
+            <gmd:onlineResource>
+                <gmd:CI_OnlineResource>
+                    <gmd:linkage>
+                        <gmd:URL>https://earthdata.nasa.gov/about/gcmd/global-change-master-directory-gcmd-keywords</gmd:URL>
+                    </gmd:linkage>
+                    <gmd:name>
+                        <gco:CharacterString>Global Change Master Directory (GCMD) Keywords</gco:CharacterString>
+                    </gmd:name>
+                    <gmd:description>
+                        <gco:CharacterString>The information provided on this page seeks to define how the GCMD Keywords are structured, used and accessed. It also provides information on how users can participate in the further development of the keywords.</gco:CharacterString>
+                    </gmd:description>
+                    <gmd:function>
+                        <gmd:CI_OnLineFunctionCode codeList="https://data.noaa.gov/resources/iso19139/schema/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="information">information</gmd:CI_OnLineFunctionCode>
+                    </gmd:function>
+                </gmd:CI_OnlineResource>
+            </gmd:onlineResource>
+        </gmd:CI_Contact>
+    </gmd:contactInfo>
+    <gmd:role>
+        <gmd:CI_RoleCode codeList="https://data.noaa.gov/resources/iso19139/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="custodian">custodian</gmd:CI_RoleCode>
+    </gmd:role>
+</gmd:CI_ResponsibleParty>
+                            </gmd:citedResponsibleParty>
+                        </gmd:CI_Citation>
+                    </gmd:thesaurusName>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords>
+                    <gmd:keyword>
+                        <gco:CharacterString>Karenia brevis</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:type>
+                        <gmd:MD_KeywordTypeCode codeList="https://data.noaa.gov/resources/iso19139/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
+                    </gmd:type>
+                    <gmd:thesaurusName>
+                        <gmd:CI_Citation>
+                            <gmd:title>
+<gco:CharacterString>None</gco:CharacterString>
+                            </gmd:title>
+                            <gmd:date gco:nilReason="inapplicable"/>
+                        </gmd:CI_Citation>
+                    </gmd:thesaurusName>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords>
+                    <gmd:keyword>
+                        <gco:CharacterString>Continent &gt; North America &gt; United States of America</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>Continent &gt; North America &gt; United States of America &gt; Gulf of Mexico</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>Continent &gt; North America &gt; United States of America &gt; Texas</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>Continent &gt; North America &gt; United States of America &gt; Louisiana</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>Continent &gt; North America &gt; United States of America &gt; Mississippi</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>Continent &gt; North America &gt; United States of America &gt; Alabama</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>Continent &gt; North America &gt; United States of America &gt; Florida</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>Ocean &gt; Atlantic Ocean &gt; North Atlantic Ocean</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>Ocean &gt; Atlantic Ocean &gt; North Atlantic Ocean &gt; Caribbean Sea</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:type>
+                        <gmd:MD_KeywordTypeCode codeList="https://data.noaa.gov/resources/iso19139/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="place">place</gmd:MD_KeywordTypeCode>
+                    </gmd:type>
+                    <gmd:thesaurusName xlink:title="GCMD Location Keywords">
+                        <gmd:CI_Citation uuid="82A5DD19565ACBECE040AC8C5AB41A40">
+                            <gmd:title>
+<gco:CharacterString>Global Change Master Directory (GCMD) Location Keywords</gco:CharacterString>
+                            </gmd:title>
+                            <gmd:date>
+<gmd:CI_Date>
+    <gmd:date>
+        <gco:Date>2020-01-09</gco:Date>
+    </gmd:date>
+    <gmd:dateType>
+        <gmd:CI_DateTypeCode codeList="https://data.noaa.gov/resources/iso19139/schema/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication">publication</gmd:CI_DateTypeCode>
+    </gmd:dateType>
+</gmd:CI_Date>
+                            </gmd:date>
+                            <gmd:edition>
+<gco:CharacterString>9.1</gco:CharacterString>
+                            </gmd:edition>
+                            <gmd:citedResponsibleParty xlink:title="GCMD Landing Page">
+<gmd:CI_ResponsibleParty uuid="1edb41d0-428a-11df-9879-0800200c9a66">
+    <gmd:organisationName>
+        <gco:CharacterString>NASA Goddard Space Flight Center, Earth Science Data and Information System</gco:CharacterString>
+    </gmd:organisationName>
+    <gmd:contactInfo>
+        <gmd:CI_Contact>
+            <gmd:onlineResource>
+                <gmd:CI_OnlineResource>
+                    <gmd:linkage>
+                        <gmd:URL>https://earthdata.nasa.gov/about/gcmd/global-change-master-directory-gcmd-keywords</gmd:URL>
+                    </gmd:linkage>
+                    <gmd:name>
+                        <gco:CharacterString>Global Change Master Directory (GCMD) Keywords</gco:CharacterString>
+                    </gmd:name>
+                    <gmd:description>
+                        <gco:CharacterString>The information provided on this page seeks to define how the GCMD Keywords are structured, used and accessed. It also provides information on how users can participate in the further development of the keywords.</gco:CharacterString>
+                    </gmd:description>
+                    <gmd:function>
+                        <gmd:CI_OnLineFunctionCode codeList="https://data.noaa.gov/resources/iso19139/schema/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="information">information</gmd:CI_OnLineFunctionCode>
+                    </gmd:function>
+                </gmd:CI_OnlineResource>
+            </gmd:onlineResource>
+        </gmd:CI_Contact>
+    </gmd:contactInfo>
+    <gmd:role>
+        <gmd:CI_RoleCode codeList="https://data.noaa.gov/resources/iso19139/schema/resources/Codelist/gmxCodelists.xml#CI_RoleCode" codeListValue="custodian">custodian</gmd:CI_RoleCode>
+    </gmd:role>
+</gmd:CI_ResponsibleParty>
+                            </gmd:citedResponsibleParty>
+                        </gmd:CI_Citation>
+                    </gmd:thesaurusName>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            <gmd:language>
+                <gco:CharacterString>eng; USA</gco:CharacterString>
+            </gmd:language>
+            <gmd:extent>
+                <gmd:EX_Extent id="boundingExtent">
+                    <gmd:geographicElement>
+                        <gmd:EX_GeographicBoundingBox id="boundingGeographicBoundingBox">
+                            <gmd:westBoundLongitude>
+<gco:Decimal>-97.66535</gco:Decimal>
+                            </gmd:westBoundLongitude>
+                            <gmd:eastBoundLongitude>
+<gco:Decimal>-78.2789</gco:Decimal>
+                            </gmd:eastBoundLongitude>
+                            <gmd:southBoundLatitude>
+<gco:Decimal>23.09858</gco:Decimal>
+                            </gmd:southBoundLatitude>
+                            <gmd:northBoundLatitude>
+<gco:Decimal>31.48833</gco:Decimal>
+                            </gmd:northBoundLatitude>
+                        </gmd:EX_GeographicBoundingBox>
+                    </gmd:geographicElement>
+                    <gmd:temporalElement>
+                        <gmd:EX_TemporalExtent id="boundingTemporalExtent">
+                            <gmd:extent>
+<gml:TimePeriod gml:id="boundingTemporalExtentPeriod">
+    <gml:beginPosition>1953-08-19</gml:beginPosition>
+    <gml:endPosition>2020-03-09</gml:endPosition>
+</gml:TimePeriod>
+                            </gmd:extent>
+                        </gmd:EX_TemporalExtent>
+                    </gmd:temporalElement>
+                </gmd:EX_Extent>
+            </gmd:extent>
+        </gmd:MD_DataIdentification>
+    </gmd:identificationInfo>
+    <gmd:contentInfo>
+        <gmd:MD_CoverageDescription>
+            <gmd:attributeDescription>
+                <gco:RecordType xlink:href="Earth Science &gt; Oceans" xlink:title="Earth Science &gt; Oceans">Earth Science &gt; Oceans</gco:RecordType>
+            </gmd:attributeDescription>
+            <gmd:contentType>
+                <gmd:MD_CoverageContentTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CoverageContentTypeCode" codeListValue="physicalMeasurement" codeSpace="ISOTC211/19115">physicalMeasurement</gmd:MD_CoverageContentTypeCode>
+            </gmd:contentType>
+        </gmd:MD_CoverageDescription>
+    </gmd:contentInfo>
+    <gmd:contentInfo>
+        <gmd:MD_CoverageDescription>
+            <gmd:attributeDescription>
+                <gco:RecordType xlink:href="Earth Science &gt; Terrestrial Hydrosphere &gt; Water Quality/Water Chemistry &gt; Contaminants &gt; Harmful Algal Blooms (HABs)" xlink:title="Earth Science &gt; Terrestrial Hydrosphere &gt; Water Quality/Water Chemistry &gt; Contaminants &gt; Harmful Algal Blooms (HABs)">Earth Science &gt; Terrestrial Hydrosphere &gt; Water Quality/Water Chemistry &gt; Contaminants &gt; Harmful Algal Blooms (HABs)</gco:RecordType>
+            </gmd:attributeDescription>
+            <gmd:contentType>
+                <gmd:MD_CoverageContentTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CoverageContentTypeCode" codeListValue="physicalMeasurement" codeSpace="ISOTC211/19115">physicalMeasurement</gmd:MD_CoverageContentTypeCode>
+            </gmd:contentType>
+        </gmd:MD_CoverageDescription>
+    </gmd:contentInfo>
+    <gmd:distributionInfo>
+        <gmd:MD_Distribution>
+            <gmd:distributionFormat>
+                <gmd:MD_Format>
+                    <gmd:name>
+                        <gco:CharacterString>CSV</gco:CharacterString>
+                    </gmd:name>
+                    <gmd:version gco:nilReason="unknown"/>
+                </gmd:MD_Format>
+            </gmd:distributionFormat>
+            <gmd:transferOptions>
+                <gmd:MD_DigitalTransferOptions>
+                    <gmd:transferSize>
+                        <gco:Real>23.872</gco:Real>
+                    </gmd:transferSize>
+                    <gmd:onLine>
+                        <gmd:CI_OnlineResource>
+                            <gmd:linkage>
+<gmd:URL>https://www.ncei.noaa.gov/archive/archive-management-system/OAS/bin/prd/jquery/accession/download/120767</gmd:URL>
+                            </gmd:linkage>
+                            <gmd:protocol>
+<gco:CharacterString>HTTPS</gco:CharacterString>
+                            </gmd:protocol>
+                            <gmd:applicationProfile>
+<gco:CharacterString>Web browser</gco:CharacterString>
+                            </gmd:applicationProfile>
+                            <gmd:description>
+<gco:CharacterString>Navigate directly to the URL for data access and direct download. The size of the data is in Megabytes.</gco:CharacterString>
+                            </gmd:description>
+                            <gmd:function>
+<gmd:CI_OnLineFunctionCode codeList="https://data.noaa.gov/resources/iso19139/schema/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="download">download</gmd:CI_OnLineFunctionCode>
+                            </gmd:function>
+                        </gmd:CI_OnlineResource>
+                    </gmd:onLine>
+                </gmd:MD_DigitalTransferOptions>
+            </gmd:transferOptions>
+            <gmd:transferOptions>
+                <gmd:MD_DigitalTransferOptions>
+                    <gmd:onLine>
+                        <gmd:CI_OnlineResource>
+                            <gmd:linkage>
+<gmd:URL>ftp://ftp-oceans.ncei.noaa.gov/nodc/archive/arc0069/0120767/</gmd:URL>
+                            </gmd:linkage>
+                            <gmd:protocol>
+<gco:CharacterString>FTP</gco:CharacterString>
+                            </gmd:protocol>
+                            <gmd:applicationProfile>
+<gco:CharacterString>Any FTP client</gco:CharacterString>
+                            </gmd:applicationProfile>
+                            <gmd:description>
+<gco:CharacterString>These data are available through the File Transfer Protocol (FTP). You may use any FTP client to download these data. The size of the data is in Megabytes.</gco:CharacterString>
+                            </gmd:description>
+                            <gmd:function>
+<gmd:CI_OnLineFunctionCode codeList="https://data.noaa.gov/resources/iso19139/schema/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="download">download</gmd:CI_OnLineFunctionCode>
+                            </gmd:function>
+                        </gmd:CI_OnlineResource>
+                    </gmd:onLine>
+                </gmd:MD_DigitalTransferOptions>
+            </gmd:transferOptions>
+            <gmd:transferOptions>
+                <gmd:MD_DigitalTransferOptions>
+                    <gmd:onLine>
+                        <gmd:CI_OnlineResource>
+                            <gmd:linkage>
+<gmd:URL>https://www.ncei.noaa.gov/maps/habsos/maps.htm</gmd:URL>
+                            </gmd:linkage>
+                            <gmd:protocol>
+<gco:CharacterString>HTTPS</gco:CharacterString>
+                            </gmd:protocol>
+                            <gmd:applicationProfile>
+<gco:CharacterString>Web browser</gco:CharacterString>
+                            </gmd:applicationProfile>
+                            <gmd:name>
+<gco:CharacterString>HABSOS Mapping System</gco:CharacterString>
+                            </gmd:name>
+                            <gmd:description>
+<gco:CharacterString>Search for Karenia Brevis data by user-specified criteria</gco:CharacterString>
+                            </gmd:description>
+                            <gmd:function>
+<gmd:CI_OnLineFunctionCode codeList="https://data.noaa.gov/resources/iso19139/schema/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="search">search</gmd:CI_OnLineFunctionCode>
+                            </gmd:function>
+                        </gmd:CI_OnlineResource>
+                    </gmd:onLine>
+                </gmd:MD_DigitalTransferOptions>
+            </gmd:transferOptions>
+            <gmd:transferOptions>
+                <gmd:MD_DigitalTransferOptions>
+                    <gmd:onLine>
+                        <gmd:CI_OnlineResource>
+                            <gmd:linkage>
+<gmd:URL>https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.nodc:0120767</gmd:URL>
+                            </gmd:linkage>
+                            <gmd:protocol>
+<gco:CharacterString>HTTPS</gco:CharacterString>
+                            </gmd:protocol>
+                            <gmd:name>
+<gco:CharacterString>gov.noaa.nodc:0120767</gco:CharacterString>
+                            </gmd:name>
+                            <gmd:function>
+<gmd:CI_OnLineFunctionCode codeList="https://data.noaa.gov/resources/iso19139/schema/resources/Codelist/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="completeMetadata">completeMetadata</gmd:CI_OnLineFunctionCode>
+                            </gmd:function>
+                        </gmd:CI_OnlineResource>
+                    </gmd:onLine>
+                </gmd:MD_DigitalTransferOptions>
+            </gmd:transferOptions>
+        </gmd:MD_Distribution>
+    </gmd:distributionInfo>
+</gmi:MI_Metadata>
+</csw:GetRecordByIdResponse>

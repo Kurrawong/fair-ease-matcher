@@ -1,0 +1,7 @@
+Desired fields to identify:
+
+Keywords
+Variable name
+Variable unit
+Instrument
+Observation platform

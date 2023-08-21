@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<csw:GetRecordByIdResponse xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml" xmlns:ows="http://www.opengis.net/ows" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:srv="http://www.isotc211.org/2005/srv" xmlns:gmi="http://www.isotc211.org/2005/gmi" xmlns:gts="http://www.isotc211.org/2005/gts" xmlns:pubSub="http://www.opengis.net/pubsub/1.0" xmlns:gml32="http://www.opengis.net/gml/3.2" xmlns:ows11="http://www.opengis.net/ows/1.1" xmlns:xacml="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <gmi:MI_Metadata xsi:schemaLocation="http://www.isotc211.org/2005/gmi http://www.isotc211.org/2005/gmi/gmi.xsd">
+    <gmd:fileIdentifier>
+        <gco:CharacterString>35E87B23228DA78A4776FB47D007ACEECB5442CF</gco:CharacterString>
+    </gmd:fileIdentifier>
+    <gmd:hierarchyLevel>
+        <gmd:MD_ScopeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_ScopeCode" codeListValue="series" codeSpace="ISOTC211/19115">series</gmd:MD_ScopeCode>
+    </gmd:hierarchyLevel>
+    <gmd:hierarchyLevelName>
+        <gco:CharacterString>series</gco:CharacterString>
+    </gmd:hierarchyLevelName>
+    <gmd:dateStamp>
+        <gco:Date>2006-06-14T08:11:51.000+00:00</gco:Date>
+    </gmd:dateStamp>
+    <gmd:identificationInfo>
+        <gmd:MD_DataIdentification>
+            <gmd:citation>
+                <gmd:CI_Citation>
+                    <gmd:title>
+                        <gco:CharacterString>APEX Profiling Float - 2900291 - Argo JAPAN</gco:CharacterString>
+                    </gmd:title>
+                    <gmd:date>
+                        <gmd:CI_Date>
+                            <gmd:date>
+<gco:Date>2006-06-14T08:11:51.000+00:00</gco:Date>
+                            </gmd:date>
+                            <gmd:dateType>
+<gmd:CI_DateTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode" codeListValue="revision" codeSpace="ISOTC211/19115">revision</gmd:CI_DateTypeCode>
+                            </gmd:dateType>
+                        </gmd:CI_Date>
+                    </gmd:date>
+                    <gmd:identifier>
+                        <gmd:MD_Identifier>
+                            <gmd:code>
+<gco:CharacterString>2900291</gco:CharacterString>
+                            </gmd:code>
+                        </gmd:MD_Identifier>
+                    </gmd:identifier>
+                </gmd:CI_Citation>
+            </gmd:citation>
+            <gmd:abstract>
+                <gco:CharacterString>APEX Profiling Float - 2900291 - Argo JAPAN</gco:CharacterString>
+            </gmd:abstract>
+            <gmd:pointOfContact>
+                <gmd:CI_ResponsibleParty>
+                    <gmd:individualName>
+                        <gco:CharacterString>JAMSTEC</gco:CharacterString>
+                    </gmd:individualName>
+                    <gmd:role>
+                        <gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_RoleCode" codeListValue="author" codeSpace="ISOTC211/19115">author</gmd:CI_RoleCode>
+                    </gmd:role>
+                </gmd:CI_ResponsibleParty>
+            </gmd:pointOfContact>
+            <gmd:pointOfContact>
+                <gmd:CI_ResponsibleParty>
+                    <gmd:organisationName>
+                        <gco:CharacterString>JAMSTEC</gco:CharacterString>
+                    </gmd:organisationName>
+                    <gmd:role>
+                        <gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_RoleCode" codeListValue="owner" codeSpace="ISOTC211/19115">owner</gmd:CI_RoleCode>
+                    </gmd:role>
+                </gmd:CI_ResponsibleParty>
+            </gmd:pointOfContact>
+            <gmd:pointOfContact>
+                <gmd:CI_ResponsibleParty>
+                    <gmd:organisationName>
+                        <gco:CharacterString>JMA</gco:CharacterString>
+                    </gmd:organisationName>
+                    <gmd:role>
+                        <gmd:CI_RoleCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_RoleCode" codeListValue="publisher" codeSpace="ISOTC211/19115">publisher</gmd:CI_RoleCode>
+                    </gmd:role>
+                </gmd:CI_ResponsibleParty>
+            </gmd:pointOfContact>
+            <gmd:graphicOverview>
+                <gmd:MD_BrowseGraphic>
+                    <gmd:fileName>
+                        <gco:CharacterString>https://geoserver.ifremer.fr/geomesa/wms?SERVICE=WMS&amp;VERSION=1.3.0&amp;REQUEST=GetMap&amp;FORMAT=image%2Fpng&amp;TRANSPARENT=true&amp;STYLES&amp;LAYERS=argo_station&amp;exceptions=application%2Fvnd.ogc.se_inimage&amp;CQL_FILTER=platform_code%3D%272900291%27&amp;CRS=EPSG%3A4326&amp;WIDTH=768&amp;HEIGHT=384&amp;BBOX=-90,-180,90,180</gco:CharacterString>
+                    </gmd:fileName>
+                    <gmd:fileDescription>
+                        <gco:CharacterString>APEX Profiling Float - 2900291 - Argo JAPAN</gco:CharacterString>
+                    </gmd:fileDescription>
+                    <gmd:fileType>
+                        <gco:CharacterString>image/png</gco:CharacterString>
+                    </gmd:fileType>
+                </gmd:MD_BrowseGraphic>
+            </gmd:graphicOverview>
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords>
+                    <gmd:keyword>
+                        <gco:CharacterString>49</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>WRC</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>APEX-SBE</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>ARGO</gco:CharacterString>
+                    </gmd:keyword>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords>
+                    <gmd:keyword>
+                        <gco:CharacterString>DRUCK</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:type>
+                        <gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_KeywordTypeCode" codeListValue="instrument" codeSpace="ISOTC211/19115">instrument</gmd:MD_KeywordTypeCode>
+                    </gmd:type>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords>
+                    <gmd:keyword>
+                        <gco:CharacterString>SBE41</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:type>
+                        <gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_KeywordTypeCode" codeListValue="instrument" codeSpace="ISOTC211/19115">instrument</gmd:MD_KeywordTypeCode>
+                    </gmd:type>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords>
+                    <gmd:keyword>
+                        <gco:CharacterString>SBE41</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:type>
+                        <gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_KeywordTypeCode" codeListValue="instrument" codeSpace="ISOTC211/19115">instrument</gmd:MD_KeywordTypeCode>
+                    </gmd:type>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords>
+                    <gmd:keyword>
+                        <gco:CharacterString>APEX Profiling Float</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:type>
+                        <gmd:MD_KeywordTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_KeywordTypeCode" codeListValue="platform" codeSpace="ISOTC211/19115">platform</gmd:MD_KeywordTypeCode>
+                    </gmd:type>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            <gmd:extent>
+                <gmd:EX_Extent>
+                    <gmd:geographicElement>
+                        <gmd:EX_GeographicBoundingBox>
+                            <gmd:westBoundLongitude>
+<gco:Decimal>162.421</gco:Decimal>
+                            </gmd:westBoundLongitude>
+                            <gmd:eastBoundLongitude>
+<gco:Decimal>171.784</gco:Decimal>
+                            </gmd:eastBoundLongitude>
+                            <gmd:southBoundLatitude>
+<gco:Decimal>33.955</gco:Decimal>
+                            </gmd:southBoundLatitude>
+                            <gmd:northBoundLatitude>
+<gco:Decimal>37.136</gco:Decimal>
+                            </gmd:northBoundLatitude>
+                        </gmd:EX_GeographicBoundingBox>
+                    </gmd:geographicElement>
+                </gmd:EX_Extent>
+            </gmd:extent>
+            <gmd:extent>
+                <gmd:EX_Extent>
+                    <gmd:temporalElement>
+                        <gmd:EX_TemporalExtent>
+                            <gmd:extent>
+<gml:TimePeriod>
+    <gml:beginPosition>2003-07-10T10:35:36.000+00:00</gml:beginPosition>
+    <gml:endPosition>2006-06-14T08:11:51.000+00:00</gml:endPosition>
+</gml:TimePeriod>
+                            </gmd:extent>
+                        </gmd:EX_TemporalExtent>
+                    </gmd:temporalElement>
+                </gmd:EX_Extent>
+            </gmd:extent>
+        </gmd:MD_DataIdentification>
+    </gmd:identificationInfo>
+    <gmd:contentInfo>
+        <gmd:MD_CoverageDescription>
+            <gmd:attributeDescription>
+                <gco:RecordType xlink:href="SUBSURFACE PRESSURE" xlink:title="SUBSURFACE PRESSURE">SUBSURFACE PRESSURE</gco:RecordType>
+            </gmd:attributeDescription>
+            <gmd:contentType>
+                <gmd:MD_CoverageContentTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CoverageContentTypeCode" codeListValue="physicalMeasurement" codeSpace="ISOTC211/19115">physicalMeasurement</gmd:MD_CoverageContentTypeCode>
+            </gmd:contentType>
+        </gmd:MD_CoverageDescription>
+    </gmd:contentInfo>
+    <gmd:contentInfo>
+        <gmd:MD_CoverageDescription>
+            <gmd:attributeDescription>
+                <gco:RecordType xlink:href="SUBSURFACE SALINITY" xlink:title="SUBSURFACE SALINITY">SUBSURFACE SALINITY</gco:RecordType>
+            </gmd:attributeDescription>
+            <gmd:contentType>
+                <gmd:MD_CoverageContentTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CoverageContentTypeCode" codeListValue="physicalMeasurement" codeSpace="ISOTC211/19115">physicalMeasurement</gmd:MD_CoverageContentTypeCode>
+            </gmd:contentType>
+        </gmd:MD_CoverageDescription>
+    </gmd:contentInfo>
+    <gmd:contentInfo>
+        <gmd:MD_CoverageDescription>
+            <gmd:attributeDescription>
+                <gco:RecordType xlink:href="SUBSURFACE TEMPERATURE" xlink:title="SUBSURFACE TEMPERATURE">SUBSURFACE TEMPERATURE</gco:RecordType>
+            </gmd:attributeDescription>
+            <gmd:contentType>
+                <gmd:MD_CoverageContentTypeCode codeList="http://www.isotc211.org/2005/resources/codeList.xml#MD_CoverageContentTypeCode" codeListValue="physicalMeasurement" codeSpace="ISOTC211/19115">physicalMeasurement</gmd:MD_CoverageContentTypeCode>
+            </gmd:contentType>
+        </gmd:MD_CoverageDescription>
+    </gmd:contentInfo>
+    <gmd:distributionInfo>
+        <gmd:MD_Distribution/>
+    </gmd:distributionInfo>
+    <gmi:acquisitionInformation>
+        <gmi:MI_AcquisitionInformation>
+            <gmi:instrument>
+                <gmi:MI_Instrument>
+                    <gmi:citation>
+                        <gmd:CI_Citation>
+                            <gmd:title>
+<gco:CharacterString>DRUCK</gco:CharacterString>
+                            </gmd:title>
+                        </gmd:CI_Citation>
+                    </gmi:citation>
+                    <gmi:identifier>
+                        <gmd:MD_Identifier id="2681">
+                            <gmd:code>
+<gco:CharacterString>CTD_PRES</gco:CharacterString>
+                            </gmd:code>
+                        </gmd:MD_Identifier>
+                    </gmi:identifier>
+                    <gmi:description>
+                        <gco:CharacterString>Sensor Model: DRUCK. Maker: DRUCK</gco:CharacterString>
+                    </gmi:description>
+                </gmi:MI_Instrument>
+            </gmi:instrument>
+            <gmi:instrument>
+                <gmi:MI_Instrument>
+                    <gmi:citation>
+                        <gmd:CI_Citation>
+                            <gmd:title>
+<gco:CharacterString>SBE41</gco:CharacterString>
+                            </gmd:title>
+                        </gmd:CI_Citation>
+                    </gmi:citation>
+                    <gmi:identifier>
+                        <gmd:MD_Identifier id="0995">
+                            <gmd:code>
+<gco:CharacterString>CTD_TEMP</gco:CharacterString>
+                            </gmd:code>
+                        </gmd:MD_Identifier>
+                    </gmi:identifier>
+                    <gmi:description>
+                        <gco:CharacterString>Sensor Model: SBE41. Maker: SBE</gco:CharacterString>
+                    </gmi:description>
+                </gmi:MI_Instrument>
+            </gmi:instrument>
+            <gmi:instrument>
+                <gmi:MI_Instrument>
+                    <gmi:citation>
+                        <gmd:CI_Citation>
+                            <gmd:title>
+<gco:CharacterString>SBE41</gco:CharacterString>
+                            </gmd:title>
+                        </gmd:CI_Citation>
+                    </gmi:citation>
+                    <gmi:identifier>
+                        <gmd:MD_Identifier id="0995">
+                            <gmd:code>
+<gco:CharacterString>CTD_CNDC</gco:CharacterString>
+                            </gmd:code>
+                        </gmd:MD_Identifier>
+                    </gmi:identifier>
+                    <gmi:description>
+                        <gco:CharacterString>Sensor Model: SBE41. Maker: SBE</gco:CharacterString>
+                    </gmi:description>
+                </gmi:MI_Instrument>
+            </gmi:instrument>
+            <gmi:platform>
+                <gmi:MI_Platform>
+                    <gmi:citation>
+                        <gmd:CI_Citation>
+                            <gmd:title>
+<gco:CharacterString>APEX Profiling Float</gco:CharacterString>
+                            </gmd:title>
+                        </gmd:CI_Citation>
+                    </gmi:citation>
+                    <gmi:identifier>
+                        <gmd:MD_Identifier>
+                            <gmd:code>
+<gco:CharacterString>2900291</gco:CharacterString>
+                            </gmd:code>
+                        </gmd:MD_Identifier>
+                    </gmi:identifier>
+                    <gmi:description>
+                        <gco:CharacterString>Argo JAPAN</gco:CharacterString>
+                    </gmi:description>
+                </gmi:MI_Platform>
+            </gmi:platform>
+        </gmi:MI_AcquisitionInformation>
+    </gmi:acquisitionInformation>
+</gmi:MI_Metadata>
+</csw:GetRecordByIdResponse>

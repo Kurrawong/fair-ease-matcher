@@ -1,0 +1,963 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<csw:GetRecordByIdResponse xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml" xmlns:ows="http://www.opengis.net/ows" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:srv="http://www.isotc211.org/2005/srv" xmlns:gmi="http://www.isotc211.org/2005/gmi" xmlns:gts="http://www.isotc211.org/2005/gts" xmlns:pubSub="http://www.opengis.net/pubsub/1.0" xmlns:gml32="http://www.opengis.net/gml/3.2" xmlns:ows11="http://www.opengis.net/ows/1.1" xmlns:xacml="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <gmi:MI_Metadata id="CGLSMetadata" xsi:schemaLocation="http://www.isotc211.org/2005/gmi http://www.isotc211.org/2005/gmi/gmi.xsd">
+    <gmd:fileIdentifier>
+        <gco:CharacterString>f5f8c7ac-a08e-45e0-b613-5334a4aa8795</gco:CharacterString>
+    </gmd:fileIdentifier>
+    <gmd:language>
+        <gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="eng"/>
+    </gmd:language>
+    <gmd:characterSet>
+        <gmd:MD_CharacterSetCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8"/>
+    </gmd:characterSet>
+    <gmd:hierarchyLevel>
+        <gmd:MD_ScopeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_ScopeCode" codeListValue="series"/>
+    </gmd:hierarchyLevel>
+    <gmd:contact>
+        <gmd:CI_ResponsibleParty>
+            <gmd:organisationName>
+                <gco:CharacterString>VITO NV</gco:CharacterString>
+            </gmd:organisationName>
+            <gmd:contactInfo>
+                <gmd:CI_Contact>
+                    <gmd:address>
+                        <gmd:CI_Address>
+                            <gmd:deliveryPoint>
+<gco:CharacterString>Boeretang 200</gco:CharacterString>
+                            </gmd:deliveryPoint>
+                            <gmd:city>
+<gco:CharacterString>Mol</gco:CharacterString>
+                            </gmd:city>
+                            <gmd:postalCode>
+<gco:CharacterString>2400</gco:CharacterString>
+                            </gmd:postalCode>
+                            <gmd:country>
+<gmd:Country codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#Country" codeListValue="BE" codeSpace="ISO 3166-1"/>
+                            </gmd:country>
+                            <gmd:electronicMailAddress>
+<gco:CharacterString>helpdeskticket@vgt.vito.be</gco:CharacterString>
+                            </gmd:electronicMailAddress>
+                        </gmd:CI_Address>
+                    </gmd:address>
+                    <gmd:onlineResource>
+                        <gmd:CI_OnlineResource>
+                            <gmd:linkage>
+<gmd:URL>https://land.copernicus.eu/global/</gmd:URL>
+                            </gmd:linkage>
+                            <gmd:protocol>
+<gco:CharacterString>HTTP</gco:CharacterString>
+                            </gmd:protocol>
+                            <gmd:name>
+<gco:CharacterString>Copernicus Global Land service</gco:CharacterString>
+                            </gmd:name>
+                            <gmd:description>
+<gco:CharacterString>Copernicus Global Land website</gco:CharacterString>
+                            </gmd:description>
+                            <gmd:function>
+<gmd:CI_OnLineFunctionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="information"/>
+                            </gmd:function>
+                        </gmd:CI_OnlineResource>
+                    </gmd:onlineResource>
+                    <gmd:hoursOfService>
+                        <gco:CharacterString>Office hours, 7 days per week</gco:CharacterString>
+                    </gmd:hoursOfService>
+                    <gmd:contactInstructions>
+                        <gco:CharacterString>Preferably by e-mail</gco:CharacterString>
+                    </gmd:contactInstructions>
+                </gmd:CI_Contact>
+            </gmd:contactInfo>
+            <gmd:role>
+                <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_RoleCode" codeListValue="pointOfContact"/>
+            </gmd:role>
+        </gmd:CI_ResponsibleParty>
+    </gmd:contact>
+    <gmd:dateStamp>
+        <gco:Date xsi:nil="true"/>
+        <gco:DateTime>2022-03-17T17:15:55</gco:DateTime>
+    </gmd:dateStamp>
+    <gmd:metadataStandardName>
+        <gco:CharacterString>ISO19115</gco:CharacterString>
+    </gmd:metadataStandardName>
+    <gmd:metadataStandardVersion>
+        <gco:CharacterString>2003/Cor.1:2006</gco:CharacterString>
+    </gmd:metadataStandardVersion>
+    <gmd:spatialRepresentationInfo>
+        <gmd:MD_Georectified>
+            <gmd:numberOfDimensions>
+                <gco:Integer>2</gco:Integer>
+            </gmd:numberOfDimensions>
+            <gmd:axisDimensionProperties>
+                <gmd:MD_Dimension>
+                    <gmd:dimensionName>
+                        <gmd:MD_DimensionNameTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_DimensionNameTypeCode" codeListValue="row"/>
+                    </gmd:dimensionName>
+                    <gmd:dimensionSize>
+                        <gco:Integer>15680</gco:Integer>
+                    </gmd:dimensionSize>
+                    <gmd:resolution>
+                        <gco:Angle uom="deg">0.0089285714</gco:Angle>
+                    </gmd:resolution>
+                </gmd:MD_Dimension>
+            </gmd:axisDimensionProperties>
+            <gmd:axisDimensionProperties>
+                <gmd:MD_Dimension>
+                    <gmd:dimensionName>
+                        <gmd:MD_DimensionNameTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_DimensionNameTypeCode" codeListValue="column"/>
+                    </gmd:dimensionName>
+                    <gmd:dimensionSize>
+                        <gco:Integer>40320</gco:Integer>
+                    </gmd:dimensionSize>
+                    <gmd:resolution>
+                        <gco:Angle uom="deg">0.0089285714</gco:Angle>
+                    </gmd:resolution>
+                </gmd:MD_Dimension>
+            </gmd:axisDimensionProperties>
+            <gmd:cellGeometry>
+                <gmd:MD_CellGeometryCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_CellGeometryCode" codeListValue="area"/>
+            </gmd:cellGeometry>
+            <gmd:transformationParameterAvailability>
+                <gco:Boolean>false</gco:Boolean>
+            </gmd:transformationParameterAvailability>
+            <gmd:checkPointAvailability>
+                <gco:Boolean>true</gco:Boolean>
+            </gmd:checkPointAvailability>
+            <gmd:checkPointDescription>
+                <gco:CharacterString>Upperleft corner tiepoint</gco:CharacterString>
+            </gmd:checkPointDescription>
+            <gmd:cornerPoints>
+                <gml:Point gml:id="upperLeftTiePoint_GLOBE">
+                    <gml:description>Upperleft corner tiepoint</gml:description>
+                    <gml:identifier codeSpace="">upperLeftTiePoint</gml:identifier>
+                    <gml:name>Tie Point in upper left corner</gml:name>
+                    <gml:pos srsName="#WGS_1984">80.0 -180.0 0.0</gml:pos>
+                </gml:Point>
+            </gmd:cornerPoints>
+            <gmd:pointInPixel>
+                <gmd:MD_PixelOrientationCode>center</gmd:MD_PixelOrientationCode>
+            </gmd:pointInPixel>
+        </gmd:MD_Georectified>
+    </gmd:spatialRepresentationInfo>
+    <gmd:referenceSystemInfo>
+        <gmd:MD_ReferenceSystem>
+            <gmd:referenceSystemIdentifier>
+                <gmd:RS_Identifier>
+                    <gmd:code>
+                        <gco:CharacterString>EPSG:4326</gco:CharacterString>
+                    </gmd:code>
+                    <gmd:codeSpace>
+                        <gco:CharacterString>EPSG Geodetic Parameter Dataset</gco:CharacterString>
+                    </gmd:codeSpace>
+                </gmd:RS_Identifier>
+            </gmd:referenceSystemIdentifier>
+        </gmd:MD_ReferenceSystem>
+    </gmd:referenceSystemInfo>
+    <gmd:referenceSystemInfo>
+        <gmd:MD_ReferenceSystem>
+            <gmd:referenceSystemIdentifier>
+                <gmd:RS_Identifier>
+                    <gmd:code>
+                        <gco:CharacterString>WGS84</gco:CharacterString>
+                    </gmd:code>
+                    <gmd:codeSpace>
+                        <gco:CharacterString>World Geodetic System</gco:CharacterString>
+                    </gmd:codeSpace>
+                </gmd:RS_Identifier>
+            </gmd:referenceSystemIdentifier>
+        </gmd:MD_ReferenceSystem>
+    </gmd:referenceSystemInfo>
+    <gmd:identificationInfo>
+        <gmd:MD_DataIdentification>
+            <gmd:citation>
+                <gmd:CI_Citation>
+                    <gmd:title>
+                        <gco:CharacterString>Water Bodies: global 10-daily (raster 1km) - version 2, Sept 2015</gco:CharacterString>
+                    </gmd:title>
+                    <gmd:date>
+                        <gmd:CI_Date>
+                            <gmd:date>
+<gco:Date>2018-01-01</gco:Date>
+                            </gmd:date>
+                            <gmd:dateType>
+<gmd:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode" codeListValue="creation"/>
+                            </gmd:dateType>
+                        </gmd:CI_Date>
+                    </gmd:date>
+                    <gmd:edition>
+                        <gco:CharacterString>V2</gco:CharacterString>
+                    </gmd:edition>
+                    <gmd:editionDate>
+                        <gco:Date>2018-03-30</gco:Date>
+                    </gmd:editionDate>
+                    <gmd:identifier>
+                        <gmd:MD_Identifier>
+                            <gmd:authority>
+<gmd:CI_Citation>
+    <gmd:title>
+        <gco:CharacterString>VITO NV</gco:CharacterString>
+    </gmd:title>
+    <gmd:date>
+        <gmd:CI_Date>
+            <gmd:date>
+                <gco:Date>2017-03-01</gco:Date>
+            </gmd:date>
+            <gmd:dateType>
+                <gmd:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode" codeListValue="revision"/>
+            </gmd:dateType>
+        </gmd:CI_Date>
+    </gmd:date>
+</gmd:CI_Citation>
+                            </gmd:authority>
+                            <gmd:code>
+<gco:CharacterString>urn:cgls:global:wb_v2_1km</gco:CharacterString>
+                            </gmd:code>
+                        </gmd:MD_Identifier>
+                    </gmd:identifier>
+                    <gmd:otherCitationDetails>
+                        <gco:CharacterString>https://land.copernicus.eu/global/documents/wb/v2/pum</gco:CharacterString>
+                    </gmd:otherCitationDetails>
+                </gmd:CI_Citation>
+            </gmd:citation>
+            <gmd:abstract>
+                <gco:CharacterString>The Water Bodies or WB product detects the areas covered by inland water across the globe, providing the maximum and the minimum extent of the water surface as well as the seasonal dynamics.
+
+                             The area of water bodies is identified as an Essential Climate Variable (ECV) by the Global Climate Observing System (GCOS).</gco:CharacterString>
+            </gmd:abstract>
+            <gmd:purpose>
+                <gco:CharacterString>This product is first designed to fit the requirements of the Global component of Land Service of the Copernicus programme. It can be also useful for all applications related to the environment monitoring.</gco:CharacterString>
+            </gmd:purpose>
+            <gmd:credit>
+                <gco:CharacterString>The WB products were generated by the Global Land Service of Copernicus, the Earth Observation programme of the European Commission. The research leading to the current version of the product has received funding from various European Commission Research and Technical Development programs. The product is based on PROBA-V 1km data (copyright ESA and distribution by VITO NV).</gco:CharacterString>
+            </gmd:credit>
+            <gmd:status>
+                <gmd:MD_ProgressCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_ProgressCode" codeListValue="completed"/>
+            </gmd:status>
+            <gmd:pointOfContact>
+                <gmd:CI_ResponsibleParty>
+                    <gmd:organisationName>
+                        <gco:CharacterString>VITO NV</gco:CharacterString>
+                    </gmd:organisationName>
+                    <gmd:positionName>
+                        <gco:CharacterString>Researcher</gco:CharacterString>
+                    </gmd:positionName>
+                    <gmd:contactInfo>
+                        <gmd:CI_Contact>
+                            <gmd:address>
+<gmd:CI_Address>
+    <gmd:deliveryPoint>
+        <gco:CharacterString>Boeretang 200</gco:CharacterString>
+    </gmd:deliveryPoint>
+    <gmd:city>
+        <gco:CharacterString>Mol</gco:CharacterString>
+    </gmd:city>
+    <gmd:postalCode>
+        <gco:CharacterString>2400</gco:CharacterString>
+    </gmd:postalCode>
+    <gmd:country>
+        <gmd:Country codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#Country" codeListValue="BE" codeSpace="ISO 3166-1"/>
+    </gmd:country>
+    <gmd:electronicMailAddress>
+        <gco:CharacterString>Luc.Bertels@vito.be</gco:CharacterString>
+    </gmd:electronicMailAddress>
+</gmd:CI_Address>
+                            </gmd:address>
+                            <gmd:onlineResource>
+<gmd:CI_OnlineResource>
+    <gmd:linkage>
+        <gmd:URL>http://www.vito.be</gmd:URL>
+    </gmd:linkage>
+    <gmd:protocol>
+        <gco:CharacterString>HTTP</gco:CharacterString>
+    </gmd:protocol>
+    <gmd:name>
+        <gco:CharacterString>VITO NV website</gco:CharacterString>
+    </gmd:name>
+    <gmd:description>
+        <gco:CharacterString>Organization website</gco:CharacterString>
+    </gmd:description>
+    <gmd:function>
+        <gmd:CI_OnLineFunctionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="information"/>
+    </gmd:function>
+</gmd:CI_OnlineResource>
+                            </gmd:onlineResource>
+                            <gmd:hoursOfService>
+<gco:CharacterString>Office hours, 5 days per week</gco:CharacterString>
+                            </gmd:hoursOfService>
+                            <gmd:contactInstructions>
+<gco:CharacterString>Preferably by e-mail</gco:CharacterString>
+                            </gmd:contactInstructions>
+                        </gmd:CI_Contact>
+                    </gmd:contactInfo>
+                    <gmd:role>
+                        <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_RoleCode" codeListValue="principalInvestigator"/>
+                    </gmd:role>
+                </gmd:CI_ResponsibleParty>
+            </gmd:pointOfContact>
+            <gmd:pointOfContact>
+                <gmd:CI_ResponsibleParty>
+                    <gmd:organisationName>
+                        <gco:CharacterString>VITO NV</gco:CharacterString>
+                    </gmd:organisationName>
+                    <gmd:positionName>
+                        <gco:CharacterString>Copernicus Global Land Service Help Desk</gco:CharacterString>
+                    </gmd:positionName>
+                    <gmd:contactInfo>
+                        <gmd:CI_Contact>
+                            <gmd:address>
+<gmd:CI_Address>
+    <gmd:deliveryPoint>
+        <gco:CharacterString>Boeretang 200</gco:CharacterString>
+    </gmd:deliveryPoint>
+    <gmd:city>
+        <gco:CharacterString>Mol</gco:CharacterString>
+    </gmd:city>
+    <gmd:postalCode>
+        <gco:CharacterString>2400</gco:CharacterString>
+    </gmd:postalCode>
+    <gmd:country>
+        <gmd:Country codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#Country" codeListValue="BE" codeSpace="ISO 3166-1"/>
+    </gmd:country>
+    <gmd:electronicMailAddress>
+        <gco:CharacterString>helpdeskticket@vgt.vito.be</gco:CharacterString>
+    </gmd:electronicMailAddress>
+</gmd:CI_Address>
+                            </gmd:address>
+                            <gmd:onlineResource>
+<gmd:CI_OnlineResource>
+    <gmd:linkage>
+        <gmd:URL>http://www.vito.be</gmd:URL>
+    </gmd:linkage>
+    <gmd:protocol>
+        <gco:CharacterString>HTTP</gco:CharacterString>
+    </gmd:protocol>
+    <gmd:name>
+        <gco:CharacterString>VITO NV website</gco:CharacterString>
+    </gmd:name>
+    <gmd:description>
+        <gco:CharacterString>Organization website</gco:CharacterString>
+    </gmd:description>
+    <gmd:function>
+        <gmd:CI_OnLineFunctionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="information"/>
+    </gmd:function>
+</gmd:CI_OnlineResource>
+                            </gmd:onlineResource>
+                            <gmd:hoursOfService>
+<gco:CharacterString>Office hours, 7 days per week</gco:CharacterString>
+                            </gmd:hoursOfService>
+                            <gmd:contactInstructions>
+<gco:CharacterString>Preferably by e-mail</gco:CharacterString>
+                            </gmd:contactInstructions>
+                        </gmd:CI_Contact>
+                    </gmd:contactInfo>
+                    <gmd:role>
+                        <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_RoleCode" codeListValue="originator"/>
+                    </gmd:role>
+                </gmd:CI_ResponsibleParty>
+            </gmd:pointOfContact>
+            <gmd:pointOfContact>
+                <gmd:CI_ResponsibleParty>
+                    <gmd:organisationName>
+                        <gco:CharacterString>European Commission Directorate-General for Internal Market, Industry, Entrepreneurship and SMEs</gco:CharacterString>
+                    </gmd:organisationName>
+                    <gmd:positionName>
+                        <gco:CharacterString>Owner</gco:CharacterString>
+                    </gmd:positionName>
+                    <gmd:contactInfo>
+                        <gmd:CI_Contact>
+                            <gmd:address>
+<gmd:CI_Address>
+    <gmd:deliveryPoint>
+        <gco:CharacterString>Avenue d'Auderghem 45</gco:CharacterString>
+    </gmd:deliveryPoint>
+    <gmd:city>
+        <gco:CharacterString>Brussels</gco:CharacterString>
+    </gmd:city>
+    <gmd:postalCode>
+        <gco:CharacterString>1049</gco:CharacterString>
+    </gmd:postalCode>
+    <gmd:country>
+        <gmd:Country codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#Country" codeListValue="B" codeSpace="ISO 3166-1"/>
+    </gmd:country>
+    <gmd:electronicMailAddress>
+        <gco:CharacterString>ENTR-COPERNICUS-ASSETS@ec.europa.eu</gco:CharacterString>
+    </gmd:electronicMailAddress>
+</gmd:CI_Address>
+                            </gmd:address>
+                            <gmd:onlineResource>
+<gmd:CI_OnlineResource>
+    <gmd:linkage>
+        <gmd:URL>http://www.copernicus.eu</gmd:URL>
+    </gmd:linkage>
+    <gmd:protocol>
+        <gco:CharacterString>HTTP</gco:CharacterString>
+    </gmd:protocol>
+    <gmd:name>
+        <gco:CharacterString>Copernicus programme website</gco:CharacterString>
+    </gmd:name>
+    <gmd:description>
+        <gco:CharacterString>Organization website</gco:CharacterString>
+    </gmd:description>
+    <gmd:function>
+        <gmd:CI_OnLineFunctionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="information"/>
+    </gmd:function>
+</gmd:CI_OnlineResource>
+                            </gmd:onlineResource>
+                            <gmd:hoursOfService>
+<gco:CharacterString>Office hours, 5 days per week</gco:CharacterString>
+                            </gmd:hoursOfService>
+                            <gmd:contactInstructions>
+<gco:CharacterString>Preferably by e-mail</gco:CharacterString>
+                            </gmd:contactInstructions>
+                        </gmd:CI_Contact>
+                    </gmd:contactInfo>
+                    <gmd:role>
+                        <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_RoleCode" codeListValue="owner"/>
+                    </gmd:role>
+                </gmd:CI_ResponsibleParty>
+            </gmd:pointOfContact>
+            <gmd:pointOfContact>
+                <gmd:CI_ResponsibleParty>
+                    <gmd:organisationName>
+                        <gco:CharacterString>European Commission Directorate-General Joint Research Centre</gco:CharacterString>
+                    </gmd:organisationName>
+                    <gmd:positionName>
+                        <gco:CharacterString>Responsible</gco:CharacterString>
+                    </gmd:positionName>
+                    <gmd:contactInfo>
+                        <gmd:CI_Contact>
+                            <gmd:address>
+<gmd:CI_Address>
+    <gmd:deliveryPoint>
+        <gco:CharacterString>Via E.Fermi, 249</gco:CharacterString>
+    </gmd:deliveryPoint>
+    <gmd:city>
+        <gco:CharacterString>Ispra</gco:CharacterString>
+    </gmd:city>
+    <gmd:postalCode>
+        <gco:CharacterString>21027</gco:CharacterString>
+    </gmd:postalCode>
+    <gmd:country>
+        <gmd:Country codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#Country" codeListValue="I" codeSpace="ISO 3166-1"/>
+    </gmd:country>
+    <gmd:electronicMailAddress>
+        <gco:CharacterString>copernicuslandproducts@jrc.ec.europa.eu</gco:CharacterString>
+    </gmd:electronicMailAddress>
+</gmd:CI_Address>
+                            </gmd:address>
+                            <gmd:onlineResource>
+<gmd:CI_OnlineResource>
+    <gmd:linkage>
+        <gmd:URL/>
+    </gmd:linkage>
+    <gmd:protocol>
+        <gco:CharacterString>http://ies.jrc.ec.europa.eu</gco:CharacterString>
+    </gmd:protocol>
+    <gmd:name>
+        <gco:CharacterString>EC DG-JRC Institute for Environment and Sustainability</gco:CharacterString>
+    </gmd:name>
+    <gmd:description>
+        <gco:CharacterString>Organization website</gco:CharacterString>
+    </gmd:description>
+    <gmd:function>
+        <gmd:CI_OnLineFunctionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="information"/>
+    </gmd:function>
+</gmd:CI_OnlineResource>
+                            </gmd:onlineResource>
+                            <gmd:hoursOfService>
+<gco:CharacterString>Office hours, 5 days per week</gco:CharacterString>
+                            </gmd:hoursOfService>
+                            <gmd:contactInstructions>
+<gco:CharacterString>Preferably by e-mail</gco:CharacterString>
+                            </gmd:contactInstructions>
+                        </gmd:CI_Contact>
+                    </gmd:contactInfo>
+                    <gmd:role>
+                        <gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_RoleCode" codeListValue="custodian"/>
+                    </gmd:role>
+                </gmd:CI_ResponsibleParty>
+            </gmd:pointOfContact>
+            <gmd:resourceMaintenance>
+                <gmd:MD_MaintenanceInformation>
+                    <gmd:maintenanceAndUpdateFrequency>
+                        <gmd:MD_MaintenanceFrequencyCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_MaintenanceFrequencyCode" codeListValue="asNeeded"/>
+                    </gmd:maintenanceAndUpdateFrequency>
+                    <gmd:updateScope>
+                        <gmd:MD_ScopeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_ScopeCode" codeListValue="series"/>
+                    </gmd:updateScope>
+                </gmd:MD_MaintenanceInformation>
+            </gmd:resourceMaintenance>
+            <gmd:graphicOverview>
+                <gmd:MD_BrowseGraphic>
+                    <gmd:fileName>
+                        <gco:CharacterString>https://land.copernicus.vgt.vito.be/geonetwork/srv/api/records/urn:cgls:global:wb_v2_1km/attachments/WaterBodies.jpg</gco:CharacterString>
+                    </gmd:fileName>
+                    <gmd:fileDescription>
+                        <gco:CharacterString>Water Bodies</gco:CharacterString>
+                    </gmd:fileDescription>
+                </gmd:MD_BrowseGraphic>
+            </gmd:graphicOverview>
+            <gmd:resourceFormat>
+                <gmd:MD_Format>
+                    <gmd:name>
+                        <gco:CharacterString>NetCDF</gco:CharacterString>
+                    </gmd:name>
+                    <gmd:version>
+                        <gco:CharacterString>4.2.1.1</gco:CharacterString>
+                    </gmd:version>
+                    <gmd:specification>
+                        <gco:CharacterString>Network Common Data Form</gco:CharacterString>
+                    </gmd:specification>
+                </gmd:MD_Format>
+            </gmd:resourceFormat>
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords>
+                    <gmd:keyword>
+                        <gco:CharacterString>Orthoimagery</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:type>
+                        <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme"/>
+                    </gmd:type>
+                    <gmd:thesaurusName>
+                        <gmd:CI_Citation>
+                            <gmd:title>
+<gco:CharacterString>GEMET - INSPIRE themes, version 1.0</gco:CharacterString>
+                            </gmd:title>
+                            <gmd:date>
+<gmd:CI_Date>
+    <gmd:date>
+        <gco:Date>2008-06-01</gco:Date>
+    </gmd:date>
+    <gmd:dateType>
+        <gmd:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication"/>
+    </gmd:dateType>
+</gmd:CI_Date>
+                            </gmd:date>
+                        </gmd:CI_Citation>
+                    </gmd:thesaurusName>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords>
+                    <gmd:keyword>
+                        <gco:CharacterString>water body</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:thesaurusName>
+                        <gmd:CI_Citation>
+                            <gmd:title>
+<gco:CharacterString>GEMET - Concepts, version 2.1</gco:CharacterString>
+                            </gmd:title>
+                            <gmd:date>
+<gmd:CI_Date>
+    <gmd:date>
+        <gco:Date>2008-06-13</gco:Date>
+    </gmd:date>
+    <gmd:dateType>
+        <gmd:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication"/>
+    </gmd:dateType>
+</gmd:CI_Date>
+                            </gmd:date>
+                        </gmd:CI_Citation>
+                    </gmd:thesaurusName>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords>
+                    <gmd:keyword>
+                        <gco:CharacterString>water</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:type>
+                        <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="theme"/>
+                    </gmd:type>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords>
+                    <gmd:keyword>
+                        <gco:CharacterString>GLOBE</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:type>
+                        <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="place"/>
+                    </gmd:type>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            <gmd:descriptiveKeywords>
+                <gmd:MD_Keywords>
+                    <gmd:keyword>
+                        <gco:CharacterString>Dekad</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:keyword>
+                        <gco:CharacterString>10-day composite</gco:CharacterString>
+                    </gmd:keyword>
+                    <gmd:type>
+                        <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_KeywordTypeCode" codeListValue="temporal"/>
+                    </gmd:type>
+                </gmd:MD_Keywords>
+            </gmd:descriptiveKeywords>
+            <gmd:resourceConstraints>
+                <gmd:MD_Constraints>
+                    <gmd:useLimitation>
+                        <gco:CharacterString>No limitations</gco:CharacterString>
+                    </gmd:useLimitation>
+                </gmd:MD_Constraints>
+            </gmd:resourceConstraints>
+            <gmd:resourceConstraints>
+                <gmd:MD_LegalConstraints>
+                    <gmd:useConstraints>
+                        <gmd:MD_RestrictionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_RestrictionCode" codeListValue="copyright"/>
+                    </gmd:useConstraints>
+                </gmd:MD_LegalConstraints>
+            </gmd:resourceConstraints>
+            <gmd:resourceConstraints>
+                <gmd:MD_LegalConstraints>
+                    <gmd:accessConstraints>
+                        <gmd:MD_RestrictionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_RestrictionCode" codeListValue="otherRestrictions"/>
+                    </gmd:accessConstraints>
+                    <gmd:otherConstraints>
+                        <gco:CharacterString>(d) the confidentiality of commercial or industrial information, where such confidentiality is provided for by national or Community law to protect a legitimate economic interest, including the public interest in maintaining statistical confidentiality and tax secrecy.</gco:CharacterString>
+                    </gmd:otherConstraints>
+                </gmd:MD_LegalConstraints>
+            </gmd:resourceConstraints>
+            <gmd:aggregationInfo>
+                <gmd:MD_AggregateInformation>
+                    <gmd:associationType>
+                        <gmd:DS_AssociationTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#DS_AssociationTypeCode" codeListValue="partOfSeamlessDatabase"/>
+                    </gmd:associationType>
+                    <gmd:initiativeType>
+                        <gmd:DS_InitiativeTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#DS_InitiativeTypeCode" codeListValue="project"/>
+                    </gmd:initiativeType>
+                </gmd:MD_AggregateInformation>
+            </gmd:aggregationInfo>
+            <gmd:aggregationInfo>
+                <gmd:MD_AggregateInformation>
+                    <gmd:associationType>
+                        <gmd:DS_AssociationTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#DS_AssociationTypeCode" codeListValue="source"/>
+                    </gmd:associationType>
+                    <gmd:initiativeType>
+                        <gmd:DS_InitiativeTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#DS_InitiativeTypeCode" codeListValue="platform"/>
+                    </gmd:initiativeType>
+                </gmd:MD_AggregateInformation>
+            </gmd:aggregationInfo>
+            <gmd:aggregationInfo>
+                <gmd:MD_AggregateInformation>
+                    <gmd:associationType>
+                        <gmd:DS_AssociationTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#DS_AssociationTypeCode" codeListValue="source"/>
+                    </gmd:associationType>
+                    <gmd:initiativeType>
+                        <gmd:DS_InitiativeTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#DS_InitiativeTypeCode" codeListValue="sensor"/>
+                    </gmd:initiativeType>
+                </gmd:MD_AggregateInformation>
+            </gmd:aggregationInfo>
+            <gmd:spatialRepresentationType>
+                <gmd:MD_SpatialRepresentationTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_SpatialRepresentationTypeCode" codeListValue="grid"/>
+            </gmd:spatialRepresentationType>
+            <gmd:spatialResolution>
+                <gmd:MD_Resolution>
+                    <gmd:distance>
+                        <gco:Distance uom="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/uom/ML_gmxUom.xml#deg">0.0089285714</gco:Distance>
+                    </gmd:distance>
+                </gmd:MD_Resolution>
+            </gmd:spatialResolution>
+            <gmd:language>
+                <gco:CharacterString>eng</gco:CharacterString>
+            </gmd:language>
+            <gmd:characterSet>
+                <gmd:MD_CharacterSetCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_CharacterSetCode" codeListValue="utf8"/>
+            </gmd:characterSet>
+            <gmd:topicCategory>
+                <gmd:MD_TopicCategoryCode>imageryBaseMapsEarthCover</gmd:MD_TopicCategoryCode>
+            </gmd:topicCategory>
+            <gmd:topicCategory>
+                <gmd:MD_TopicCategoryCode>inlandWaters</gmd:MD_TopicCategoryCode>
+            </gmd:topicCategory>
+            <gmd:topicCategory>
+                <gmd:MD_TopicCategoryCode>environment</gmd:MD_TopicCategoryCode>
+            </gmd:topicCategory>
+            <gmd:extent>
+                <gmd:EX_Extent>
+                    <gmd:geographicElement>
+                        <gmd:EX_GeographicBoundingBox id="GLOBE">
+                            <gmd:westBoundLongitude>
+<gco:Decimal>-180</gco:Decimal>
+                            </gmd:westBoundLongitude>
+                            <gmd:eastBoundLongitude>
+<gco:Decimal>180</gco:Decimal>
+                            </gmd:eastBoundLongitude>
+                            <gmd:southBoundLatitude>
+<gco:Decimal>-60</gco:Decimal>
+                            </gmd:southBoundLatitude>
+                            <gmd:northBoundLatitude>
+<gco:Decimal>80</gco:Decimal>
+                            </gmd:northBoundLatitude>
+                        </gmd:EX_GeographicBoundingBox>
+                    </gmd:geographicElement>
+                </gmd:EX_Extent>
+            </gmd:extent>
+            <gmd:extent>
+                <gmd:EX_Extent>
+                    <gmd:temporalElement>
+                        <gmd:EX_TemporalExtent>
+                            <gmd:extent>
+<gml:TimePeriod frame="#ISO-8601" gml:id="extent_tp">
+    <gml:description>10-days composite</gml:description>
+    <gml:name>dekad</gml:name>
+    <gml:beginPosition>1999-01-01T00:00:00</gml:beginPosition>
+    <gml:endPosition>2020-06-30T23:59:59</gml:endPosition>
+</gml:TimePeriod>
+                            </gmd:extent>
+                        </gmd:EX_TemporalExtent>
+                    </gmd:temporalElement>
+                </gmd:EX_Extent>
+            </gmd:extent>
+        </gmd:MD_DataIdentification>
+    </gmd:identificationInfo>
+    <gmd:distributionInfo>
+        <gmd:MD_Distribution>
+            <gmd:distributionFormat>
+                <gmd:MD_Format>
+                    <gmd:name>
+                        <gco:CharacterString>NetCDF</gco:CharacterString>
+                    </gmd:name>
+                    <gmd:version>
+                        <gco:CharacterString>4.2.1.1</gco:CharacterString>
+                    </gmd:version>
+                    <gmd:specification>
+                        <gco:CharacterString>Network Common Data Form</gco:CharacterString>
+                    </gmd:specification>
+                </gmd:MD_Format>
+            </gmd:distributionFormat>
+            <gmd:distributor>
+                <gmd:MD_Distributor>
+                    <gmd:distributorContact>
+                        <gmd:CI_ResponsibleParty>
+                            <gmd:organisationName>
+<gco:CharacterString>VITO NV</gco:CharacterString>
+                            </gmd:organisationName>
+                            <gmd:positionName>
+<gco:CharacterString>VITO NV Helpdesk</gco:CharacterString>
+                            </gmd:positionName>
+                            <gmd:contactInfo>
+<gmd:CI_Contact>
+    <gmd:address>
+        <gmd:CI_Address>
+            <gmd:deliveryPoint>
+                <gco:CharacterString>Boeretang 200</gco:CharacterString>
+            </gmd:deliveryPoint>
+            <gmd:city>
+                <gco:CharacterString>Mol</gco:CharacterString>
+            </gmd:city>
+            <gmd:postalCode>
+                <gco:CharacterString>2400</gco:CharacterString>
+            </gmd:postalCode>
+            <gmd:country>
+                <gmd:Country codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#Country" codeListValue="BE" codeSpace="ISO 3166-1"/>
+            </gmd:country>
+            <gmd:electronicMailAddress>
+                <gco:CharacterString>helpdeskticket@vgt.vito.be</gco:CharacterString>
+            </gmd:electronicMailAddress>
+        </gmd:CI_Address>
+    </gmd:address>
+    <gmd:onlineResource>
+        <gmd:CI_OnlineResource>
+            <gmd:linkage>
+                <gmd:URL>https://land.copernicus.eu/global</gmd:URL>
+            </gmd:linkage>
+            <gmd:protocol>
+                <gco:CharacterString>HTTP</gco:CharacterString>
+            </gmd:protocol>
+            <gmd:name>
+                <gco:CharacterString>Data portal</gco:CharacterString>
+            </gmd:name>
+            <gmd:description>
+                <gco:CharacterString>Project portal</gco:CharacterString>
+            </gmd:description>
+            <gmd:function>
+                <gmd:CI_OnLineFunctionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="information"/>
+            </gmd:function>
+        </gmd:CI_OnlineResource>
+    </gmd:onlineResource>
+    <gmd:hoursOfService>
+        <gco:CharacterString>Office hours, 7 days per week</gco:CharacterString>
+    </gmd:hoursOfService>
+    <gmd:contactInstructions>
+        <gco:CharacterString>Preferably by e-mail</gco:CharacterString>
+    </gmd:contactInstructions>
+</gmd:CI_Contact>
+                            </gmd:contactInfo>
+                            <gmd:role>
+<gmd:CI_RoleCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_RoleCode" codeListValue="distributor"/>
+                            </gmd:role>
+                        </gmd:CI_ResponsibleParty>
+                    </gmd:distributorContact>
+                    <gmd:distributionOrderProcess>
+                        <gmd:MD_StandardOrderProcess>
+                            <gmd:fees>
+<gco:CharacterString>Free by ftp and EUMETCast; cost of medium by DvD or tape</gco:CharacterString>
+                            </gmd:fees>
+                            <gmd:orderingInstructions>
+<gco:CharacterString>Products can be downloaded online via HTTP (or FTP) or can be received through EUMETCast satellite reception in Europe, Africa and Latin-America. When ordering products from the online archive or subscribing to receive future products, users are informed via e-mail whenever the requested products are ready to be downloaded on the FTP server.</gco:CharacterString>
+                            </gmd:orderingInstructions>
+                        </gmd:MD_StandardOrderProcess>
+                    </gmd:distributionOrderProcess>
+                </gmd:MD_Distributor>
+            </gmd:distributor>
+            <gmd:transferOptions>
+                <gmd:MD_DigitalTransferOptions>
+                    <gmd:unitsOfDistribution>
+                        <gco:CharacterString>Per product</gco:CharacterString>
+                    </gmd:unitsOfDistribution>
+                    <gmd:onLine>
+                        <gmd:CI_OnlineResource>
+                            <gmd:linkage>
+<gmd:URL>https://land.copernicus.eu/global/products/wb</gmd:URL>
+                            </gmd:linkage>
+                            <gmd:protocol>
+<gco:CharacterString>HTTP</gco:CharacterString>
+                            </gmd:protocol>
+                            <gmd:name>
+<gco:CharacterString>Copernicus Global Land Service</gco:CharacterString>
+                            </gmd:name>
+                            <gmd:description>
+<gco:CharacterString>1. Search, download and custom order products from Catalogue and Ordering services</gco:CharacterString>
+                            </gmd:description>
+                            <gmd:function>
+<gmd:CI_OnLineFunctionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="download"/>
+                            </gmd:function>
+                        </gmd:CI_OnlineResource>
+                    </gmd:onLine>
+                </gmd:MD_DigitalTransferOptions>
+            </gmd:transferOptions>
+            <gmd:transferOptions>
+                <gmd:MD_DigitalTransferOptions>
+                    <gmd:onLine>
+                        <gmd:CI_OnlineResource>
+                            <gmd:linkage>
+<gmd:URL>https://land.copernicus.eu/global/access</gmd:URL>
+                            </gmd:linkage>
+                            <gmd:protocol>
+<gco:CharacterString>HTTP</gco:CharacterString>
+                            </gmd:protocol>
+                            <gmd:name>
+<gco:CharacterString>Copernicus Global Land Service</gco:CharacterString>
+                            </gmd:name>
+                            <gmd:description>
+<gco:CharacterString>2. Subscribe to receive future products via e-mail</gco:CharacterString>
+                            </gmd:description>
+                            <gmd:function>
+<gmd:CI_OnLineFunctionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="download"/>
+                            </gmd:function>
+                        </gmd:CI_OnlineResource>
+                    </gmd:onLine>
+                </gmd:MD_DigitalTransferOptions>
+            </gmd:transferOptions>
+            <gmd:transferOptions>
+                <gmd:MD_DigitalTransferOptions>
+                    <gmd:unitsOfDistribution>
+                        <gco:CharacterString>Per product</gco:CharacterString>
+                    </gmd:unitsOfDistribution>
+                    <gmd:onLine>
+                        <gmd:CI_OnlineResource>
+                            <gmd:linkage>
+<gmd:URL>http://eoportal.eumetsat.int</gmd:URL>
+                            </gmd:linkage>
+                            <gmd:name>
+<gco:CharacterString>Copernicus Global Land Service</gco:CharacterString>
+                            </gmd:name>
+                            <gmd:description>
+<gco:CharacterString>3. Register to receive products via EUMETCast</gco:CharacterString>
+                            </gmd:description>
+                        </gmd:CI_OnlineResource>
+                    </gmd:onLine>
+                </gmd:MD_DigitalTransferOptions>
+            </gmd:transferOptions>
+        </gmd:MD_Distribution>
+    </gmd:distributionInfo>
+    <gmd:dataQualityInfo>
+        <gmd:DQ_DataQuality>
+            <gmd:scope>
+                <gmd:DQ_Scope>
+                    <gmd:level>
+                        <gmd:MD_ScopeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_ScopeCode" codeListValue="series"/>
+                    </gmd:level>
+                </gmd:DQ_Scope>
+            </gmd:scope>
+            <gmd:report>
+                <gmd:DQ_NonQuantitativeAttributeAccuracy>
+                    <gmd:result>
+                        <gmd:DQ_ConformanceResult>
+                            <gmd:specification>
+<gmd:CI_Citation>
+    <gmd:title>
+        <gco:CharacterString>Validation results conform CEOS LPV guidelines</gco:CharacterString>
+    </gmd:title>
+    <gmd:date>
+        <gmd:CI_Date>
+            <gmd:date>
+                <gco:Date>2012-04-01</gco:Date>
+            </gmd:date>
+            <gmd:dateType>
+                <gmd:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication"/>
+            </gmd:dateType>
+        </gmd:CI_Date>
+    </gmd:date>
+</gmd:CI_Citation>
+                            </gmd:specification>
+                            <gmd:explanation>
+<gco:CharacterString>https://land.copernicus.eu/global/documents/wb/v2/vr</gco:CharacterString>
+                            </gmd:explanation>
+                            <gmd:pass>
+<gco:Boolean>true</gco:Boolean>
+                            </gmd:pass>
+                        </gmd:DQ_ConformanceResult>
+                    </gmd:result>
+                </gmd:DQ_NonQuantitativeAttributeAccuracy>
+            </gmd:report>
+            <gmd:report>
+                <gmd:DQ_DomainConsistency>
+                    <gmd:result>
+                        <gmd:DQ_ConformanceResult>
+                            <gmd:specification>
+<gmd:CI_Citation>
+    <gmd:title>
+        <gco:CharacterString>INSPIRE Data Specification on orthoimagery - Guidelines</gco:CharacterString>
+    </gmd:title>
+    <gmd:date>
+        <gmd:CI_Date>
+            <gmd:date>
+                <gco:Date>2010-04-26</gco:Date>
+            </gmd:date>
+            <gmd:dateType>
+                <gmd:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode" codeListValue="publication"/>
+            </gmd:dateType>
+        </gmd:CI_Date>
+    </gmd:date>
+</gmd:CI_Citation>
+                            </gmd:specification>
+                            <gmd:explanation>
+<gco:CharacterString>See the referenced specification</gco:CharacterString>
+                            </gmd:explanation>
+                            <gmd:pass>
+<gco:Boolean>true</gco:Boolean>
+                            </gmd:pass>
+                        </gmd:DQ_ConformanceResult>
+                    </gmd:result>
+                </gmd:DQ_DomainConsistency>
+            </gmd:report>
+            <gmd:lineage>
+                <gmd:LI_Lineage>
+                    <gmd:statement>
+                        <gco:CharacterString>The algorithm is based on a method taking 10-daily Mean Composites, performing a colorimetric transformation from RGB to HSV color space and using different thresholds for the Hue and Value component. 
+
+            The input data are the daily Top-Of-Canopy reflectance source data measured by the PROBA-V sensor.</gco:CharacterString>
+                    </gmd:statement>
+                </gmd:LI_Lineage>
+            </gmd:lineage>
+        </gmd:DQ_DataQuality>
+    </gmd:dataQualityInfo>
+    <gmd:metadataMaintenance>
+        <gmd:MD_MaintenanceInformation>
+            <gmd:maintenanceAndUpdateFrequency>
+                <gmd:MD_MaintenanceFrequencyCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_MaintenanceFrequencyCode" codeListValue="asNeeded"/>
+            </gmd:maintenanceAndUpdateFrequency>
+        </gmd:MD_MaintenanceInformation>
+    </gmd:metadataMaintenance>
+</gmi:MI_Metadata>
+</csw:GetRecordByIdResponse>
