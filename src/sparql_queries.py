@@ -3,20 +3,33 @@ import os
 from SPARQLWrapper import SPARQLWrapper, JSON
 
 
+def fts_term(term):
+    return f"""
+    
+    """
+
 def find_vocabs_sparql(urns):
     return f"""
-PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-PREFIX dcterms: <http://purl.org/dc/terms/>
+    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+    PREFIX dcterms: <http://purl.org/dc/terms/>
 
-SELECT ?collection {{
-  ?concept dcterms:identifier ?urn .
-    ?collection skos:member ?concept .
-FILTER(?urn IN (
-    {", ".join(f'"{urn}"' for urn in urns)} 
-  ))
-}} 
-GROUP BY ?collection
+    SELECT ?collection {{
+      {{
+        ?concept dcterms:identifier ?urn .
+        ?collection skos:member ?concept .
+      }}
+      UNION
+      {{
+        ?concept dcterms:identifier ?urn .
+        ?concept skos:inScheme ?collection .
+      }}
+      FILTER(?urn IN (
+          {", ".join(f'"{urn}"' for urn in urns)} 
+      ))
+    }} 
+    GROUP BY ?collection
     """
+
 
 def get_vocabs_from_sparql_endpoint(query):
     sparql = SPARQLWrapper(os.getenv("SPARQL_ENDPOINT"))

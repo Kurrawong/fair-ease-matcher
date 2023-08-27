@@ -16,14 +16,23 @@ def get_root(file_path: Path):
     root = ET.fromstring(data)
     return root
 
+
 def get_keywords(root: ET.Element):
     keywords = root.findall(".//gmd:MD_Keywords/gmd:keyword/gco:CharacterString", namespaces)
     keywords = [keyword.text for keyword in keywords]
     return keywords
 
+
+def clean_keywords(keywords: list):
+    return [kw.strip().replace('"', '').replace(',', '').replace('-', ' ').replace('_', ' ').lower() for kw in
+            keywords]
+
+
 def get_instrument_info(root: ET.Element):
-    instrument_title = root.find(".//gmi:MI_Instrument/gmi:citation/gmd:CI_Citation/gmd:title/gco:CharacterString", namespaces)
-    instrument_identifier = root.find(".//gmi:MI_Instrument/gmi:identifier/gmd:MD_Identifier/gmd:code/gco:CharacterString", namespaces)
+    instrument_title = root.find(".//gmi:MI_Instrument/gmi:citation/gmd:CI_Citation/gmd:title/gco:CharacterString",
+                                 namespaces)
+    instrument_identifier = root.find(
+        ".//gmi:MI_Instrument/gmi:identifier/gmd:MD_Identifier/gmd:code/gco:CharacterString", namespaces)
     instrument_description = root.find(".//gmi:MI_Instrument/gmi:description/gco:CharacterString", namespaces)
 
     # Extract text from the XML elements, if they exist.
@@ -36,8 +45,10 @@ def get_instrument_info(root: ET.Element):
 
 def get_variable_info(root: ET.Element):
     # Extract content info for each variable
-    attribute_description_elements = root.findall(".//gmd:MD_CoverageDescription/gmd:attributeDescription/gco:RecordType", namespaces)
-    content_type_elements = root.findall(".//gmd:MD_CoverageDescription/gmd:contentType/gmd:MD_CoverageContentTypeCode", namespaces)
+    attribute_description_elements = root.findall(
+        ".//gmd:MD_CoverageDescription/gmd:attributeDescription/gco:RecordType", namespaces)
+    content_type_elements = root.findall(".//gmd:MD_CoverageDescription/gmd:contentType/gmd:MD_CoverageContentTypeCode",
+                                         namespaces)
 
     # Pairing variable descriptions with content types based on order
     variables = []
@@ -53,6 +64,11 @@ def get_variable_info(root: ET.Element):
     return variables
 
 
+def create_queries(extracted_data):
+    for record in extracted_data:
+        keywords = extracted_data[record]['keywords']
+
+
 def main():
     files = Path("../data/geodab-metadata").glob("*.xml")
     extracted_data = {}
@@ -61,19 +77,17 @@ def main():
         root = get_root(file)
 
         kws = get_keywords(root)
-        if not kws:
-            continue  # Skip if no keywords are found
+        cleaned_kws = clean_keywords(kws)
 
         inst_info = get_instrument_info(root)
         if not any(inst_info.values()):  # Check if all values in the dict are None
             inst_info = None
 
         var_info = get_variable_info(root)
-        if not var_info:
-            continue  # Skip if no variable info found
 
         data = {
             "keywords": kws,
+            "cleaned_keywords": cleaned_kws,
             "instrument_info": inst_info,
             "variable_info": var_info
         }
@@ -85,6 +99,8 @@ def main():
 
     with open('extracted_data.json', 'w') as outfile:
         json.dump(extracted_data, outfile)
+
+    queries = create_queries(extracted_data)
 
 
 # Assuming you want to run the main function immediately

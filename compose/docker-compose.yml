@@ -8,8 +8,11 @@ services:
       - "3030:3030"
     volumes:
       - type: bind
-        source: ${PWD}/fair-ease-config-runtime.ttl
+        source: ${PWD}/fair-ease-config-alex.ttl
         target: /fuseki/config.ttl
+      - type: bind
+        source: ${PWD}/log4j2.properties.debug
+        target: /fuseki/log4j2.properties
       - type: volume
         source: fair-ease-volume
         target: /fuseki/databases
@@ -26,21 +29,22 @@ services:
         condition: service_completed_successfully
 
   etl:
-    image: "tdb-generation:0.1.8"
+    image: "tdb-generation:0.1.10"
     volumes:
       - type: bind
-        source: ${PWD}/fair-ease-config-etl.ttl
+        source: ${PWD}/fair-ease-config-alex.ttl
         target: /config.ttl
       - type: bind
         source: ${PWD}/../vocabs/
         target: /rdf
       - type: volume
         source: fair-ease-volume
-        target: /newdb
+        target: /databases
     environment:
         DATASET: "fair-ease"
         SKIP_VALIDATION: "true"
         NO_SPATIAL: "true"
+#        USE_XLOADER: "true"
 
 volumes:
   fair-ease-volume:

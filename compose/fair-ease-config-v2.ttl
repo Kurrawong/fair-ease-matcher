@@ -34,16 +34,15 @@ PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
 
 # Text index description
 <#testIndexLucene> rdf:type text:TextIndexLucene ;
-    text:directory "/newdb/fair-ease" ;
+    text:directory "databases/fair-ease" ;
     text:entityMap <#myEntMap> ;
     text:storeValues true ;
-    text:analyzer [ a text:StandardAnalyzer ] ;
+    text:analyzer <#customAnalyzer>;
     text:queryParser text:QueryParser ;
     text:multilingualSupport true ; # optional
     text:propLists (
     [ text:propListProp ex:NameProps ;
       text:props ( rdfs:label
-                   sdo:name
                    sdo:alternateName
                    skos:prefLabel
                    skos:altLabel
@@ -59,11 +58,15 @@ PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
                     ) ;
     ]
 ) ;
-    .
+.
 
+<#customAnalyzer> rdf:type text:ConfigurableAnalyzer ;
+  text:tokenizer text:LetterTokenizer ;
+  text:filters ( )
+  .
 
 <#myEntMap> rdf:type text:EntityMap ;
-    text:defaultField     "name" ;
+    text:defaultField     "preflabel" ;
     text:entityField      "uri" ;
     text:uidField         "uid" ;
     text:langField        "lang" ;
@@ -71,8 +74,6 @@ PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
     text:map (
         [ text:field "label" ;
           text:predicate rdfs:label ]
-        [ text:field "name" ;
-          text:predicate sdo:name ]
         [ text:field "comment" ;
           text:predicate rdfs:comment ]
         [ text:field "sdodescription" ;
@@ -97,5 +98,5 @@ PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
 # TDB2 dataset
 <#testDS> rdf:type tdb2:DatasetTDB2 ;
     tdb2:unionDefaultGraph true ;
-    tdb2:location "/newdb/fair-ease" ;
+    tdb2:location "databases/fair-ease" ;
     .
