@@ -1,0 +1,329 @@
+{
+  "5a6ff307-51bb-42de-8173-148ece8fc486.xml": {
+    "keywords": [
+      "Orthoimagery",
+      "plant resource",
+      "biogeophysical",
+      "ndvi",
+      "GLOBE",
+      "Dekad",
+      "10-day composite"
+    ],
+    "cleaned_keywords": [
+      "orthoimagery",
+      "plant resource",
+      "biogeophysical",
+      "ndvi",
+      "globe",
+      "dekad",
+      "10 day composite"
+    ],
+    "variable_info": []
+  },
+  "872a9598-7f80-491d-8884-a042ba2808c4.xml": {
+    "keywords": [
+      "Orthoimagery",
+      "biomass burning",
+      "vegetation",
+      "fire",
+      "burnt area",
+      "BA",
+      "fire",
+      "seasonality",
+      "GLOBE",
+      "Dekad",
+      "10-day composite"
+    ],
+    "cleaned_keywords": [
+      "orthoimagery",
+      "biomass burning",
+      "vegetation",
+      "fire",
+      "burnt area",
+      "ba",
+      "fire",
+      "seasonality",
+      "globe",
+      "dekad",
+      "10 day composite"
+    ],
+    "variable_info": []
+  },
+  "f5f8c7ac-a08e-45e0-b613-5334a4aa8795.xml": {
+    "keywords": [
+      "Orthoimagery",
+      "water body",
+      "water",
+      "GLOBE",
+      "Dekad",
+      "10-day composite"
+    ],
+    "cleaned_keywords": [
+      "orthoimagery",
+      "water body",
+      "water",
+      "globe",
+      "dekad",
+      "10 day composite"
+    ],
+    "variable_info": []
+  },
+  "sdn-open:urn:SDN:CDI:LOCAL:366-366-366-ds07-6.xml": {
+    "keywords": [
+      "Oceanographic geographical features",
+      "Date and time",
+      "Bathymetry and Elevation",
+      "multi-beam echosounders",
+      "Differential Global Positioning System receivers",
+      "bathymetric LiDARs",
+      "research vessel",
+      "aeroplane"
+    ],
+    "cleaned_keywords": [
+      "oceanographic geographical features",
+      "date and time",
+      "bathymetry and elevation",
+      "multi beam echosounders",
+      "differential global positioning system receivers",
+      "bathymetric lidars",
+      "research vessel",
+      "aeroplane"
+    ],
+    "instrument_info": {
+      "title": "multi-beam echosounders",
+      "identifier": "http://www.seadatanet.org/urnurl/SDN:L05::157/",
+      "description": "multi-beam echosounders"
+    },
+    "variable_info": [
+      {
+        "text": "Date and time",
+        "xlink_href": "http://www.seadatanet.org/urnurl/SDN:P02::AYMD/",
+        "xlink_title": "Date and time",
+        "type": "physicalMeasurement"
+      },
+      {
+        "text": "Bathymetry and Elevation",
+        "xlink_href": "http://www.seadatanet.org/urnurl/SDN:P02::MBAN/",
+        "xlink_title": "Bathymetry and Elevation",
+        "type": "physicalMeasurement"
+      }
+    ]
+  },
+  "f1291380-dabe-4488-9615-2f3f63c55892.xml": {
+    "keywords": [
+      "Earth Science > Oceans",
+      "Earth Science > Terrestrial Hydrosphere > Water Quality/Water Chemistry > Contaminants > Harmful Algal Blooms (HABs)",
+      "Karenia brevis",
+      "Continent > North America > United States of America",
+      "Continent > North America > United States of America > Gulf of Mexico",
+      "Continent > North America > United States of America > Texas",
+      "Continent > North America > United States of America > Louisiana",
+      "Continent > North America > United States of America > Mississippi",
+      "Continent > North America > United States of America > Alabama",
+      "Continent > North America > United States of America > Florida",
+      "Ocean > Atlantic Ocean > North Atlantic Ocean",
+      "Ocean > Atlantic Ocean > North Atlantic Ocean > Caribbean Sea"
+    ],
+    "cleaned_keywords": [
+      "earth science > oceans",
+      "earth science > terrestrial hydrosphere > water quality/water chemistry > contaminants > harmful algal blooms (habs)",
+      "karenia brevis",
+      "continent > north america > united states of america",
+      "continent > north america > united states of america > gulf of mexico",
+      "continent > north america > united states of america > texas",
+      "continent > north america > united states of america > louisiana",
+      "continent > north america > united states of america > mississippi",
+      "continent > north america > united states of america > alabama",
+      "continent > north america > united states of america > florida",
+      "ocean > atlantic ocean > north atlantic ocean",
+      "ocean > atlantic ocean > north atlantic ocean > caribbean sea"
+    ],
+    "variable_info": [
+      {
+        "text": "Earth Science > Oceans",
+        "xlink_href": "Earth Science > Oceans",
+        "xlink_title": "Earth Science > Oceans",
+        "type": "physicalMeasurement"
+      },
+      {
+        "text": "Earth Science > Terrestrial Hydrosphere > Water Quality/Water Chemistry > Contaminants > Harmful Algal Blooms (HABs)",
+        "xlink_href": "Earth Science > Terrestrial Hydrosphere > Water Quality/Water Chemistry > Contaminants > Harmful Algal Blooms (HABs)",
+        "xlink_title": "Earth Science > Terrestrial Hydrosphere > Water Quality/Water Chemistry > Contaminants > Harmful Algal Blooms (HABs)",
+        "type": "physicalMeasurement"
+      }
+    ]
+  },
+  "4A36591A6B9ADA8CC6231207891A600CF8E9FC8D.xml": {
+    "keywords": [
+      "arctic-ocean",
+      "satellite-observation",
+      "multi-year",
+      "Not Applicable",
+      "sea_surface_height_above_sea_level",
+      "global-ocean",
+      "sea_surface_height_above_geoid",
+      "marine-safety",
+      "Level 3",
+      "coastal-marine-environment",
+      "weather-climate-and-seasonal-forecasting",
+      "Oceanographic geographical features",
+      "marine-resources",
+      "WEKEO"
+    ],
+    "cleaned_keywords": [
+      "arctic ocean",
+      "satellite observation",
+      "multi year",
+      "not applicable",
+      "sea surface height above sea level",
+      "global ocean",
+      "sea surface height above geoid",
+      "marine safety",
+      "level 3",
+      "coastal marine environment",
+      "weather climate and seasonal forecasting",
+      "oceanographic geographical features",
+      "marine resources",
+      "wekeo"
+    ],
+    "variable_info": [
+      {
+        "text": "arctic-ocean",
+        "xlink_href": null,
+        "xlink_title": null,
+        "type": "physicalMeasurement"
+      },
+      {
+        "text": "satellite-observation",
+        "xlink_href": null,
+        "xlink_title": null,
+        "type": "physicalMeasurement"
+      },
+      {
+        "text": "multi-year",
+        "xlink_href": null,
+        "xlink_title": null,
+        "type": "physicalMeasurement"
+      },
+      {
+        "text": "Not Applicable",
+        "xlink_href": null,
+        "xlink_title": null,
+        "type": "physicalMeasurement"
+      },
+      {
+        "text": "sea_surface_height_above_sea_level",
+        "xlink_href": null,
+        "xlink_title": null,
+        "type": "physicalMeasurement"
+      },
+      {
+        "text": "global-ocean",
+        "xlink_href": null,
+        "xlink_title": null,
+        "type": "physicalMeasurement"
+      },
+      {
+        "text": "sea_surface_height_above_geoid",
+        "xlink_href": null,
+        "xlink_title": null,
+        "type": "physicalMeasurement"
+      },
+      {
+        "text": "marine-safety",
+        "xlink_href": null,
+        "xlink_title": null,
+        "type": "physicalMeasurement"
+      },
+      {
+        "text": "Level 3",
+        "xlink_href": null,
+        "xlink_title": null,
+        "type": "physicalMeasurement"
+      },
+      {
+        "text": "coastal-marine-environment",
+        "xlink_href": null,
+        "xlink_title": null,
+        "type": "physicalMeasurement"
+      },
+      {
+        "text": "weather-climate-and-seasonal-forecasting",
+        "xlink_href": null,
+        "xlink_title": null,
+        "type": "physicalMeasurement"
+      },
+      {
+        "text": "Oceanographic geographical features",
+        "xlink_href": null,
+        "xlink_title": null,
+        "type": "physicalMeasurement"
+      },
+      {
+        "text": "marine-resources",
+        "xlink_href": null,
+        "xlink_title": null,
+        "type": "physicalMeasurement"
+      }
+    ]
+  },
+  "35E87B23228DA78A4776FB47D007ACEECB5442CF.xml": {
+    "keywords": [
+      "49",
+      "WRC",
+      "APEX-SBE",
+      "ARGO",
+      "DRUCK",
+      "SBE41",
+      "SBE41",
+      "APEX Profiling Float"
+    ],
+    "cleaned_keywords": [
+      "49",
+      "wrc",
+      "apex sbe",
+      "argo",
+      "druck",
+      "sbe41",
+      "sbe41",
+      "apex profiling float"
+    ],
+    "instrument_info": {
+      "title": "DRUCK",
+      "identifier": "CTD_PRES",
+      "description": "Sensor Model: DRUCK. Maker: DRUCK"
+    },
+    "variable_info": [
+      {
+        "text": "SUBSURFACE PRESSURE",
+        "xlink_href": "SUBSURFACE PRESSURE",
+        "xlink_title": "SUBSURFACE PRESSURE",
+        "type": "physicalMeasurement"
+      },
+      {
+        "text": "SUBSURFACE SALINITY",
+        "xlink_href": "SUBSURFACE SALINITY",
+        "xlink_title": "SUBSURFACE SALINITY",
+        "type": "physicalMeasurement"
+      },
+      {
+        "text": "SUBSURFACE TEMPERATURE",
+        "xlink_href": "SUBSURFACE TEMPERATURE",
+        "xlink_title": "SUBSURFACE TEMPERATURE",
+        "type": "physicalMeasurement"
+      }
+    ]
+  },
+  "7336c88a-ddd3-4137-9d18-790a612335ef.xml": {
+    "keywords": [],
+    "cleaned_keywords": [],
+    "variable_info": [
+      {
+        "text": "observation",
+        "xlink_href": null,
+        "xlink_title": null,
+        "type": "physicalMeasurement"
+      }
+    ]
+  }
+}
