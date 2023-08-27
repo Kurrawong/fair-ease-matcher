@@ -10,9 +10,6 @@ services:
       - type: bind
         source: ${PWD}/fair-ease-config-alex.ttl
         target: /fuseki/config.ttl
-      - type: bind
-        source: ${PWD}/log4j2.properties.debug
-        target: /fuseki/log4j2.properties
       - type: volume
         source: fair-ease-volume
         target: /fuseki/databases
