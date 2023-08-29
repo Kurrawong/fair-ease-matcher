@@ -4,6 +4,7 @@ from pathlib import Path
 import httpx
 from jinja2 import Template
 
+from src.sparql_queries import get_vocabs_from_sparql_endpoint
 
 # Define the XML namespace map
 namespaces = {
@@ -12,10 +13,10 @@ namespaces = {
     'gmi': 'http://www.isotc211.org/2005/gmi',
     'xlink': 'http://www.w3.org/1999/xlink'  # adding the xlink namespace
 }
-template = Template(Path("../src/query_template.sparql").read_text())
+template = Template(Path("../query_template.sparql").read_text())
 
 
-def analyse_from_xml_url(xml_url, threshold):
+def analyse_from_xml_url(xml_url, threshold) -> dict:
     # get the root element from the remote XML file
     root = get_root_from_remote(xml_url)
 
@@ -25,17 +26,20 @@ def analyse_from_xml_url(xml_url, threshold):
     var_info = get_variable_info(root)
 
     # create qureies for the keywords, instrument info and variable info
-    kws_exact_query = create_query(predicate=None, exact=True, terms=kws['strings'])
-    kws_wildcard_query = create_query(predicate=None, exact=False, terms=kws['strings'])
-    inst_exact_query = create_query(predicate='dcterms:identifier', exact=True, terms=inst_info['identifiers'])
-    inst_wildcard_query = create_query(predicate='dcterms:identifier', exact=False, terms=inst_info['identifiers'])
-    var_exact_query_strings = create_query(predicate=None, exact=True, terms=var_info['strings'])
-    var_wildcard_query_strings = create_query(predicate=None, exact=False, terms=var_info['strings'])
-    print("i")
+    query_args = {
+        'kws_exact': {'predicate': None, 'exact': True, 'terms': kws['strings']},
+        'kws_wildcard': {'predicate': None, 'exact': False, 'terms': kws['strings']},
+        'inst_exact': {'predicate': 'dcterms:identifier', 'exact': True, 'terms': inst_info['identifiers']},
+        'inst_wildcard': {'predicate': 'dcterms:identifier', 'exact': False, 'terms': inst_info['identifiers']},
+        'var_exact_strings': {'predicate': None, 'exact': True, 'terms': var_info['strings']},
+        'var_wildcard_strings': {'predicate': None, 'exact': False, 'terms': var_info['strings']},
+    }
 
-
-
-
+    results = {}
+    for query_type, kwargs in query_args.items():
+        query = create_query(**kwargs)
+        results[query_type] = get_vocabs_from_sparql_endpoint(query)
+    return results
 
 
 def create_query(predicate, exact: bool, terms):

@@ -1,0 +1,19 @@
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX ex: <http://www.example.org/resources#>
+PREFIX text: <http://jena.apache.org/text#>
+
+SELECT ?concept_scheme (SUM(?weight) as ?sum_weight)
+{
+  VALUES ?search_term { {%- for term in terms -%}
+      "{{ term }}" {%- endfor %} }
+  {%- if not exact %}
+  BIND(CONCAT("*", STR(?search_term), "*") as ?wildcard_search)
+  (?concept_uri ?weight ?vocab_match ?graph ?property) text:query ({{ predicate or "" }} ?wildcard_search) .
+  {%- else %}
+  (?concept_uri ?weight ?vocab_match ?graph ?property) text:query ({{ predicate or "" }} ?search_term) .
+  {%- endif %}
+  ?concept_uri skos:inScheme ?concept_scheme
+}
+GROUP BY ?concept_scheme
+ORDER BY DESC(?sum_weight)

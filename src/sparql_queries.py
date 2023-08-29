@@ -32,14 +32,16 @@ def find_vocabs_sparql(urns):
 
 
 def get_vocabs_from_sparql_endpoint(query):
-    sparql = SPARQLWrapper(os.getenv("SPARQL_ENDPOINT"))
+    sparql = SPARQLWrapper(
+        endpoint=os.getenv("SPARQL_ENDPOINT")
+    )
+    sparql.setCredentials(
+        user=os.getenv("SPARQL_USERNAME", ""),
+        passwd=os.getenv("SPARQL_PASSWORD", ""),
+    )
     sparql.setReturnFormat(JSON)
     sparql.setQuery(query)
     try:
-        ret = sparql.queryAndConvert()
-        vocab_or_collection_uris = []
-        for r in ret["results"]["bindings"]:
-            vocab_or_collection_uris.append(r["collection"]["value"])
-        return vocab_or_collection_uris
+        return sparql.queryAndConvert()
     except Exception as e:
         print(e)
