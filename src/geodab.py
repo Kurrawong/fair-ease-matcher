@@ -138,7 +138,7 @@ def get_instrument_info(root: ET.Element):
     # Extract text from the XML elements, if they exist.
     return {
         'strings': deduped_strings,
-        'identifiers': instrument_identifier.text if instrument_identifier is not None else None,
+        'identifiers': [instrument_identifier.text] if instrument_identifier is not None else None,
         'uris': None  # TODO
     }
 
