@@ -1,12 +1,10 @@
+import logging
 import os
-
 from SPARQLWrapper import SPARQLWrapper, JSON
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-def fts_term(term):
-    return f"""
-    
-    """
 
 def find_vocabs_sparql(urns):
     return f"""
@@ -32,8 +30,11 @@ def find_vocabs_sparql(urns):
 
 
 def get_vocabs_from_sparql_endpoint(query):
+    sparql_endpoint = os.getenv("SPARQL_ENDPOINT")
+    if not sparql_endpoint:
+        raise Exception("SPARQL_ENDPOINT not set")
     sparql = SPARQLWrapper(
-        endpoint=os.getenv("SPARQL_ENDPOINT")
+        endpoint=sparql_endpoint
     )
     sparql.setCredentials(
         user=os.getenv("SPARQL_USERNAME", ""),
@@ -42,6 +43,9 @@ def get_vocabs_from_sparql_endpoint(query):
     sparql.setReturnFormat(JSON)
     sparql.setQuery(query)
     try:
-        return sparql.queryAndConvert()
+        response = sparql.queryAndConvert()
+        return response
     except Exception as e:
-        print(e)
+        raise
+        logger.error(e)
+

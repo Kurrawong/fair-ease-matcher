@@ -7,20 +7,18 @@ readme = "README.md"
 packages = [{include = "bodc_matcher"}]
 
 [tool.poetry.dependencies]
-python = "^3.11"
-openai = "^0.27.8"
-jupyter = "^1.0.0"
-pandas = "^2.0.3"
+python = "^3.10"
 sparqlwrapper = "^2.0.0"
-netcdf4 = "^1.6.4"
 cython = "^3.0.0"
 setuptools = "^68.1.2"
 fastapi = {extras = ["testclient"], version = "^0.103.0"}
-langchain = "^0.0.274"
-uvicorn = "^0.23.2"
 pytest = "^7.4.0"
 httpx = "^0.24.1"
 jinja2 = "^3.1.2"
+flask = "^2.3.3"
+zappa = "^0.57.0"
+uvicorn = "^0.23.2"
+flask-cors = "^4.0.0"
 
 
 [tool.poetry.group.dev.dependencies]

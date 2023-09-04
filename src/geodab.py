@@ -1,56 +1,80 @@
-import json
+import logging
+import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
+
 import httpx
 from jinja2 import Template
 
 from src.sparql_queries import get_vocabs_from_sparql_endpoint
 
-# Define the XML namespace map
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 namespaces = {
     'gmd': 'http://www.isotc211.org/2005/gmd',
     'gco': 'http://www.isotc211.org/2005/gco',
     'gmi': 'http://www.isotc211.org/2005/gmi',
-    'xlink': 'http://www.w3.org/1999/xlink'  # adding the xlink namespace
+    'xlink': 'http://www.w3.org/1999/xlink'
 }
-template = Template(Path("../query_template.sparql").read_text())
+template = Template(Path("src/query_template.sparql").read_text())
 
 
-def analyse_from_xml_url(xml_url, threshold) -> dict:
-    # get the root element from the remote XML file
-    root = get_root_from_remote(xml_url)
+def analyse_from_xml(xml, threshold) -> dict:
 
-    # get the keywords, instrement info and variable info from the XML file
+    root = ET.fromstring(xml)
+    logger.info("Obtained root from remote XML.")
+
     kws = get_keywords(root)
     inst_info = get_instrument_info(root)
     var_info = get_variable_info(root)
 
-    # create qureies for the keywords, instrument info and variable info
+    logger.info(f"Keywords extracted: {kws['strings']}")
+    logger.info(f"Instrument Info extracted: {inst_info['identifiers']}")
+    logger.info(f"Variable Info extracted: {var_info['strings']}")
+
     query_args = {
         'kws_exact': {'predicate': None, 'exact': True, 'terms': kws['strings']},
-        'kws_wildcard': {'predicate': None, 'exact': False, 'terms': kws['strings']},
+        # 'kws_wildcard': {'predicate': None, 'exact': False, 'terms': kws['strings']},
         'inst_exact': {'predicate': 'dcterms:identifier', 'exact': True, 'terms': inst_info['identifiers']},
-        'inst_wildcard': {'predicate': 'dcterms:identifier', 'exact': False, 'terms': inst_info['identifiers']},
+        # 'inst_wildcard': {'predicate': 'dcterms:identifier', 'exact': False, 'terms': inst_info['identifiers']},
         'var_exact_strings': {'predicate': None, 'exact': True, 'terms': var_info['strings']},
-        'var_wildcard_strings': {'predicate': None, 'exact': False, 'terms': var_info['strings']},
+        # 'var_wildcard_strings': {'predicate': None, 'exact': False, 'terms': var_info['strings']},
     }
 
     results = {}
     for query_type, kwargs in query_args.items():
         query = create_query(**kwargs)
         results[query_type] = get_vocabs_from_sparql_endpoint(query)
+        logger.info(f"Results for query type {query_type}: {results[query_type]}")
+
     return results
 
 
 def create_query(predicate, exact: bool, terms):
 
+    # escape the terms for Lucene
+    escaped_terms = [escape_for_lucene_and_sparql(term) for term in terms]
+
     # Render the template with the necessary parameters
-    query = template.render(predicate=predicate, exact=exact, terms=terms)  # template imported at module level.
+    query = template.render(predicate=predicate, exact=exact, terms=escaped_terms)  # template imported at module level.
     return query
+
+
+def escape_for_lucene_and_sparql(query):
+    # First, escape the Lucene special characters.
+    chars_to_escape = re.compile(r'([\+\-!\(\)\{\}\[\]\^"~\*\?:\\/])')
+    lucene_escaped = chars_to_escape.sub(r'\\\1', query)
+
+    # Then, double escape the backslashes for SPARQL.
+    sparql_escaped = lucene_escaped.replace('\\', '\\\\')
+
+    return sparql_escaped
+
 
 def clean_variables(variable_info: list):
     deduplicate_and_categorize(variable_info)
-    ...
 
 
 def deduplicate_and_categorize(data):
@@ -86,12 +110,23 @@ def get_root_from_file(file_path: Path):
 
 def get_root_from_remote(xml_url):
     try:
-        response = httpx.get(xml_url)
+        response = httpx.get(xml_url, timeout=10)  # 10 seconds timeout
+        logger.info(f"Response from {xml_url}: {response.text}")
+        # Check if the request was successful
+        if response.status_code != 200:
+            logger.error(
+                f"Failed to fetch XML from {xml_url}. Status code: {response.status_code}. Response: {response.text}")
+            raise Exception(f"HTTP error {response.status_code} when fetching XML.")
+
+        root = ET.fromstring(response.text)
+        return root
+
     except httpx.HTTPError as e:
-        print(f"HTTP error: {e}")
-        return None
-    root = ET.fromstring(response.text)
-    return root
+        logger.error(f"HTTP error occurred when fetching XML from {xml_url}. Error: {str(e)}")
+        raise
+    except ET.ParseError as e:
+        logger.error(f"Failed to parse XML from {xml_url}. Error: {str(e)}")
+        raise
 
 
 def get_keywords(root: ET.Element):
@@ -135,11 +170,18 @@ def get_instrument_info(root: ET.Element):
     cleaned_strings = clean_list_of_strings(string_fields)
     _, deduped_strings = deduplicate_and_categorize(cleaned_strings)
 
+    uris = []
+    identifier = None
+    if instrument_identifier.text is not None:
+        # Handle SeaDataNet identifiers
+        if instrument_identifier.text.startswith("http://www.seadatanet.org/urnurl/"):
+            identifier = instrument_identifier.text.split('/')[-2]
+
     # Extract text from the XML elements, if they exist.
     return {
         'strings': deduped_strings,
-        'identifiers': [instrument_identifier.text] if instrument_identifier is not None else None,
-        'uris': None  # TODO
+        'identifiers': [identifier],
+        'uris': [instrument_identifier.text] if instrument_identifier is not None else None
     }
 
 
@@ -151,7 +193,7 @@ def get_variable_info(root: ET.Element):
                                          namespaces)
 
     # Pairing variable descriptions with content types based on order
-    deduped_variables = []
+    cleaned = []
     for desc_element, type_element in zip(attribute_description_elements, content_type_elements):
         variable = {
             "text": desc_element.text,
@@ -168,42 +210,3 @@ def get_variable_info(root: ET.Element):
 def create_queries(extracted_data):
     for record in extracted_data:
         keywords = extracted_data[record]['keywords']
-
-
-def main():
-    files = Path("../data/geodab-metadata").glob("*.xml")
-    extracted_data = {}
-
-    for file in files:
-        root = get_root_from_file(file)
-
-        kws = get_keywords(root)
-        cleaned_kws = clean_keywords(kws)
-
-        inst_info = get_instrument_info(root)
-        if not any(inst_info.values()):  # Check if all values in the dict are None
-            inst_info = None
-
-        var_info = get_variable_info(root)
-
-        data = {
-            "keywords": kws,
-            "cleaned_keywords": cleaned_kws,
-            "instrument_info": inst_info,
-            "variable_info": var_info
-        }
-
-        # Remove None values at the top level
-        data = {k: v for k, v in data.items() if v is not None}
-
-        extracted_data[str(file.name)] = data
-
-    with open('extracted_data.json', 'w') as outfile:
-        json.dump(extracted_data, outfile)
-
-    queries = create_queries(extracted_data)
-
-
-# Assuming you want to run the main function immediately
-if __name__ == "__main__":
-    main()
