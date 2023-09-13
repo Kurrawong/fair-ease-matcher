@@ -22,7 +22,7 @@ def main(files: List[Path], threshold: float) -> dict:
         results[file.stem] = analyse_from_xml(xml_string, threshold)
 
     # Ensure the 'output' directory exists
-    output_dir = Path('output')
+    output_dir = Path('output') / file.parent.stem
     output_dir.mkdir(exist_ok=True)
 
     # Generate the filename based on current date and time
@@ -37,6 +37,9 @@ def main(files: List[Path], threshold: float) -> dict:
 
 
 if __name__ == "__main__":
-    files = Path('data/sdn-xml').glob('*.xml')
+    # files = Path('data/sdn-xml').glob('*.xml')
+    files = Path('data/emodnet-xml').glob('*.xml')
+    # files = [Path('data/emodnet-xml/b6eff0a9-ea56-408a-be00-fc458ae6ef54.xml')]
     threshold = 0.8
+
     main(files, threshold)

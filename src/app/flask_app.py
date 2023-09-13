@@ -17,18 +17,19 @@ CORS(app)#, resources={r"/process_metadata": {"origins": "https://kurrawong.gith
 @app.route("/process_metadata", methods=['GET', 'POST'])
 def process_metadata():
     data = request.json
-    xml = data.get('xml')
     threshold = data.get('threshold')
-
-    try:
-        data = analyse_from_xml(xml, threshold)
-        response = jsonify(data)
-        # Set custom headers in the response
-        # response.headers['Access-Control-Allow-Origin'] = '*'
-        return response
-    except Exception as e:
-        # Handle exceptions and send a 500 response
-        return make_response(str(e), 500)
+    responses = {}
+    for doc_name, xml in data.get('xml').items():
+        try:
+            data = analyse_from_xml(xml, threshold)
+            responses[doc_name] = data
+            # Set custom headers in the response
+        except Exception as e:
+            # Handle exceptions and send a 500 response
+            return make_response(str(e), 500)
+    response = jsonify(responses)
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)

@@ -45,4 +45,4 @@ COPY pyproject.toml .
 # copy the venv folder from builder image
 COPY --from=builder-base /app/.venv ./.venv
 
-ENTRYPOINT ["uvicorn", "src.api.app:app", "--host=0.0.0.0", "--port=8000", "--proxy-headers"]
+ENTRYPOINT ["uvicorn", "src.app.fastapi_app:app", "--host=0.0.0.0", "--port=8000", "--proxy-headers"]

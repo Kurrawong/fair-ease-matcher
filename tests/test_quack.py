@@ -15,13 +15,14 @@ from src.quack import quack_analyser
     ("    ", "string"),  # only spaces
     ("", "string"),  # empty string
     ("1234", "identifier"),  # just numbers
-    ("abcd", "identifier"),  # just alphabets
+    ("abcd", "string"),  # just alphabets
     ("apple_pie", "string"),  # underscores (not in identifier definition)
     ("www.example.com", "string"),  # not a valid URI format
     ("3.14", "string"),  # decimal point
     ("apple-pie", "string"),  # hyphen
     ("SDN::L10", "identifier"),  # real example
-    ("SDN:L10", "identifier")  # variation
+    ("SDN:L10", "identifier"),  # variation
+    ("lithology", "string")
 ])
 def test_quack_analyser(input_str, expected):
     result = quack_analyser(input_str)

@@ -7,7 +7,7 @@ def quack_analyser(value: str) -> str:
         return 'URI'
 
     # Identifier check (alphanumeric characters or "::")
-    if re.match(r'^[A-Za-z0-9:]+$', value) and not re.search(r'\s', value):
+    if re.match(r'^(?=.*[0-9])([A-Za-z0-9:]+|[0-9]+)$', value) and not re.search(r'\s', value):
         return 'identifier'
 
     # If none of the above, consider it as a string

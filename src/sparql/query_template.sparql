@@ -1,0 +1,30 @@
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX ex: <http://www.example.org/resources#>
+PREFIX text: <http://jena.apache.org/text#>
+PREFIX sdo: <https://schema.org/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?MatchURI (COALESCE(?prop_label, ?MatchProp) AS ?MatchProperty) ?MatchTerm ?SearchTerm
+{
+  VALUES ?SearchTerm {
+    {%- for term in terms -%}
+      "{{ term }}"
+    {%- endfor %}
+  }
+
+  {%- if not exact %}
+  BIND(CONCAT("*", STR(?SearchTerm), "*") as ?wildcard_search)
+  (?MatchURI ?Weight ?MatchTerm ?graph ?MatchProp) text:query ({{ predicate or "" }} ?wildcard_search) .
+  {%- else %}
+  (?MatchURI ?Weight ?MatchTerm ?graph ?MatchProp) text:query ({{ predicate or "" }} ?SearchTerm) .
+  {%- endif %}
+
+  OPTIONAL {
+    ?MatchURI skos:prefLabel|rdfs:label|dcterms:title|sdo:name ?match_label .
+  }
+
+  OPTIONAL {
+    ?MatchProp skos:prefLabel|rdfs:label|dcterms:title|sdo:name ?prop_label .
+  }
+}
