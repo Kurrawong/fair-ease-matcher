@@ -29,28 +29,25 @@ def analyse_from_xml(xml, threshold) -> dict:
     logger.info("Obtained root from remote XML.")
 
     all_metadata_elems = extract_from_all(root)
-    # kws_dict = get_keywords(root)
-    kws = TargetMetadataModel(**all_metadata_elems["Keywords"])
-    # inst_info_dict = get_instrument_info(root)
-    inst_info = TargetMetadataModel(**all_metadata_elems["Instrument"])
-    # var_info_dict = get_variable_info(root)
-    var_info = TargetMetadataModel(**all_metadata_elems["Variable"])
+    logger.info(f"Info extracted:\n{dict(all_metadata_elems)}".replace("}, '", "},\n'"))
 
-    logger.info(f"Keywords extracted: {kws.strings}")
-    logger.info(f"Instrument Info extracted: {inst_info.identifiers}")
-    logger.info(f"Variable Info extracted: {var_info.strings}")
+    # tuple 1: config for text search
+    # tuple 2: for identifiers (only search in dcterms:identifier predicate)
+    # tuple 3: config for uri search
+    mapping = {
+        'keywords': [('strings', None)],
+        'instrument': [('strings', None), ('identifiers', 'dcterms:identifier'), ('uris', None)],
+        'variable': [('strings', None), ('identifiers', 'dcterms:identifier'), ('uris', None)],
+        'platform': [('strings', None), ('identifiers', 'dcterms:identifier'), ('uris', None)]
+    }
 
     query_args = {
-        'kws_exact': {'predicate': None, 'exact': True, 'terms': kws.strings},
-        # 'kws_wildcard': {'predicate': None, 'exact': False, 'terms': kws.strings},
-        'inst_exact': {'predicate': 'dcterms:identifier', 'exact': True, 'terms': inst_info.identifiers},
-        'inst_exact_identifiers': {'predicate': 'dcterms:identifier', 'exact': True, 'terms': inst_info.identifiers},
-        'inst_uri': {'predicate': None, 'exact': True, 'terms': inst_info.uris},
-        # 'inst_wildcard': {'predicate': 'dcterms:identifier', 'exact': False, 'terms': inst_info.identifiers},
-        'var_exact_strings': {'predicate': None, 'exact': True, 'terms': var_info.strings},
-        'var_exact_identifiers': {'predicate': 'dcterms:identifier', 'exact': True, 'terms': var_info.identifiers},
-        'var_uri': {'predicate': None, 'exact': True, 'terms': var_info.uris},
-        # 'var_wildcard_strings': {'predicate': None, 'exact': False, 'terms': var_info.strings},
+        f"{prefix}_{key}": {
+            "predicate": predicate,
+            "terms": all_metadata_elems[prefix.capitalize()][key]
+        }
+        for prefix, configs in mapping.items()
+        for (key, predicate) in configs
     }
 
     all_bindings = []
@@ -60,30 +57,39 @@ def analyse_from_xml(xml, threshold) -> dict:
         head, bindings = flatten_results(unflattened, query_type)
         all_bindings.extend(bindings)
         # logger.info(f"Results for query type {query_type}: {results[query_type]}")
-    results = {'head': head, 'results': {'bindings': all_bindings}}
+    results = {'head': head, 'results': {'bindings': all_bindings}, 'all_search_elements': all_metadata_elems}
     return results
 
 
 def flatten_results(json_doc, method):
     method_labels = {
-        'kws_exact': 'Keywords - Exact Match',
-        'kws_wildcard': 'Keywords - Wildcard Match',
-        'inst_exact': 'Instrument - Exact Match',
-        'inst_exact_identifiers': 'Instrument - Exact Match (Identifiers)',
-        'inst_uri': 'Instrument - URI Match',
-        'inst_wildcard': 'Instrument - Wildcard Match',
-        'var_exact_strings': 'Variable - Exact Match',
-        'var_exact_identifiers': 'Variable - Exact Match (Identifiers)',
-        'var_wildcard_strings': 'Variable - Wildcard Match',
-        'var_uri': 'Variable - URI Match'
+        'keywords_strings': ('Keywords', 'Text Match'),
+        'instrument_strings': ('Instrument', 'Text Match'),
+        'instrument_identifiers': ('Instrument', 'Identifiers Match'),
+        'instrument_uris': ('Instrument', 'URI Match'),
+        'variable_strings': ('Variable', 'Text Match'),
+        'variable_identifiers': ('Variable', 'Identifiers Match'),
+        'variable_uris': ('Variable', 'URI Match'),
+        'platform_strings': ('Platform', 'Text Match'),
+        'platform_identifiers': ('Platform', 'Identifiers Match'),
+        'platform_uris': ('Platform', 'URI Match'),
     }
-    new_head = {'vars': [head for head in json_doc['head']['vars'] + ["Method"]]}
-    method_dict = {"Method": {"type": "literal", "value": method_labels[method]}}
-    new_bindings = [{**method_dict, **binding} for binding in json_doc['results']['bindings']]
+
+
+    new_head = {'vars': [head for head in json_doc['head']['vars'] + ["Method", "TargetElement"]]}
+
+    target_element, method_label = method_labels[method]
+    label_dict = {
+        "Method": {"type": "literal", "value": method_label},
+        "TargetElement": {"type": "literal", "value": target_element}
+    }
+
+    new_bindings = [{**label_dict, **binding} for binding in json_doc['results']['bindings']]
+
     return new_head, new_bindings
 
 
-def create_query(predicate, exact: bool, terms, query_type):
+def create_query(predicate, terms, query_type):
     if "uri" in query_type:
         template = Template(Path("src/sparql/uri_query_template.sparql").read_text())
     else:
@@ -92,7 +98,7 @@ def create_query(predicate, exact: bool, terms, query_type):
         if terms:
             terms = [escape_for_lucene_and_sparql(term) for term in terms]
     # Render the template with the necessary parameters
-    query = template.render(predicate=predicate, exact=exact, terms=terms)  # template imported at module level.
+    query = template.render(predicate=predicate, terms=terms)  # template imported at module level.
     return query
 
 

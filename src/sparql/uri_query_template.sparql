@@ -6,7 +6,7 @@ PREFIX sdo: <https://schema.org/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT
-  ?MatchURI ?MatchProperty ?MatchTerm ?SearchTerm
+  ?MatchURI ?MatchProperty ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?Weight ?ExactMatch
 WHERE {
   {
     {
@@ -20,8 +20,16 @@ WHERE {
     OPTIONAL {
       ?MatchURI skos:prefLabel|rdfs:label|dcterms:title|sdo:name ?uri_label .
     }
+    OPTIONAL {
+    ?OptContainer skos:member ?MatchURI ;
+                 skos:prefLabel ?OptContainerLabel .
+    }
     BIND("" AS ?SearchTerm)
     BIND("" AS ?MatchProperty)
     BIND("" AS ?MatchTerm)
+    BIND("" AS ?Weight)
+    BIND("" AS ?ExactMatch)
+    BIND(COALESCE(?OptContainer,"") AS ?Container)
+    BIND(COALESCE(?OptContainerLabel,"") AS ?ContainerLabel)
   }
 }

@@ -38,8 +38,9 @@ def main(files: List[Path], threshold: float) -> dict:
 
 if __name__ == "__main__":
     # files = Path('data/sdn-xml').glob('*.xml')
-    files = Path('data/emodnet-xml').glob('*.xml')
-    # files = [Path('data/emodnet-xml/b6eff0a9-ea56-408a-be00-fc458ae6ef54.xml')]
+    # files = Path('data/emodnet-xml').glob('*.xml')
+    files = Path('data/argo-xml').glob('*.xml')
+    # files = [Path('data/sdn-xml/sdn-open:urn:SDN:CDI:LOCAL:1609-1609-1609-ds04-4.xml')]
     threshold = 0.8
 
     main(files, threshold)

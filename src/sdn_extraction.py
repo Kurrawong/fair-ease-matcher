@@ -71,11 +71,10 @@ def extract_from_descriptiveKeywords(root):
 
         # Determine type code
         keyword_typecode = block.find(".//gmd:type/gmd:MD_KeywordTypeCode", ns)
-        if keyword_typecode:
+        if keyword_typecode is not None:
             keyword_type = keyword_typecode.get('codeListValue')
         else:
             keyword_type = "Keywords"
-
         # Consolidate the results by metadata type
         if keyword_type in metadata_element_map:
             meta_type = metadata_element_map[keyword_type]
@@ -116,6 +115,7 @@ def extract_from_content_info(root):
              "uris": record_type_uris,
              "identifiers": record_type_identifiers})
         return {"Variable": results}
+    return {}
 
 
 def extract_instruments_platforms_from_acquisition_info(root):

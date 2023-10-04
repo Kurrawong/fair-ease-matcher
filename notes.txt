@@ -1,0 +1,13 @@
+configuring all fields with the same text:field name means they are all always searched and the predicate the result is found on is always one specific (random?) predicate.
+
+configuring:
+text:analyzer: text:LowerCaseKeywordAnalyzer ;
+
+1. on the text:TextIndexLucene returns more results .. appears to include "wildcard"
+pros: can get all results including wildcards, scores are present
+cons: wildcard and exact mixed together - can mitigate by filtering the search results LCASE(?x) = LCASE(?y) and order by this first.
+2. as part of the text:map returns less results .. appears to exclude "wildcard" results? wildcard results all have a score of 1.
+pros: gives exact matches
+cons: only gives exact matches!
+
+solution can be to use it as part of the
