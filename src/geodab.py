@@ -1,4 +1,3 @@
-import json
 import logging
 import re
 import xml.etree.ElementTree as ET
@@ -8,8 +7,6 @@ import httpx
 from jinja2 import Template
 
 from src.sdn_extraction import extract_from_all
-from src.models import TargetMetadataModel
-from src.functions import clean_list_of_keywords, deduplicate_and_categorize
 from src.sparql_queries import get_vocabs_from_sparql_endpoint
 
 # Set up logging
@@ -109,18 +106,7 @@ def escape_for_lucene_and_sparql(query):
 
     # Then, double escape the backslashes for SPARQL.
     sparql_escaped = lucene_escaped.replace('\\', '\\\\')
-
     return sparql_escaped
-
-
-def clean_variables(variable_info: list):
-    deduplicate_and_categorize(variable_info)
-
-
-def get_root_from_file(file_path: Path):
-    data = file_path.read_text()
-    root = ET.fromstring(data)
-    return root
 
 
 def get_root_from_remote(xml_url):
@@ -142,74 +128,3 @@ def get_root_from_remote(xml_url):
     except ET.ParseError as e:
         logger.error(f"Failed to parse XML from {xml_url}. Error: {str(e)}")
         raise
-
-
-
-def get_keywords(root: ET.Element):
-    keywords = root.findall(".//gmd:MD_Keywords/gmd:keyword/gco:CharacterString", namespaces)
-    keywords = [keyword.text for keyword in keywords]
-    return clean_list_of_keywords(keywords)
-
-
-
-
-def get_instrument_info(root: ET.Element):
-    instrument_title = root.find(".//gmi:MI_Instrument/gmi:citation/gmd:CI_Citation/gmd:title/gco:CharacterString",
-                                 namespaces)
-    instrument_identifier = root.find(
-        ".//gmi:MI_Instrument/gmi:identifier/gmd:MD_Identifier/gmd:code/gco:CharacterString", namespaces)
-    instrument_description = root.find(".//gmi:MI_Instrument/gmi:description/gco:CharacterString", namespaces)
-
-    string_fields = []
-    if instrument_title is not None:
-        instrument_title = instrument_title.text
-        string_fields.append(instrument_title)
-    if instrument_description is not None:
-        instrument_description = instrument_description.text
-        string_fields.append(instrument_description)
-    cleaned_strings = clean_list_of_strings(string_fields)
-    _, deduped_strings = deduplicate_and_categorize(cleaned_strings)
-
-    uris = []
-    identifier = None
-    if instrument_identifier:
-        if instrument_identifier.text is not None:
-            # Handle SeaDataNet identifiers
-            if instrument_identifier.text.startswith("http://www.seadatanet.org/urnurl/"):
-                identifier = instrument_identifier.text.split('/')[-2]
-    else:
-        logger.warning("No instrument identifier found in XML.")
-
-    # Extract text from the XML elements, if they exist.
-    return {
-        'strings': deduped_strings,
-        'identifiers': [identifier] if identifier is not None else None,
-        'uris': [instrument_identifier.text] if instrument_identifier is not None else None
-    }
-
-
-def get_variable_info(root: ET.Element):
-    # Extract content info for each variable
-    attribute_description_elements = root.findall(
-        ".//gmd:MD_CoverageDescription/gmd:attributeDescription/gco:RecordType", namespaces)
-    content_type_elements = root.findall(".//gmd:MD_CoverageDescription/gmd:contentType/gmd:MD_CoverageContentTypeCode",
-                                         namespaces)
-
-    # Pairing variable descriptions with content types based on order
-    cleaned = []
-    for desc_element, type_element in zip(attribute_description_elements, content_type_elements):
-        variable = {
-            "text": desc_element.text,
-            "xlink_href": desc_element.get("{http://www.w3.org/1999/xlink}href"),
-            "xlink_title": desc_element.get("{http://www.w3.org/1999/xlink}title"),
-            "type": type_element.get('codeListValue') if type_element is not None else None
-        }
-        deduped = deduplicate_and_categorize(variable)
-        split = split_list_of_strings(deduped[1])
-        cleaned = clean_list_of_strings(split)
-    return {"uris": None, "strings": cleaned, "identifiers": None}
-
-
-def create_queries(extracted_data):
-    for record in extracted_data:
-        keywords = extracted_data[record]['keywords']
