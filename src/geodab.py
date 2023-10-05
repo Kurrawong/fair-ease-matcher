@@ -1,10 +1,12 @@
 import asyncio
 import logging
+import os
 import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import httpx
+from httpx import AsyncClient
 from jinja2 import Template
 
 from src.sdn_extraction import extract_from_all
@@ -14,6 +16,10 @@ from src.sparql_queries import get_vocabs_from_sparql_endpoint, tabular_query_to
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+sparql_endpoint = os.getenv("SPARQL_ENDPOINT")
+user = os.getenv("SPARQL_USERNAME", "")
+passwd = os.getenv("SPARQL_PASSWORD", "")
 
 namespaces = {
     'gmd': 'http://www.isotc211.org/2005/gmd',
@@ -51,7 +57,12 @@ def analyse_from_xml(xml, threshold) -> dict:
 
     all_bindings = []
     all_queries = [(query_type, create_query(**kwargs, query_type=query_type)) for query_type, kwargs in query_args.items()]
-    all_results = execute_async_func(asyncio.gather, *[tabular_query_to_dict(query, query_type) for query_type, query in all_queries])
+
+    async def run_queries():
+        async with AsyncClient(auth=(user, passwd) if user else None, timeout=30) as client:
+            return await asyncio.gather(*[tabular_query_to_dict(query, query_type, client) for query_type, query in all_queries])
+
+    all_results = asyncio.run(run_queries())
     for query_type, result in all_results:
         head, bindings = flatten_results(result, query_type)
         all_bindings.extend(bindings)

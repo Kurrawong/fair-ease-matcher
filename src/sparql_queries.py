@@ -35,6 +35,7 @@ def find_vocabs_sparql(urns):
     """
 
 
+#TODO get rid of and use httpx as below
 def get_vocabs_from_sparql_endpoint(query):
     if not sparql_endpoint:
         raise Exception("SPARQL_ENDPOINT not set")
@@ -62,27 +63,19 @@ async_client = AsyncClient(
 )
 
 
-async def send_query(query: str, mediatype="text/turtle"):
-    """Sends a SPARQL query asynchronously.
-    Args: query: str: A SPARQL query to be sent asynchronously.
-    Returns: httpx.Response: A httpx.Response object
-    """
-    query_rq = async_client.build_request(
+async def send_query(query: str, mediatype="text/turtle", client=None):
+    """Sends a SPARQL query asynchronously."""
+    query_rq = client.build_request(
         "POST",
         url=sparql_endpoint,
         headers={"Accept": mediatype},
         data={"query": query},
     )
-    response = await async_client.send(query_rq, stream=True)
+    response = await client.send(query_rq, stream=True)
     return response
 
-
-async def tabular_query_to_dict(query: str, context: URIRef = None):
-    """
-    Sends a SPARQL query asynchronously and parses the response into a table format.
-    The optional context parameter allows an identifier to be supplied with the query, such that multiple results can be
-    distinguished from each other.
-    """
-    response = await send_query(query, "application/sparql-results+json")
+async def tabular_query_to_dict(query: str, context: URIRef = None, client=None):
+    """Sends a SPARQL query asynchronously and parses the response into a table format."""
+    response = await send_query(query, "application/sparql-results+json", client)
     await response.aread()
     return context, response.json()
