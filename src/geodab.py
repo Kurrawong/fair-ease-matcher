@@ -53,11 +53,8 @@ def analyse_from_xml(xml, threshold) -> dict:
     all_queries = [(query_type, create_query(**kwargs, query_type=query_type)) for query_type, kwargs in query_args.items()]
     all_results = execute_async_func(asyncio.gather, *[tabular_query_to_dict(query, query_type) for query_type, query in all_queries])
     for query_type, result in all_results:
-        # query = create_query(**kwargs, query_type=query_type)
-        # unflattened = get_vocabs_from_sparql_endpoint(query)
         head, bindings = flatten_results(result, query_type)
         all_bindings.extend(bindings)
-        # logger.info(f"Results for query type {query_type}: {results[query_type]}")
     results = {'head': head, 'results': {'bindings': all_bindings}, 'all_search_elements': all_metadata_elems}
     return results
 

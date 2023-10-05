@@ -5,7 +5,7 @@ PREFIX text: <http://jena.apache.org/text#>
 PREFIX sdo: <https://schema.org/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT ?MatchURI (COALESCE(?prop_label, ?MatchProp) AS ?MatchProperty) ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?Weight ?ExactMatch
+SELECT DISTINCT ?MatchURI (COALESCE(?prop_label, ?MatchProp) AS ?MatchProperty) ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?Weight ?ExactMatch
 {
   VALUES ?EscapedSearchTerm {
     {%- for term in terms -%}
@@ -27,15 +27,19 @@ SELECT ?MatchURI (COALESCE(?prop_label, ?MatchProp) AS ?MatchProperty) ?MatchTer
     ?MatchProp skos:prefLabel|rdfs:label|dcterms:title|sdo:name ?prop_label .
   }
   OPTIONAL {
-      ?OptContainer skos:member ?MatchURI ;
-                    skos:prefLabeldcterms:title ?OptContainerLabel .
+    ?OptContainer skos:member ?MatchURI ;
+                  skos:prefLabel ?OptContainerPrefLabel .
+  }
+  OPTIONAL {
+    ?OptContainer skos:member ?MatchURI ;
+                  dcterms:title ?OptContainerTitle .
   }
   OPTIONAL {
     ?MatchURI skos:inScheme ?OptContainer .
     ?OptContainer skos:prefLabel ?OptContainerLabel .
   }
   BIND(COALESCE(?OptContainer,"") AS ?Container)
-  BIND(COALESCE(?OptContainerLabel,"") AS ?ContainerLabel)
+  BIND(COALESCE(?OptContainerPrefLabel,?OptContainerTitle,"") AS ?ContainerLabel)
   BIND(REPLACE(?EscapedSearchTerm, "\\\\", "") AS ?SearchTerm)
   BIND(IF(LCASE(?SearchTerm) = LCASE(?MatchTerm),"Exact Match","Wildcard Match") AS ?ExactMatch)
   BIND(ROUND(?RawWeight*100)/100 AS ?Weight)
