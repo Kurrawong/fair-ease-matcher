@@ -31,8 +31,8 @@ SELECT ?MatchURI (COALESCE(?prop_label, ?MatchProp) AS ?MatchProperty) ?MatchTer
                     skos:prefLabeldcterms:title ?OptContainerLabel .
   }
   OPTIONAL {
-    ?MatchURI skos:inScheme ?OptContaine .
-    ?OptContaine skos:prefLabel ?OptContainerLabel .
+    ?MatchURI skos:inScheme ?OptContainer .
+    ?OptContainer skos:prefLabel ?OptContainerLabel .
   }
   BIND(COALESCE(?OptContainer,"") AS ?Container)
   BIND(COALESCE(?OptContainerLabel,"") AS ?ContainerLabel)

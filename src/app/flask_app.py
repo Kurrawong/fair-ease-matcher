@@ -1,4 +1,5 @@
 import logging
+import time
 
 from flask import Flask, request, jsonify, make_response
 
@@ -16,6 +17,7 @@ CORS(app)#, resources={r"/process_metadata": {"origins": "https://kurrawong.gith
 
 @app.route("/process_metadata", methods=['GET', 'POST'])
 def process_metadata():
+    start_time = time.time()
     data = request.json
     threshold = data.get('threshold')
     responses = {}
@@ -29,6 +31,7 @@ def process_metadata():
             return make_response(str(e), 500)
     response = jsonify(responses)
     response.headers['Access-Control-Allow-Origin'] = '*'
+    logger.info(f"Time taken: {time.time() - start_time}")
     return response
 
 if __name__ == "__main__":
