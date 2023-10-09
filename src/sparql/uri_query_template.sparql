@@ -18,17 +18,17 @@ WHERE {
       } LIMIT 1
     }
     OPTIONAL {
-      ?MatchURI skos:prefLabel|rdfs:label|dcterms:title|sdo:name ?uri_label .
+      ?MatchURI skos:prefLabel|rdfs:label|dcterms:title|sdo:name ?MatchLabel .
     }
     OPTIONAL {
     ?OptContainer skos:member ?MatchURI ;
                  skos:prefLabel ?OptContainerLabel .
     }
-    BIND("" AS ?SearchTerm)
-    BIND("" AS ?MatchProperty)
-    BIND("" AS ?MatchTerm)
-    BIND("" AS ?Weight)
-    BIND("" AS ?ExactMatch)
+    BIND("N/A" AS ?SearchTerm)
+    BIND("N/A" AS ?MatchProperty)
+    BIND(COALESCE(?MatchLabel,"") AS ?MatchTerm)
+    BIND("N/A" AS ?Weight)
+    BIND("URI Match" AS ?ExactMatch)
     BIND(COALESCE(?OptContainer,"") AS ?Container)
     BIND(COALESCE(?OptContainerLabel,"") AS ?ContainerLabel)
   }

@@ -50,6 +50,13 @@ def deduplicate_and_categorize(data):
         for elem in values_list:
             metadata_type = quack_analyser(elem)
             if metadata_type == 'URI':
+                other_version = None
+                if elem.startswith("http://"):
+                    other_version = elem.replace("http://", "https://")
+                elif elem.startswith("https://"):
+                    other_version = elem.replace("https://", "http://")
+                if other_version:
+                    uris.add(other_version)
                 uris.add(elem)
             elif metadata_type == 'identifier':
                 identifiers.add(elem)
