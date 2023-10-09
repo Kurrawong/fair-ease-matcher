@@ -6,7 +6,8 @@ from src.functions import clean_list_of_keywords
 ns = {
     'gmi': 'http://www.isotc211.org/2005/gmi',
     'gmd': 'http://www.isotc211.org/2005/gmd',
-    'gco': 'http://www.isotc211.org/2005/gco'
+    'gco': 'http://www.isotc211.org/2005/gco',
+    'gmx': 'http://www.isotc211.org/2005/gmx'
 }
 
 
@@ -16,10 +17,12 @@ def merge_dicts(dicts):
         for key in dict1.keys() | dict2.keys():
             merged[key] = {
                 'uris': list(set(dict1.get(key, {}).get('uris', []) + dict2.get(key, {}).get('uris', []))),
-                'identifiers': list(set(dict1.get(key, {}).get('identifiers', []) + dict2.get(key, {}).get('identifiers', []))),
+                'identifiers': list(
+                    set(dict1.get(key, {}).get('identifiers', []) + dict2.get(key, {}).get('identifiers', []))),
                 'strings': list(set(dict1.get(key, {}).get('strings', []) + dict2.get(key, {}).get('strings', []))),
             }
         return merged
+
     return reduce(merge_two_dicts, dicts, {})
 
 
@@ -45,6 +48,7 @@ def extract_from_descriptiveKeywords(root):
         'platform_class': 'Platform',
         'platform': 'Platform',
         'sensor_model': 'Instrument',
+        'parameter': 'Variable',
     }
 
     # Find all <gmd:descriptiveKeywords> blocks
@@ -66,6 +70,16 @@ def extract_from_descriptiveKeywords(root):
             identifier = identifier_from_uri_end(uri_value)
             suspected_types["identifiers"] = [identifier]
             suspected_types["uris"] = [uri_value]
+
+        # extract from the anchor
+        for anchor in block.findall(".//gmx:Anchor", ns):
+            href = anchor.get('{http://www.w3.org/1999/xlink}href')
+            text = anchor.text
+            if href:
+                suspected_types["uris"].append(href)
+                suspected_types["identifiers"].append(identifier_from_uri_end(href))
+            if text:
+                suspected_types["strings"].append(text)
 
         cleaned_kw_elements = clean_list_of_keywords(suspected_types)
 
@@ -103,7 +117,6 @@ def extract_from_content_info(root):
     # Check if codeListValue is "physicalMeasurement"
     content_type_elem = root.find(".//gmd:contentType/gmd:MD_CoverageContentTypeCode", ns)
     if content_type_elem is not None and content_type_elem.attrib.get("codeListValue") == "physicalMeasurement":
-
         # find all occurrences of the RecordType element
         record_type_elems = root.findall(".//gmd:attributeDescription/gco:RecordType", ns)
         record_type_strings = [elem.text for elem in record_type_elems if elem.text]
@@ -124,7 +137,8 @@ def extract_instruments_platforms_from_acquisition_info(root):
     for elem_type, xml_path in keys.items():
         blocks = root.findall(f".//gmi:acquisitionInformation/gmi:MI_AcquisitionInformation/{xml_path}", ns)
         for block in blocks:
-            string_elems = block.findall(".//gmi:MI_Instrument/gmi:citation/gmd:CI_Citation/gmd:title/gco:CharacterString", ns)
+            string_elems = block.findall(
+                ".//gmi:MI_Instrument/gmi:citation/gmd:CI_Citation/gmd:title/gco:CharacterString", ns)
             strings = [elem.text for elem in string_elems if elem.text]
             uri_elems = block.findall(".//gmd:MD_Identifier/gmd:code/gco:CharacterString", ns)
             uris = [identifier.text for identifier in uri_elems if identifier.text]
@@ -134,7 +148,6 @@ def extract_instruments_platforms_from_acquisition_info(root):
             for key in cleaned_kw_elements:
                 consolidated_results[elem_type][key].extend(cleaned_kw_elements[key])
     return dict(consolidated_results)
-
 
 
 def identifier_from_uri_end(uri):
