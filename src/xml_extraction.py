@@ -1,7 +1,6 @@
 from collections import defaultdict
-from functools import reduce
 
-from src.functions import clean_list_of_keywords
+from src.string_functions import clean_list_of_keywords, identifier_from_uri_end
 
 ns = {
     'gmi': 'http://www.isotc211.org/2005/gmi',
@@ -9,32 +8,6 @@ ns = {
     'gco': 'http://www.isotc211.org/2005/gco',
     'gmx': 'http://www.isotc211.org/2005/gmx'
 }
-
-
-def merge_dicts(dicts):
-    def merge_two_dicts(dict1, dict2):
-        merged = {}
-        for key in dict1.keys() | dict2.keys():
-            merged[key] = {
-                'uris': list(set(dict1.get(key, {}).get('uris', []) + dict2.get(key, {}).get('uris', []))),
-                'identifiers': list(
-                    set(dict1.get(key, {}).get('identifiers', []) + dict2.get(key, {}).get('identifiers', []))),
-                'strings': list(set(dict1.get(key, {}).get('strings', []) + dict2.get(key, {}).get('strings', []))),
-            }
-        return merged
-
-    return reduce(merge_two_dicts, dicts, {})
-
-
-def extract_from_all(root):
-    all_dicts = []
-    all_dicts.append({"Keywords": {}, "Instrument": {}, "Variable": {}, "Platform": {}})  # default empty dicts
-    all_dicts.append(extract_from_descriptiveKeywords(root))
-    all_dicts.append(extract_from_topic_categories(root))
-    all_dicts.append(extract_from_content_info(root))
-    all_dicts.append(extract_instruments_platforms_from_acquisition_info(root))
-    merged = merge_dicts(all_dicts)
-    return merged
 
 
 def extract_from_descriptiveKeywords(root):
@@ -148,9 +121,3 @@ def extract_instruments_platforms_from_acquisition_info(root):
             for key in cleaned_kw_elements:
                 consolidated_results[elem_type][key].extend(cleaned_kw_elements[key])
     return dict(consolidated_results)
-
-
-def identifier_from_uri_end(uri):
-    if uri.endswith("/"):
-        return uri.split("/")[-2]
-    return uri.split("/")[-1]

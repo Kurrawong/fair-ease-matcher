@@ -2,7 +2,7 @@ import uvicorn
 from fastapi import FastAPI, Request, HTTPException
 from starlette.responses import JSONResponse
 
-from src.geodab import analyse_from_xml
+from src.analyse import analyse_from_xml
 
 app = FastAPI()
 

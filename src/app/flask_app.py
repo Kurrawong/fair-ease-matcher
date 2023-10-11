@@ -3,7 +3,7 @@ import time
 
 from flask import Flask, request, jsonify, make_response
 
-from src.geodab import analyse_from_xml
+from src.analyse import analyse_from_xml
 
 from flask_cors import CORS
 

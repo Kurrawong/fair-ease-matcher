@@ -2,7 +2,7 @@ from xml.etree.ElementTree import Element
 
 import pytest
 
-from src.geodab import get_root_from_remote, analyse_from_xml
+from src.analyse import get_root_from_remote, analyse_from_xml
 
 
 @pytest.mark.parametrize("xml_url", [

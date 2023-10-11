@@ -68,11 +68,11 @@ def get_urns_from_odv(odv_json):
 
 
 def main():
-    odv_text = read_file(Path("../data/000545_ODV_77AR2009_00095_H09_V0.txt"))
+    odv_text = read_file(Path("../../data/000545_ODV_77AR2009_00095_H09_V0.txt"))
     prompt = create_odv_prompt(odv_text)
     llm = OpenAI(model_name="gpt-3.5-turbo-0613")
     if os.getenv("TEST_MODE") == 'true':
-        output = read_file(Path("../tests/data/odv_response.json"))
+        output = read_file(Path("../../tests/data/odv_response.json"))
     else:
         output = llm(prompt)
     try:

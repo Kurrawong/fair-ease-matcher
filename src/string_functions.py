@@ -64,3 +64,9 @@ def deduplicate_and_categorize(data):
                 strings.add(elem)
     # Convert sets back to lists for the final result
     return {"strings": list(strings), "uris": list(uris), "identifiers": list(identifiers)}
+
+
+def identifier_from_uri_end(uri):
+    if uri.endswith("/"):
+        return uri.split("/")[-2]
+    return uri.split("/")[-1]

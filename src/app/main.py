@@ -2,7 +2,7 @@ import logging
 from pathlib import Path
 from typing import List
 
-from src.geodab import analyse_from_xml
+from src.analyse import analyse_from_xml
 
 import json
 from datetime import datetime

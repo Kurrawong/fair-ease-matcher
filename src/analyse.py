@@ -9,9 +9,10 @@ import httpx
 from httpx import AsyncClient
 from jinja2 import Template
 
-from src.sdn_extraction import extract_from_all
+from src.model_functions import merge_dicts
 from src.sparql_queries import get_vocabs_from_sparql_endpoint, tabular_query_to_dict
-
+from src.xml_extraction import extract_from_descriptiveKeywords, extract_from_topic_categories, \
+    extract_from_content_info, extract_instruments_platforms_from_acquisition_info
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -146,3 +147,14 @@ def get_root_from_remote(xml_url):
     except ET.ParseError as e:
         logger.error(f"Failed to parse XML from {xml_url}. Error: {str(e)}")
         raise
+
+
+def extract_from_all(root):
+    all_dicts = []
+    all_dicts.append({"Keywords": {}, "Instrument": {}, "Variable": {}, "Platform": {}})  # default empty dicts
+    all_dicts.append(extract_from_descriptiveKeywords(root))
+    all_dicts.append(extract_from_topic_categories(root))
+    all_dicts.append(extract_from_content_info(root))
+    all_dicts.append(extract_instruments_platforms_from_acquisition_info(root))
+    merged = merge_dicts(all_dicts)
+    return merged
