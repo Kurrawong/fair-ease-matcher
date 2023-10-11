@@ -1,4 +1,4 @@
-from src.quack import quack_analyser
+import re
 
 
 def clean_list_of_keywords(suspected_types: dict):
@@ -70,3 +70,16 @@ def identifier_from_uri_end(uri):
     if uri.endswith("/"):
         return uri.split("/")[-2]
     return uri.split("/")[-1]
+
+
+def quack_analyser(value: str) -> str:
+    # URI check
+    if re.match(r'^[a-zA-Z][a-zA-Z0-9+-.]*://.*$', value):
+        return 'URI'
+
+    # Identifier check (alphanumeric characters or "::")
+    if re.match(r'^(?=.*[0-9])([A-Za-z0-9:]+|[0-9]+)$', value) and not re.search(r'\s', value):
+        return 'identifier'
+
+    # If none of the above, consider it as a string
+    return 'string'

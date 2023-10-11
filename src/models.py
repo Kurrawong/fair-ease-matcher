@@ -3,7 +3,7 @@ from typing import List, Optional
 from pydantic import BaseModel, field_validator, validator
 from rdflib import URIRef
 
-from src.quack import quack_analyser
+from src.string_functions import quack_analyser
 
 
 class TargetMetadataModel(BaseModel):

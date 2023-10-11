@@ -1,6 +1,6 @@
 import pytest
 
-from src.quack import quack_analyser
+from src.string_functions import quack_analyser
 
 
 @pytest.mark.parametrize("input_str,expected", [
