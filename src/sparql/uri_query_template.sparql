@@ -6,7 +6,7 @@ PREFIX sdo: <https://schema.org/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT
-  ?MatchURI ?MatchProperty ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?Weight ?ExactMatch
+  ?MatchURI ?MatchProperty ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?MethodSubType
 WHERE {
   {
     {
@@ -27,8 +27,7 @@ WHERE {
     BIND("N/A" AS ?SearchTerm)
     BIND("N/A" AS ?MatchProperty)
     BIND(COALESCE(?MatchLabel,"") AS ?MatchTerm)
-    BIND("N/A" AS ?Weight)
-    BIND("URI Match" AS ?ExactMatch)
+    BIND("URI Match" AS ?MethodSubType)
     BIND(COALESCE(?OptContainer,"") AS ?Container)
     BIND(COALESCE(?OptContainerLabel,"") AS ?ContainerLabel)
   }

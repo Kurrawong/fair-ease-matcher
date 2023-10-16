@@ -10,7 +10,7 @@ from httpx import AsyncClient
 from jinja2 import Template
 
 from src.model_functions import merge_dicts
-from src.sparql_queries import get_vocabs_from_sparql_endpoint, tabular_query_to_dict
+from src.sparql_queries import tabular_query_to_dict
 from src.xml_extraction import extract_from_descriptiveKeywords, extract_from_topic_categories, \
     extract_from_content_info, extract_instruments_platforms_from_acquisition_info
 
@@ -42,11 +42,62 @@ def analyse_from_xml(xml, threshold) -> dict:
     # tuple 3: config for uri search
     mapping = {
         'keywords': [('strings', None)],
-        'instrument': [('strings', None), ('identifiers', 'dcterms:identifier'), ('uris', None)],
-        'variable': [('strings', None), ('identifiers', 'dcterms:identifier'), ('uris', None)],
-        'platform': [('strings', None), ('identifiers', 'dcterms:identifier'), ('uris', None)]
+        'instrument': [('strings', None),
+                       ('identifiers', 'dcterms:identifier'),
+                       ('uris', None),],
+        'variable': [('strings', None),
+                     ('identifiers', 'dcterms:identifier'),
+                     ('uris', None)],
+        'platform': [('strings', None),
+                     ('identifiers', 'dcterms:identifier'),
+                     ('uris', None)]
     }
 
+    query_args = get_query_args(all_metadata_elems, mapping)
+
+    # all_queries = [(query_type, create_query(**kwargs, query_type=query_type)) for query_type, kwargs in query_args.items()]
+    all_queries = generate_queries(query_args)
+    all_bindings, head = run_all_queries(all_queries)
+
+    exact_or_uri_matches = {k: False for k in all_metadata_elems}
+    remove_exact_and_uri_matches(all_bindings, all_metadata_elems, exact_or_uri_matches)
+
+    # If there are no Exact or URI matches for a metadata element, also run a fuzzy search on those metadata elements
+    for metadata_element, has_exact_or_uri_match in exact_or_uri_matches.items():
+        if has_exact_or_uri_match:
+            mapping.pop(metadata_element.lower())
+            all_metadata_elems.pop(metadata_element)
+    fuzzy_query_args = get_query_args(all_metadata_elems, mapping)
+    fuzzy_queries = generate_queries(fuzzy_query_args, fuzzy=True)
+    if fuzzy_queries:
+        fuzzy_bindings, _ = run_all_queries(fuzzy_queries)
+        all_bindings.extend(fuzzy_bindings)
+
+    results = {'head': head, 'results': {'bindings': all_bindings}, 'all_search_elements': all_metadata_elems}
+    return results
+
+
+def run_all_queries(all_queries):
+    all_bindings = []
+    all_results = asyncio.run(run_queries(all_queries))
+    for query_type, result in all_results:
+        head, bindings = flatten_results(result, query_type)
+        all_bindings.extend(bindings)
+    return all_bindings, head
+
+
+def generate_queries(query_args, fuzzy=False):
+    all_queries = []
+    for query_type, kwargs in query_args.items():
+        if ("uris" in query_type or "identifiers" in query_type) and fuzzy:
+            pass  # don't need fuzzy search on
+        else:
+            queries = create_query(**kwargs, query_type=query_type, fuzzy=fuzzy)
+            all_queries.extend([(query_type, query) for query in queries])
+    return all_queries
+
+
+def get_query_args(all_metadata_elems, mapping):
     query_args = {
         f"{prefix}_{key}": {
             "predicate": predicate,
@@ -55,20 +106,23 @@ def analyse_from_xml(xml, threshold) -> dict:
         for prefix, configs in mapping.items()
         for (key, predicate) in configs
     }
+    return query_args
 
-    all_bindings = []
-    all_queries = [(query_type, create_query(**kwargs, query_type=query_type)) for query_type, kwargs in query_args.items()]
 
-    async def run_queries():
-        async with AsyncClient(auth=(user, passwd) if user else None, timeout=30) as client:
-            return await asyncio.gather(*[tabular_query_to_dict(query, query_type, client) for query_type, query in all_queries])
+def remove_exact_and_uri_matches(all_bindings, all_metadata_elems, exact_or_uri_matches):
+    for result in all_bindings:
+        if result["MethodSubType"]["value"] in ["Exact Match"]:
+            target_element = result["TargetElement"]["value"]
+            for search_type, search_list in all_metadata_elems[target_element].items():
+                search_term = result["SearchTerm"]["value"]
+                if search_term in search_list:
+                    all_metadata_elems[target_element][search_type].remove(search_term)
 
-    all_results = asyncio.run(run_queries())
-    for query_type, result in all_results:
-        head, bindings = flatten_results(result, query_type)
-        all_bindings.extend(bindings)
-    results = {'head': head, 'results': {'bindings': all_bindings}, 'all_search_elements': all_metadata_elems}
-    return results
+
+
+async def run_queries(queries):
+    async with AsyncClient(auth=(user, passwd) if user else None, timeout=30) as client:
+        return await asyncio.gather(*[tabular_query_to_dict(query, query_type, client) for query_type, query in queries])
 
 
 def execute_async_func(func, *args, **kwargs):
@@ -105,7 +159,8 @@ def flatten_results(json_doc, method):
     return new_head, new_bindings
 
 
-def create_query(predicate, terms, query_type):
+def create_query(predicate, terms, query_type, fuzzy=False):
+    queries = []
     if "uri" in query_type:
         template = Template(Path("src/sparql/uri_query_template.sparql").read_text())
     else:
@@ -114,8 +169,9 @@ def create_query(predicate, terms, query_type):
         if terms:
             terms = [escape_for_lucene_and_sparql(term) for term in terms]
     # Render the template with the necessary parameters
-    query = template.render(predicate=predicate, terms=terms)  # template imported at module level.
-    return query
+    query = template.render(predicate=predicate, terms=terms, fuzzy=fuzzy)  # template imported at module level.
+    queries.append(query)
+    return queries
 
 
 def escape_for_lucene_and_sparql(query):

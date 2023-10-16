@@ -40,8 +40,11 @@ if __name__ == "__main__":
     # files = Path('data/sdn-xml').glob('*.xml')
     # files = Path('data/emodnet-xml').glob('*.xml')
     # files = Path('data/argo-xml').glob('*.xml')
-    files = Path('data/copernicus-xml').glob('*.xml')
-    # files = [Path('data/sdn-xml/sdn-open:urn:SDN:CDI:LOCAL:1609-1609-1609-ds04-4.xml')]
+    # files = [Path('data/argo-xml/C4FCB80C939B2B9DC3E9686BCDB67507780799C3.xml')]
+    # files = Path('data/copernicus-xml').glob('*.xml')
+    files = [Path('data/copernicus-xml/19ff80f5-5e4e-4e18-9fae-9c5e9cee8a9c.xml')]
+
+    # files = [Path('data/sdn-xml/sdn-open_urn_SDN_CDI_LOCAL_1609-1609-1609-ds04-4.xml')]
     threshold = 0.8
 
     main(files, threshold)
