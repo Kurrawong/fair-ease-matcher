@@ -5,17 +5,17 @@ PREFIX text: <http://jena.apache.org/text#>
 PREFIX sdo: <https://schema.org/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT
+SELECT DISTINCT
   ?MatchURI ?MatchProperty ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?MethodSubType
 WHERE {
   {
     {
-      SELECT ?MatchURI {
+      SELECT REDUCED ?MatchURI {
         VALUES ?MatchURI { {%- for term in terms -%}
         <{{term}}>
         {%- endfor %} }
         ?MatchURI ?p ?o
-      } LIMIT 1
+      }
     }
     OPTIONAL {
       ?MatchURI skos:prefLabel|rdfs:label|dcterms:title|sdo:name ?MatchLabel .
