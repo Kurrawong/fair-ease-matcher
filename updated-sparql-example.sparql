@@ -5,7 +5,7 @@ PREFIX text: <http://jena.apache.org/text#>
 PREFIX sdo: <https://schema.org/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT ?MatchURI ?MatchProp ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?Weight ?ExactMatch
+SELECT ?MatchURI ?MatchProp ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?Weight ?MethodSubType
 {
   VALUES ?SearchTerm {"salinity" "nitrite concentration parameters in the water column" "alkalinity acidity and ph of the water column" "particulate total and organic nitrogen concentrations in the water column"
   }
@@ -23,5 +23,5 @@ SELECT ?MatchURI ?MatchProp ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?W
   }
   BIND(COALESCE(?OptContainer,"") AS ?Container)
   BIND(COALESCE(?OptContainerLabel,"") AS ?ContainerLabel)
-  BIND(LCASE(?SearchTerm) = LCASE(?MatchTerm) AS ?ExactMatch)
-} ORDER BY DESC(?ExactMatch) DESC(?Weight)
+  BIND(LCASE(?SearchTerm) = LCASE(?MatchTerm) AS ?MethodSubType)
+} ORDER BY DESC(?MethodSubType) DESC(?Weight)

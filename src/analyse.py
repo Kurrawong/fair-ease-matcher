@@ -11,6 +11,7 @@ from jinja2 import Template
 
 from src.model_functions import merge_dicts
 from src.sparql_queries import tabular_query_to_dict
+from src.xml_extract_all import extract_full_xml
 from src.xml_extraction import extract_from_descriptiveKeywords, extract_from_topic_categories, \
     extract_from_content_info, extract_instruments_platforms_from_acquisition_info
 
@@ -30,7 +31,30 @@ namespaces = {
 }
 
 
-def analyse_from_xml(xml, threshold) -> dict:
+def analyse_from_full_xml(xml_string):
+    types_to_text = extract_full_xml(xml_string)
+    mapping = {"all": [('uris', None)]}
+    collected_t2t = collect_types(types_to_text)
+    query_args = get_query_args(collected_t2t, mapping)
+    all_queries = generate_queries(query_args)
+    all_bindings, head = run_all_queries(all_queries)
+    results = {'head': head, 'results': {'bindings': all_bindings}, 'all_search_elements': collected_t2t}
+    return results
+
+
+def collect_types(types_to_text: dict):
+    # Using a dictionary to group texts by their guessed_type
+    result_dict = {"uris": [], "strings": [], "identifiers": []}
+    for item in types_to_text:
+        guessed_type = item['guessed_type']
+        result_dict[guessed_type].append(item['text'])
+
+    # Creating the final list of dictionaries
+    result = {'All': result_dict}
+    return result
+
+
+def analyse_from_xml_structure(xml, threshold) -> dict:
     root = ET.fromstring(xml)
     logger.info("Obtained root from remote XML.")
 
@@ -44,7 +68,7 @@ def analyse_from_xml(xml, threshold) -> dict:
         'keywords': [('strings', None)],
         'instrument': [('strings', None),
                        ('identifiers', 'dcterms:identifier'),
-                       ('uris', None),],
+                       ('uris', None), ],
         'variable': [('strings', None),
                      ('identifiers', 'dcterms:identifier'),
                      ('uris', None)],
@@ -62,16 +86,25 @@ def analyse_from_xml(xml, threshold) -> dict:
     exact_or_uri_matches = {k: False for k in all_metadata_elems}
     remove_exact_and_uri_matches(all_bindings, all_metadata_elems, exact_or_uri_matches)
 
-    # If there are no Exact or URI matches for a metadata element, also run a fuzzy search on those metadata elements
+    # If there are no Exact or URI matches for a metadata element, also run a proximity search on those metadata elements
+    proximity_preds = "skos:prefLabel dcterms:description skos:altLabel dcterms:identifier"  # https://github.com/Kurrawong/fair-ease-matcher/issues/37
     for metadata_element, has_exact_or_uri_match in exact_or_uri_matches.items():
         if has_exact_or_uri_match:
             mapping.pop(metadata_element.lower())
             all_metadata_elems.pop(metadata_element)
-    fuzzy_query_args = get_query_args(all_metadata_elems, mapping)
-    fuzzy_queries = generate_queries(fuzzy_query_args, fuzzy=True)
-    if fuzzy_queries:
-        fuzzy_bindings, _ = run_all_queries(fuzzy_queries)
-        all_bindings.extend(fuzzy_bindings)
+        else:
+            lower_metadata_element = metadata_element.lower()
+            mapping_tuples = mapping.get(lower_metadata_element, [])
+
+            for i, (metadata_type, value) in enumerate(mapping_tuples):
+                if value is None:
+                    mapping_tuples[i] = (metadata_type, proximity_preds)
+
+    proximity_query_args = get_query_args(all_metadata_elems, mapping)
+    proximity_queries = generate_queries(proximity_query_args, proximity=True)
+    if proximity_queries:
+        proximity_bindings, _ = run_all_queries(proximity_queries)
+        all_bindings.extend(proximity_bindings)
 
     results = {'head': head, 'results': {'bindings': all_bindings}, 'all_search_elements': all_metadata_elems}
     return results
@@ -79,6 +112,7 @@ def analyse_from_xml(xml, threshold) -> dict:
 
 def run_all_queries(all_queries):
     all_bindings = []
+    head = {}
     all_results = asyncio.run(run_queries(all_queries))
     for query_type, result in all_results:
         head, bindings = flatten_results(result, query_type)
@@ -86,14 +120,15 @@ def run_all_queries(all_queries):
     return all_bindings, head
 
 
-def generate_queries(query_args, fuzzy=False):
+def generate_queries(query_args, proximity=False):
     all_queries = []
     for query_type, kwargs in query_args.items():
-        if ("uris" in query_type or "identifiers" in query_type) and fuzzy:
-            pass  # don't need fuzzy search on
-        else:
-            queries = create_query(**kwargs, query_type=query_type, fuzzy=fuzzy)
-            all_queries.extend([(query_type, query) for query in queries])
+        if kwargs["terms"]:
+            if ("uris" in query_type or "identifiers" in query_type) and proximity:
+                pass  # don't need proximity search on
+            else:
+                queries = create_query(**kwargs, query_type=query_type, proximity=proximity)
+                all_queries.extend([(query_type, query) for query in queries])
     return all_queries
 
 
@@ -119,10 +154,10 @@ def remove_exact_and_uri_matches(all_bindings, all_metadata_elems, exact_or_uri_
                     all_metadata_elems[target_element][search_type].remove(search_term)
 
 
-
 async def run_queries(queries):
     async with AsyncClient(auth=(user, passwd) if user else None, timeout=30) as client:
-        return await asyncio.gather(*[tabular_query_to_dict(query, query_type, client) for query_type, query in queries])
+        return await asyncio.gather(
+            *[tabular_query_to_dict(query, query_type, client) for query_type, query in queries])
 
 
 def execute_async_func(func, *args, **kwargs):
@@ -133,6 +168,7 @@ def execute_async_func(func, *args, **kwargs):
 
 def flatten_results(json_doc, method):
     method_labels = {
+        'all_uris': ('All', 'URI Match'),
         'keywords_strings': ('Keywords', 'Text Match'),
         'instrument_strings': ('Instrument', 'Text Match'),
         'instrument_identifiers': ('Instrument', 'Identifiers Match'),
@@ -145,7 +181,6 @@ def flatten_results(json_doc, method):
         'platform_uris': ('Platform', 'URI Match'),
     }
 
-
     new_head = {'vars': [head for head in json_doc['head']['vars'] + ["Method", "TargetElement"]]}
 
     target_element, method_label = method_labels[method]
@@ -155,11 +190,10 @@ def flatten_results(json_doc, method):
     }
 
     new_bindings = [{**label_dict, **binding} for binding in json_doc['results']['bindings']]
-
     return new_head, new_bindings
 
 
-def create_query(predicate, terms, query_type, fuzzy=False):
+def create_query(predicate, terms, query_type, proximity=False):
     queries = []
     if "uri" in query_type:
         template = Template(Path("src/sparql/uri_query_template.sparql").read_text())
@@ -169,7 +203,7 @@ def create_query(predicate, terms, query_type, fuzzy=False):
         if terms:
             terms = [escape_for_lucene_and_sparql(term) for term in terms]
     # Render the template with the necessary parameters
-    query = template.render(predicate=predicate, terms=terms, fuzzy=fuzzy)  # template imported at module level.
+    query = template.render(predicate=predicate, terms=terms, proximity=proximity)  # template imported at module level.
     queries.append(query)
     return queries
 
@@ -214,3 +248,12 @@ def extract_from_all(root):
     all_dicts.append(extract_instruments_platforms_from_acquisition_info(root))
     merged = merge_dicts(all_dicts)
     return merged
+
+
+def run_methods(doc_name, methods, results, threshold, xml_string):
+    results[doc_name] = {}
+    for method in methods:
+        if method == "Structured XML Extraction":
+            results[doc_name][method] = analyse_from_xml_structure(xml_string, threshold)
+        elif method == "Full XML Extraction":
+            results[doc_name][method] = analyse_from_full_xml(xml_string)

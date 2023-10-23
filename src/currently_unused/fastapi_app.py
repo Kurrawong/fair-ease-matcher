@@ -2,7 +2,7 @@ import uvicorn
 from fastapi import FastAPI, Request, HTTPException
 from starlette.responses import JSONResponse
 
-from src.analyse import analyse_from_xml
+from src.analyse import analyse_from_xml_structure
 
 app = FastAPI()
 
@@ -13,7 +13,7 @@ async def process_metadata(request: Request):
     threshold = request.query_params.get("threshold")
 
     try:
-        data = analyse_from_xml(xml_url, threshold)
+        data = analyse_from_xml_structure(xml_url, threshold)
         # Set custom headers in the response
         headers = {
             "Access-Control-Allow-Origin": "*",  # This allows all origins. Adjust this value to restrict allowed origins.

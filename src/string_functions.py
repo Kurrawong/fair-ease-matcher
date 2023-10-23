@@ -71,6 +71,22 @@ def identifier_from_uri_end(uri):
         return uri.split("/")[-2]
     return uri.split("/")[-1]
 
+def get_trailing_slash_variant(uri):
+    """Returns the other "variant" of a URI i.e. with or without a trailing slash"""
+    if uri.endswith("/"):
+        return uri[:-1]
+    return uri + "/"
+
+
+def get_http_https_variant(uri):
+    """Returns the other "variant" of a URI that starts with http or https"""
+    if uri.startswith("http://"):
+        return uri.replace("http://", "https://")
+    elif uri.startswith("https://"):
+        return uri.replace("https://", "http://")
+    else:
+        return None
+
 
 def quack_analyser(value: str) -> str:
     # URI check

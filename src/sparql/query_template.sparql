@@ -9,7 +9,7 @@ SELECT DISTINCT ?MatchURI (COALESCE(?prop_label, ?MatchProp) AS ?MatchProperty) 
 {
   VALUES ?EscapedSearchTerm {
     {%- for term in terms -%}
-      {% if fuzzy %}"\"{{ term }}\"~10"{% else %}"{{ term }}"{% endif %}
+      {% if proximity %}"\"{{ term }}\"~10"{% else %}"{{ term }}"{% endif %}
     {%- endfor %}
   }
 
@@ -42,8 +42,8 @@ SELECT DISTINCT ?MatchURI (COALESCE(?prop_label, ?MatchProp) AS ?MatchProperty) 
   BIND(COALESCE(?OptContainerPrefLabel,?OptContainerTitle,"") AS ?ContainerLabel)
   BIND(REPLACE(?EscapedSearchTerm, "\\\\", "") AS ?SearchTerm)
   BIND(
-    {% if fuzzy %}
-        "Fuzzy Match"
+    {% if proximity %}
+        "Proximity Match"
     {% else %}
         IF(LCASE(?SearchTerm) = LCASE(?MatchTerm), "Exact Match", "Wildcard Match")
     {% endif %}

@@ -2,10 +2,9 @@ import logging
 import time
 
 from flask import Flask, request, jsonify, make_response
-
-from src.analyse import analyse_from_xml
-
 from flask_cors import CORS
+
+from src.analyse import run_methods
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -13,26 +12,37 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 
 # Allow requests from your UI
-CORS(app)#, resources={r"/process_metadata": {"origins": "https://kurrawong.github.io"}})
+CORS(app)
 
-@app.route("/process_metadata", methods=['GET', 'POST'])
+
+@app.route("/process-metadata", methods=['GET', 'POST'])
 def process_metadata():
     start_time = time.time()
+    analysis_methods = request.args.get("analysis-methods")
     data = request.json
     threshold = data.get('threshold')
     responses = {}
+    available_methods = ["Structured XML Extraction", "Full XML Extraction"]
+    if not analysis_methods:
+        analysis_methods = available_methods
+    # process the XML
     for doc_name, xml in data.get('xml').items():
         try:
-            data = analyse_from_xml(xml, threshold)
-            responses[doc_name] = data
-            # Set custom headers in the response
+            run_methods(doc_name, analysis_methods, responses, threshold, xml)
         except Exception as e:
             # Handle exceptions and send a 500 response
-            return make_response(str(e), 500)
+            return make_response(f"Exception from Python: {str(e)}", 500)
     response = jsonify(responses)
     response.headers['Access-Control-Allow-Origin'] = '*'
     logger.info(f"Time taken: {time.time() - start_time}")
     return response
 
+@app.route("/available-methods", methods=['GET'])
+def available_methods():
+    response = jsonify(["Structured XML Extraction", "Full XML Extraction"])
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
+
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000)
+    app.run(host="0.0.0.0", port=8001)
