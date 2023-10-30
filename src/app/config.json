@@ -1,0 +1,11 @@
+{
+  "Methods": {
+    "xml": "Structured XML Extraction",
+    "full": "Full XML Extraction"
+  },
+  "Themes": {
+    "param": "Parameter",
+    "inst": "Instrument",
+    "plat": "Platform"
+  }
+}

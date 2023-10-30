@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from pydantic import BaseModel, field_validator, validator
+from pydantic import BaseModel, validator
 from rdflib import URIRef
 
 from src.string_functions import quack_analyser

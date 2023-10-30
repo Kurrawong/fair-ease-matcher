@@ -4,11 +4,11 @@ import os
 import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
-
 import httpx
 from httpx import AsyncClient
 from jinja2 import Template
-
+from rdflib import URIRef
+from flask import current_app as app
 from src.model_functions import merge_dicts
 from src.sparql_queries import tabular_query_to_dict
 from src.xml_extract_all import extract_full_xml
@@ -30,12 +30,18 @@ namespaces = {
     'xlink': 'http://www.w3.org/1999/xlink'
 }
 
+themes_map = {
+    "param": URIRef("http://vocab.nerc.ac.uk/collection/L19/current/SDNKG03/"),
+    "plat": URIRef("http://vocab.nerc.ac.uk/collection/L19/current/SDNKG04/"),
+    "inst": URIRef("http://vocab.nerc.ac.uk/collection/L19/current/SDNKG01/")
+}
 
-def analyse_from_full_xml(xml_string):
+
+def analyse_from_full_xml(xml_string, restrict_to_themes):
     types_to_text = extract_full_xml(xml_string)
     mapping = {"all": [('uris', None)]}
     collected_t2t = collect_types(types_to_text)
-    query_args = get_query_args(collected_t2t, mapping)
+    query_args = get_query_args(collected_t2t, mapping, restrict_to_themes)
     all_queries = generate_queries(query_args)
     all_bindings, head = run_all_queries(all_queries)
     results = {'head': head, 'results': {'bindings': all_bindings}, 'all_search_elements': collected_t2t}
@@ -54,7 +60,7 @@ def collect_types(types_to_text: dict):
     return result
 
 
-def analyse_from_xml_structure(xml, threshold) -> dict:
+def analyse_from_xml_structure(xml, threshold, restrict_to_themes) -> dict:
     root = ET.fromstring(xml)
     logger.info("Obtained root from remote XML.")
 
@@ -77,14 +83,14 @@ def analyse_from_xml_structure(xml, threshold) -> dict:
                      ('uris', None)]
     }
 
-    query_args = get_query_args(all_metadata_elems, mapping)
+    query_args = get_query_args(all_metadata_elems, mapping, restrict_to_themes)
 
     # all_queries = [(query_type, create_query(**kwargs, query_type=query_type)) for query_type, kwargs in query_args.items()]
     all_queries = generate_queries(query_args)
     all_bindings, head = run_all_queries(all_queries)
 
     exact_or_uri_matches = {k: False for k in all_metadata_elems}
-    remove_exact_and_uri_matches(all_bindings, all_metadata_elems, exact_or_uri_matches)
+    remove_exact_and_uri_matches(all_bindings, all_metadata_elems)
 
     # If there are no Exact or URI matches for a metadata element, also run a proximity search on those metadata elements
     proximity_preds = "skos:prefLabel dcterms:description skos:altLabel dcterms:identifier"  # https://github.com/Kurrawong/fair-ease-matcher/issues/37
@@ -100,7 +106,7 @@ def analyse_from_xml_structure(xml, threshold) -> dict:
                 if value is None:
                     mapping_tuples[i] = (metadata_type, proximity_preds)
 
-    proximity_query_args = get_query_args(all_metadata_elems, mapping)
+    proximity_query_args = get_query_args(all_metadata_elems, mapping, restrict_to_themes)
     proximity_queries = generate_queries(proximity_query_args, proximity=True)
     if proximity_queries:
         proximity_bindings, _ = run_all_queries(proximity_queries)
@@ -132,19 +138,23 @@ def generate_queries(query_args, proximity=False):
     return all_queries
 
 
-def get_query_args(all_metadata_elems, mapping):
+def get_query_args(all_metadata_elems, mapping, theme_names=None):
+    """vocabs: the vocabularies the query should be restricted to"""
     query_args = {
         f"{prefix}_{key}": {
             "predicate": predicate,
-            "terms": all_metadata_elems[prefix.capitalize()][key]
+            "terms": all_metadata_elems[prefix.capitalize()][key],
         }
         for prefix, configs in mapping.items()
         for (key, predicate) in configs
     }
+    if theme_names:
+        for prefix_key in query_args:
+            query_args[prefix_key]["theme_uris"] = [themes_map[theme_name] for theme_name in theme_names]
     return query_args
 
 
-def remove_exact_and_uri_matches(all_bindings, all_metadata_elems, exact_or_uri_matches):
+def remove_exact_and_uri_matches(all_bindings, all_metadata_elems):
     for result in all_bindings:
         if result["MethodSubType"]["value"] in ["Exact Match"]:
             target_element = result["TargetElement"]["value"]
@@ -193,7 +203,7 @@ def flatten_results(json_doc, method):
     return new_head, new_bindings
 
 
-def create_query(predicate, terms, query_type, proximity=False):
+def create_query(predicate, terms, query_type, theme_uris=None, proximity=False):
     queries = []
     if "uri" in query_type:
         template = Template(Path("src/sparql/uri_query_template.sparql").read_text())
@@ -203,7 +213,7 @@ def create_query(predicate, terms, query_type, proximity=False):
         if terms:
             terms = [escape_for_lucene_and_sparql(term) for term in terms]
     # Render the template with the necessary parameters
-    query = template.render(predicate=predicate, terms=terms, proximity=proximity)  # template imported at module level.
+    query = template.render(predicate=predicate, terms=terms, proximity=proximity, theme_uris=theme_uris)  # template imported at module level.
     queries.append(query)
     return queries
 
@@ -250,10 +260,10 @@ def extract_from_all(root):
     return merged
 
 
-def run_methods(doc_name, methods, results, threshold, xml_string):
+def run_methods(doc_name, methods, results, threshold, xml_string, restrict_to_themes):
     results[doc_name] = {}
     for method in methods:
-        if method == "Structured XML Extraction":
-            results[doc_name][method] = analyse_from_xml_structure(xml_string, threshold)
-        elif method == "Full XML Extraction":
-            results[doc_name][method] = analyse_from_full_xml(xml_string)
+        if method == "xml":
+            results[doc_name][app.config["Methods"][method]] = analyse_from_xml_structure(xml_string, threshold, restrict_to_themes)
+        elif method == "full":
+            results[doc_name][app.config["Methods"][method]] = analyse_from_full_xml(xml_string, restrict_to_themes)

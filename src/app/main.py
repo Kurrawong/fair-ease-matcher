@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
     # files = [Path('data/sdn-xml/sdn-open_urn_SDN_CDI_LOCAL_1609-1609-1609-ds04-4.xml')]
     threshold = 0.8
-    # methods = ["Full XML Extraction"]
-    # methods = ["Structured XML Extraction"]
-    methods = ["Structured XML Extraction", "Full XML Extraction"]
+    # methods = ["full"]
+    # methods = ["xml"]
+    methods = ["xml", "full"]
     main(files, methods, threshold)

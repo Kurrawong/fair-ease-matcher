@@ -1,14 +1,13 @@
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX ex: <http://www.example.org/resources#>
 PREFIX text: <http://jena.apache.org/text#>
 PREFIX sdo: <https://schema.org/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT DISTINCT
-  ?MatchURI ?MatchProperty ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?MethodSubType
-WHERE {
-  {
+SELECT ?MatchURI ?MatchProperty ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?MethodSubType (GROUP_CONCAT(DISTINCT(?VocabCategory);separator=", ") AS ?Categories)
+{
     {
       SELECT REDUCED ?MatchURI {
         VALUES ?MatchURI { {%- for term in terms -%}
@@ -16,6 +15,13 @@ WHERE {
         {%- endfor %} }
         ?MatchURI ?p ?o
       }
+    }
+    VALUES ?theme_uri {
+    {%- if not theme_uris %}
+      UNDEF
+    {%- else %}
+        {%- for theme_uri in theme_uris -%}<{{theme_uri}}>{%- endfor %}
+    {%- endif %}
     }
     OPTIONAL {
       ?MatchURI skos:prefLabel|rdfs:label|dcterms:title|sdo:name ?MatchLabel .
@@ -30,5 +36,4 @@ WHERE {
     BIND("URI Match" AS ?MethodSubType)
     BIND(COALESCE(?OptContainer,"") AS ?Container)
     BIND(COALESCE(?OptContainerLabel,"") AS ?ContainerLabel)
-  }
-}
+} GROUP BY ?g ?MatchURI ?MatchProperty ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?MethodSubType
