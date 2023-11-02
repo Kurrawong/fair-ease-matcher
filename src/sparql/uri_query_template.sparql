@@ -24,6 +24,11 @@ SELECT ?MatchURI ?MatchProperty ?MatchTerm ?SearchTerm ?Container ?ContainerLabe
     {%- endif %}
     }
     OPTIONAL {
+      GRAPH ?g {?MatchURI ?p ?o}
+      GRAPH <https://themes> {?g dcat:theme ?theme_uri .
+            ?theme_uri rdfs:label ?VocabCategory }
+    }
+    OPTIONAL {
       ?MatchURI skos:prefLabel|rdfs:label|dcterms:title|sdo:name ?MatchLabel .
     }
     OPTIONAL {

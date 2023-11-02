@@ -6,7 +6,7 @@ PREFIX text: <http://jena.apache.org/text#>
 PREFIX sdo: <https://schema.org/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT DISTINCT ?MatchURI ?MatchProperty ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?MethodSubType (GROUP_CONCAT(DISTINCT(?VocabCategory);separator=", ") AS ?Categories)
+SELECT DISTINCT ?MatchURI (SAMPLE(?AllMatchProperty) AS ?MatchProperty) ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?MethodSubType (GROUP_CONCAT(DISTINCT(?VocabCategory);separator=", ") AS ?Categories)
 {
   VALUES ?EscapedSearchTerm {
     {%- for term in terms -%}
@@ -27,15 +27,17 @@ SELECT DISTINCT ?MatchURI ?MatchProperty ?MatchTerm ?SearchTerm ?Container ?Cont
         {%- for theme_uri in theme_uris -%}<{{theme_uri}}>{%- endfor %}
     {%- endif %}
     }
-    GRAPH ?g {?MatchURI ?p ?o}
-    GRAPH <https://themes> {?g dcat:theme ?theme_uri .
-                            ?theme_uri rdfs:label ?VocabCategory }
-
+    OPTIONAL {
+      GRAPH ?g {?MatchURI ?p ?o}
+      GRAPH <https://themes> {?g dcat:theme ?theme_uri .
+            ?theme_uri rdfs:label ?VocabCategory }
+    }
   OPTIONAL {
     ?MatchURI skos:prefLabel|rdfs:label|dcterms:title|sdo:name ?match_label .
   }
   OPTIONAL {
     ?MatchProp skos:prefLabel|rdfs:label|dcterms:title|sdo:name ?prop_label .
+    FILTER(LANGMATCHES(LANG(?prop_label), "en") || LANG(?prop_label) = "")
   }
   OPTIONAL {
     ?OptContainer skos:member ?MatchURI ;
@@ -59,6 +61,6 @@ SELECT DISTINCT ?MatchURI ?MatchProperty ?MatchTerm ?SearchTerm ?Container ?Cont
         IF(LCASE(?SearchTerm) = LCASE(?MatchTerm), "Exact Match", "Wildcard Match")
     {% endif %}
   AS ?MethodSubType)
-  BIND(COALESCE(?prop_label, ?MatchProp) AS ?MatchProperty)
-} GROUP BY ?g ?MatchURI ?MatchProperty ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?MethodSubType
+  BIND(COALESCE(?prop_label, ?MatchProp) AS ?MatchPropertyAll)
+} GROUP BY ?g ?MatchURI ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?MethodSubType
 ORDER BY DESC(?MethodSubType) DESC(?Weight)
