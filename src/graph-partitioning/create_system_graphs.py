@@ -6,7 +6,7 @@ from rdflib import URIRef, Namespace, Graph, RDF, Dataset, DCAT, RDFS, Literal
 OLIS = Namespace("https://olis.dev/")
 THEME_GRAPH = URIRef("https://themes")
 
-filename = "SA Knowledge Base Library construction v4.xlsx"
+filename = "SA Knowledge Base Library construction v6.xlsx"
 sheetname = "categorisation of Vocabs"
 
 file = Path(__file__).parent.parent.parent / "data/categories/" / filename
