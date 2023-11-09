@@ -6,7 +6,7 @@ PREFIX text: <http://jena.apache.org/text#>
 PREFIX sdo: <https://schema.org/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT DISTINCT ?MatchURI (SAMPLE(?AllMatchProperty) AS ?MatchProperty) ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?MethodSubType (GROUP_CONCAT(DISTINCT(?VocabCategory);separator=", ") AS ?Categories)
+SELECT DISTINCT ?SearchTerm ?MatchURI (SAMPLE(?MatchPropertyAll) AS ?MatchProperty) ?MatchTerm ?Container ?ContainerLabel ?MethodSubType (GROUP_CONCAT(DISTINCT(?VocabCategory);separator=", ") AS ?Categories)
 {
   VALUES ?EscapedSearchTerm {
     {%- for term in terms -%}
@@ -20,18 +20,19 @@ SELECT DISTINCT ?MatchURI (SAMPLE(?AllMatchProperty) AS ?MatchProperty) ?MatchTe
     {% set predicate = predicate %}
   {%- endif %}
   (?MatchURI ?Weight ?MatchTerm ?graph ?MatchProp) text:query ({{ predicate }} ?EscapedSearchTerm 10 ) .
-    VALUES ?theme_uri {
-    {%- if not theme_uris %}
-      UNDEF
-    {%- else %}
-        {%- for theme_uri in theme_uris -%}<{{theme_uri}}>{%- endfor %}
-    {%- endif %}
-    }
-    OPTIONAL {
-      GRAPH ?g {?MatchURI ?p ?o}
-      GRAPH <https://themes> {?g dcat:theme ?theme_uri .
+    GRAPH ?g {?MatchURI ?p ?o}
+    {%- if theme_uris %}
+      VALUES ?theme_uri {
+    {%- for theme_uri in theme_uris -%}<{{theme_uri}}>{%- endfor %}
+      }
+        GRAPH <https://themes> {?g dcat:theme ?theme_uri .
             ?theme_uri rdfs:label ?VocabCategory }
-    }
+    {%- else %}
+      OPTIONAL {
+        GRAPH <https://themes> {?g dcat:theme ?theme_uri .
+            ?theme_uri rdfs:label ?VocabCategory }
+      }
+    {%- endif %}
   OPTIONAL {
     ?MatchURI skos:prefLabel|rdfs:label|dcterms:title|sdo:name ?match_label .
   }

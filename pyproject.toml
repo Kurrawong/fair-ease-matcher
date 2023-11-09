@@ -11,7 +11,6 @@ python = "^3.10"
 sparqlwrapper = "^2.0.0"
 cython = "^3.0.0"
 setuptools = "^68.1.2"
-fastapi = {extras = ["testclient"], version = "^0.103.0"}
 pytest = "^7.4.0"
 httpx = "^0.24.1"
 jinja2 = "^3.1.2"
@@ -20,9 +19,7 @@ zappa = "^0.57.0"
 uvicorn = "^0.23.2"
 flask-cors = "^4.0.0"
 pydantic = "^2.3.0"
-jupyter = "^1.0.0"
 openpyxl = "^3.1.2"
-netcdf4 = "^1.6.5"
 
 
 [tool.poetry.group.dev.dependencies]

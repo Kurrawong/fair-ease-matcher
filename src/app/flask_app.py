@@ -30,7 +30,7 @@ def process_metadata():
     if analysis_methods:
         analysis_methods = analysis_methods.split(",")
 
-    restrict_to_themes = request.args.get("Themes")
+    restrict_to_themes = request.args.get("Restrict to Themes")
     if restrict_to_themes:
         restrict_to_themes = restrict_to_themes.split(",")
     data = request.json

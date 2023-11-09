@@ -3,7 +3,7 @@
     "xml": "Structured XML Extraction",
     "full": "Full XML Extraction"
   },
-  "Themes": {
+  "Restrict to Themes": {
     "param": "Parameter",
     "inst": "Instrument",
     "plat": "Platform"
