@@ -1,0 +1,38 @@
+{
+  "production": {
+    "app_function": "src.app.flask_app.app",
+    "profile_name": "nick",
+    "project_name": "bodc-matcher",
+    "runtime": "python3.10",
+    "s3_bucket": "bodc-analyser",
+    "aws_region": "ap-southeast-2",
+    "cors": true,
+    "exclude": [
+      "vocabs",
+      "data"
+    ],
+    "environment_variables": {
+      "SPARQL_ENDPOINT": "https://bodc.dev.kurrawong.ai/fair-ease-v2/",
+      "SPARQL_USERNAME": "bodc",
+      "SPARQL_PASSWORD": "bodc-fuseki-admin-pwd"
+    }
+  },
+  "dev": {
+    "app_function": "src.app.flask_app.app",
+    "profile_name": "nick",
+    "project_name": "bodc-matcher-dev",
+    "runtime": "python3.10",
+    "s3_bucket": "bodc-analyser-dev",
+    "aws_region": "ap-southeast-2",
+    "cors": true,
+    "exclude": [
+      "vocabs",
+      "data"
+    ],
+    "environment_variables": {
+      "SPARQL_ENDPOINT": "https://bodc.dev.kurrawong.ai/fair-ease-v2/",
+      "SPARQL_USERNAME": "bodc",
+      "SPARQL_PASSWORD": "bodc-fuseki-admin-pwd"
+    }
+  }
+}

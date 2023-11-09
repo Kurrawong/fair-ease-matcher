@@ -36,7 +36,7 @@ SELECT ?SearchTerm ?MatchURI ?MatchProperty ?MatchTerm ?Container ?ContainerLabe
     ?OptContainer skos:member ?MatchURI ;
                  skos:prefLabel ?OptContainerLabel .
     }
-    BIND("N/A" AS ?SearchTerm)
+    BIND(?MatchURI AS ?SearchTerm)
     BIND("N/A" AS ?MatchProperty)
     BIND(COALESCE(?MatchLabel,"") AS ?MatchTerm)
     BIND("URI Match" AS ?MethodSubType)
