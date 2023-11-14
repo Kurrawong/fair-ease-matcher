@@ -93,7 +93,7 @@ def analyse_from_xml_structure(xml, threshold, restrict_to_themes) -> dict:
     remove_exact_and_uri_matches(all_bindings, all_metadata_elems)
 
     # If there are no Exact or URI matches for a metadata element, also run a proximity search on those metadata elements
-    proximity_preds = "skos:prefLabel dcterms:description skos:altLabel dcterms:identifier"  # https://github.com/Kurrawong/fair-ease-matcher/issues/37
+    proximity_preds = "skos:prefLabel dcterms:description skos:altLabel dcterms:identifier rdfs:label"  # https://github.com/Kurrawong/fair-ease-matcher/issues/37
     for metadata_element, has_exact_or_uri_match in exact_or_uri_matches.items():
         if has_exact_or_uri_match:
             mapping.pop(metadata_element.lower())

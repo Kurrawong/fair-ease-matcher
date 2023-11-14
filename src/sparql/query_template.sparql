@@ -15,7 +15,7 @@ SELECT DISTINCT ?SearchTerm ?MatchURI (SAMPLE(?MatchPropertyAll) AS ?MatchProper
   }
 
   {%- if not predicate %}
-    {% set predicate = "skos:definition skos:prefLabel dcterms:description skos:altLabel dcterms:identifier" %}
+    {% set predicate = "skos:definition skos:prefLabel dcterms:description skos:altLabel dcterms:identifier rdfs:label" %}
   {%- else %}
     {% set predicate = predicate %}
   {%- endif %}

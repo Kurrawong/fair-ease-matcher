@@ -30,7 +30,7 @@
       "data"
     ],
     "environment_variables": {
-      "SPARQL_ENDPOINT": "https://bodc.dev.kurrawong.ai/fair-ease-v2/",
+      "SPARQL_ENDPOINT": "https://bodc.dev.kurrawong.ai/fair-ease-with-rdfs/",
       "SPARQL_USERNAME": "bodc",
       "SPARQL_PASSWORD": "bodc-fuseki-admin-pwd"
     }
