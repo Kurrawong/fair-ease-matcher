@@ -23,7 +23,7 @@ def split_list_of_strings(list_of_strings: list):
 
 
 def clean_list_of_strings(list_of_strings: list):
-    return [string.strip().replace('"', '').replace(',', '').replace('-', ' ').replace('_', ' ').lower() for string in
+    return [string.strip().replace('"', '').replace(',', '').replace('-', ' ').replace('_', ' ') for string in
             list_of_strings]
 
 

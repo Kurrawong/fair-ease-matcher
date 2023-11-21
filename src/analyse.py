@@ -1,4 +1,5 @@
 import asyncio
+import itertools
 import logging
 import os
 import re
@@ -112,7 +113,11 @@ def analyse_from_xml_structure(xml, threshold, restrict_to_themes) -> dict:
         proximity_bindings, _ = run_all_queries(proximity_queries)
         all_bindings.extend(proximity_bindings)
 
-    results = {'head': head, 'results': {'bindings': all_bindings}, 'all_search_elements': all_metadata_elems}
+    _all_search_terms = [list(i.values()) for i in all_metadata_elems.values()]
+    all_search_terms = set(itertools.chain.from_iterable(itertools.chain.from_iterable(_all_search_terms)))
+    search_terms_found = set(d["SearchTerm"]["value"] for d in all_bindings)
+    search_terms_not_found = list(all_search_terms - search_terms_found)
+    results = {'head': head, 'results': {'bindings': all_bindings}, 'all_search_elements': all_metadata_elems, 'search_terms_not_found': search_terms_not_found}
     return results
 
 

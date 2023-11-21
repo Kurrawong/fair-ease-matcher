@@ -10,7 +10,7 @@ SELECT DISTINCT ?SearchTerm ?MatchURI (SAMPLE(?MatchPropertyAll) AS ?MatchProper
 {
   VALUES ?EscapedSearchTerm {
     {%- for term in terms -%}
-      {% if proximity %}"\"{{ term }}\"~10"{% else %}"{{ term }}"{% endif %}
+      {% if proximity %}"\"{{ term }}\"~10"{% else %}"{{ term }}" "\"{{ term }}\""{% endif %}
     {%- endfor %}
   }
 
@@ -55,13 +55,23 @@ SELECT DISTINCT ?SearchTerm ?MatchURI (SAMPLE(?MatchPropertyAll) AS ?MatchProper
   BIND(COALESCE(?OptContainer,"") AS ?Container)
   BIND(COALESCE(?OptContainerPrefLabel,?OptContainerTitle,"") AS ?ContainerLabel)
   BIND(REPLACE(?EscapedSearchTerm, "\\\\", "") AS ?SearchTerm)
-  BIND(
-    {% if proximity %}
+  BIND(REPLACE(?SearchTerm, "\"", "") AS ?CompletelyUnescaped)
+    BIND(
+      {% if proximity %}
         "Proximity Match"
-    {% else %}
-        IF(LCASE(?SearchTerm) = LCASE(?MatchTerm), "Exact Match", "Wildcard Match")
-    {% endif %}
-  AS ?MethodSubType)
+      {% else %}
+      IF(
+        LCASE(?SearchTerm) = LCASE(?MatchTerm),
+        "Exact Match",
+        IF(
+          LCASE(?CompletelyUnescaped) = LCASE(?MatchTerm),
+          "Exact Match",
+          "Wildcard Match"
+          )
+        )
+      {% endif %}
+      AS ?MethodSubType
+      )
   BIND(COALESCE(?prop_label, ?MatchProp) AS ?MatchPropertyAll)
 } GROUP BY ?g ?MatchURI ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?MethodSubType
 ORDER BY DESC(?MethodSubType) DESC(?Weight)
