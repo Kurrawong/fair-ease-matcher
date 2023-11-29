@@ -11,7 +11,7 @@ class TargetMetadataModel(BaseModel):
     uris: Optional[List[str]]
     identifiers: Optional[List[str]]
 
-    @validator('uris', pre=True, each_item=True)
+    @validator("uris", pre=True, each_item=True)
     def validate_uri(cls, uri: str) -> str:
         if uri:
             try:
@@ -20,9 +20,11 @@ class TargetMetadataModel(BaseModel):
                 raise ValueError(f"{uri} is not a valid URI") from e
         return uri
 
-    @validator('identifiers', pre=True, each_item=True)
+    @validator("identifiers", pre=True, each_item=True)
     def validate_identifiers(cls, identifier: str) -> str:
         if identifier:
-            if quack_analyser(identifier) != 'identifier':  # Assuming `quack_analyser` is an external function.
+            if (
+                quack_analyser(identifier) != "identifier"
+            ):  # Assuming `quack_analyser` is an external function.
                 raise ValueError(f"{identifier} is not a valid identifier")
         return identifier

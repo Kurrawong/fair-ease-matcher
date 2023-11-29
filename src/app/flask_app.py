@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 config = json.load(open(Path(__file__).parent / "config.json"))
 app = Flask(__name__)
-for k,v in config.items():
+for k, v in config.items():
     app.config[k] = v
 
 
@@ -21,8 +21,7 @@ for k,v in config.items():
 CORS(app)
 
 
-
-@app.route("/process-metadata", methods=['GET', 'POST'])
+@app.route("/process-metadata", methods=["GET", "POST"])
 def process_metadata():
     start_time = time.time()
 
@@ -38,7 +37,7 @@ def process_metadata():
         data = request.json
     else:
         data = request.files
-    threshold = data.get('threshold')
+    threshold = data.get("threshold")
     responses = {}
     available_methods = ["xml", "full", "netcdf"]
     if not analysis_methods:
@@ -46,9 +45,17 @@ def process_metadata():
 
     # run XML methods
     if ("xml" in analysis_methods) or ("full" in analysis_methods):
-        for doc_name, xml in data.get('xml').items():
+        for doc_name, xml in data.get("xml").items():
             try:
-                run_methods(doc_name, analysis_methods, responses, threshold, xml, restrict_to_themes, "XML")
+                run_methods(
+                    doc_name,
+                    analysis_methods,
+                    responses,
+                    threshold,
+                    xml,
+                    restrict_to_themes,
+                    "XML",
+                )
             except Exception as e:
                 # Handle exceptions and send a 500 response
                 return make_response(f"Exception from Python: {str(e)}", 500)
@@ -57,21 +64,29 @@ def process_metadata():
         for doc_name in data:
             doc_data = data[doc_name].read()
             try:
-                run_methods(doc_name, analysis_methods, responses, threshold, doc_data, restrict_to_themes, "NETCDF")
+                run_methods(
+                    doc_name,
+                    analysis_methods,
+                    responses,
+                    threshold,
+                    doc_data,
+                    restrict_to_themes,
+                    "NETCDF",
+                )
             except Exception as e:
                 # Handle exceptions and send a 500 response
                 return make_response(f"Exception from Python: {str(e)}", 500)
 
     response = jsonify(responses)
-    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers["Access-Control-Allow-Origin"] = "*"
     logger.info(f"Time taken: {time.time() - start_time}")
     return response
 
 
-@app.route("/config", methods=['GET'])
+@app.route("/config", methods=["GET"])
 def available_methods():
     response = jsonify(config)
-    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers["Access-Control-Allow-Origin"] = "*"
     return response
 
 

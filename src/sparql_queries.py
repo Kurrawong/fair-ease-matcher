@@ -35,13 +35,11 @@ def find_vocabs_sparql(urns):
     """
 
 
-#TODO get rid of and use httpx as below
+# TODO get rid of and use httpx as below
 def get_vocabs_from_sparql_endpoint(query):
     if not sparql_endpoint:
         raise Exception("SPARQL_ENDPOINT not set")
-    sparql = SPARQLWrapper(
-        endpoint=sparql_endpoint
-    )
+    sparql = SPARQLWrapper(endpoint=sparql_endpoint)
     sparql.setCredentials(
         user=user,
         passwd=passwd,
@@ -56,9 +54,7 @@ def get_vocabs_from_sparql_endpoint(query):
 
 
 async_client = AsyncClient(
-    auth=(user, passwd)
-    if user
-    else None,
+    auth=(user, passwd) if user else None,
     timeout=30,
 )
 

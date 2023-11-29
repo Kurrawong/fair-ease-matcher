@@ -6,6 +6,7 @@ from src.analyse import analyse_from_xml_structure
 
 app = FastAPI()
 
+
 @app.get("/process_metadata")
 async def process_metadata(request: Request):
     # Accessing query string parameters from the Request object

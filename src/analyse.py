@@ -17,8 +17,12 @@ from src.model_functions import merge_dicts
 from src.sparql_queries import find_vocabs_sparql
 from src.sparql_queries import tabular_query_to_dict
 from src.xml_extract_all import extract_full_xml
-from src.xml_extraction import extract_from_descriptiveKeywords, extract_from_topic_categories, \
-    extract_from_content_info, extract_instruments_platforms_from_acquisition_info
+from src.xml_extraction import (
+    extract_from_descriptiveKeywords,
+    extract_from_topic_categories,
+    extract_from_content_info,
+    extract_instruments_platforms_from_acquisition_info,
+)
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -29,29 +33,31 @@ user = os.getenv("SPARQL_USERNAME", "")
 passwd = os.getenv("SPARQL_PASSWORD", "")
 
 namespaces = {
-    'gmd': 'http://www.isotc211.org/2005/gmd',
-    'gco': 'http://www.isotc211.org/2005/gco',
-    'gmi': 'http://www.isotc211.org/2005/gmi',
-    'xlink': 'http://www.w3.org/1999/xlink'
+    "gmd": "http://www.isotc211.org/2005/gmd",
+    "gco": "http://www.isotc211.org/2005/gco",
+    "gmi": "http://www.isotc211.org/2005/gmi",
+    "xlink": "http://www.w3.org/1999/xlink",
 }
 
 themes_map = {
     "param": URIRef("http://vocab.nerc.ac.uk/collection/L19/current/SDNKG03/"),
     "plat": URIRef("http://vocab.nerc.ac.uk/collection/L19/current/SDNKG04/"),
-    "inst": URIRef("http://vocab.nerc.ac.uk/collection/L19/current/SDNKG01/")
+    "inst": URIRef("http://vocab.nerc.ac.uk/collection/L19/current/SDNKG01/"),
 }
 
 
 def analyse_from_full_xml(xml_string, restrict_to_themes):
     types_to_text = extract_full_xml(xml_string)
-    mapping = {"all": [('uris', None),
-                       ('identifiers', 'dcterms:identifier')
-                       ]}
+    mapping = {"all": [("uris", None)]}
     collected_t2t = collect_types(types_to_text)
     query_args = get_query_args(collected_t2t, mapping, restrict_to_themes)
     all_queries = generate_queries(query_args)
     all_bindings, head = run_all_queries(all_queries)
-    results = {'head': head, 'results': {'bindings': all_bindings}, 'all_search_elements': collected_t2t}
+    results = {
+        "head": head,
+        "results": {"bindings": all_bindings},
+        "all_search_elements": collected_t2t,
+    }
     return results
 
 
@@ -59,15 +65,15 @@ def collect_types(types_to_text: dict):
     # Using a dictionary to group texts by their guessed_type
     result_dict = {"uris": [], "strings": [], "identifiers": []}
     for item in types_to_text:
-        guessed_type = item['guessed_type']
+        guessed_type = item["guessed_type"]
         if guessed_type == "uris":
-            contains_whitespace = any(char.isspace() for char in item['text'])
+            contains_whitespace = any(char.isspace() for char in item["text"])
             if contains_whitespace:
                 guessed_type = "strings"
-        result_dict[guessed_type].append(item['text'])
+        result_dict[guessed_type].append(item["text"])
 
     # Creating the final list of dictionaries
-    result = {'All': result_dict}
+    result = {"All": result_dict}
     return result
 
 
@@ -84,21 +90,47 @@ def analyse_from_netcdf(file_bytes, restrict_to_themes=None):
     var_query = find_vocabs_sparql(var_urns)
     uom_query = find_vocabs_sparql(uom_urns)
 
-    all_metadata_elems = {"Variable": {'identifiers': var_urns, 'strings': [], 'uris': []}}
+    var_names = list(set(rootgrp.variables.keys()))
+    var_names_long = list(set([
+        getattr(rootgrp.variables[var_name], "long_name", None)
+        for var_name in var_names
+        if hasattr(rootgrp.variables[var_name], "long_name")
+    ]))
+    var_names_standard = list(set([
+        getattr(rootgrp.variables[var_name], "standard_name", None)
+        for var_name in var_names
+        if hasattr(rootgrp.variables[var_name], "standard_name")
+    ]))
+    all_var_strings = var_names + var_names_long + var_names_standard
+
+    all_metadata_elems = {
+        "Variable": {"identifiers": var_urns, "strings": all_var_strings, "uris": []}
+    }
     mapping = {
-        'variable': [('strings', None),
-                     ('identifiers', 'dcterms:identifier'),
-                     ('uris', None)]
+        "variable": [
+            ("strings", None),
+            ("identifiers", "dcterms:identifier"),
+            ("uris", None),
+        ]
     }
     query_args = get_query_args(all_metadata_elems, mapping, None)
     all_queries = generate_queries(query_args)
     all_bindings, head = run_all_queries(all_queries)
 
-    results = {'head': head, 'results': {'bindings': all_bindings}, 'all_search_elements': all_metadata_elems}
-    return results
+    _all_search_terms = [list(i.values()) for i in all_metadata_elems.values()]
+    all_search_terms = set(
+        itertools.chain.from_iterable(itertools.chain.from_iterable(_all_search_terms))
+    )
+    search_terms_found = set(d["SearchTerm"]["value"] for d in all_bindings)
+    search_terms_not_found = list(all_search_terms - search_terms_found)
 
-    # var_collections_uris = tabular_query_to_dict(var_query)
-    # uom_collections_uris = tabular_query_to_dict(uom_query)
+    results = {
+        "head": head,
+        "results": {"bindings": all_bindings},
+        "all_search_elements": all_metadata_elems,
+        "search_terms_not_found": search_terms_not_found,
+    }
+    return results
 
 
 def analyse_from_xml_structure(xml, threshold, restrict_to_themes) -> dict:
@@ -112,16 +144,22 @@ def analyse_from_xml_structure(xml, threshold, restrict_to_themes) -> dict:
     # tuple 2: for identifiers (only search in dcterms:identifier predicate)
     # tuple 3: config for uri search
     mapping = {
-        'keywords': [('strings', None)],
-        'instrument': [('strings', None),
-                       ('identifiers', 'dcterms:identifier'),
-                       ('uris', None), ],
-        'variable': [('strings', None),
-                     ('identifiers', 'dcterms:identifier'),
-                     ('uris', None)],
-        'platform': [('strings', None),
-                     ('identifiers', 'dcterms:identifier'),
-                     ('uris', None)]
+        "keywords": [("strings", None)],
+        "instrument": [
+            ("strings", None),
+            ("identifiers", "dcterms:identifier"),
+            ("uris", None),
+        ],
+        "variable": [
+            ("strings", None),
+            ("identifiers", "dcterms:identifier"),
+            ("uris", None),
+        ],
+        "platform": [
+            ("strings", None),
+            ("identifiers", "dcterms:identifier"),
+            ("uris", None),
+        ],
     }
 
     query_args = get_query_args(all_metadata_elems, mapping, restrict_to_themes)
@@ -145,18 +183,26 @@ def analyse_from_xml_structure(xml, threshold, restrict_to_themes) -> dict:
                 if value is None:
                     mapping_tuples[i] = (metadata_type, proximity_preds)
 
-    proximity_query_args = get_query_args(all_metadata_elems, mapping, restrict_to_themes)
+    proximity_query_args = get_query_args(
+        all_metadata_elems, mapping, restrict_to_themes
+    )
     proximity_queries = generate_queries(proximity_query_args, proximity=True)
     if proximity_queries:
         proximity_bindings, _ = run_all_queries(proximity_queries)
         all_bindings.extend(proximity_bindings)
 
     _all_search_terms = [list(i.values()) for i in all_metadata_elems.values()]
-    all_search_terms = set(itertools.chain.from_iterable(itertools.chain.from_iterable(_all_search_terms)))
+    all_search_terms = set(
+        itertools.chain.from_iterable(itertools.chain.from_iterable(_all_search_terms))
+    )
     search_terms_found = set(d["SearchTerm"]["value"] for d in all_bindings)
     search_terms_not_found = list(all_search_terms - search_terms_found)
-    results = {'head': head, 'results': {'bindings': all_bindings}, 'all_search_elements': all_metadata_elems,
-               'search_terms_not_found': search_terms_not_found}
+    results = {
+        "head": head,
+        "results": {"bindings": all_bindings},
+        "all_search_elements": all_metadata_elems,
+        "search_terms_not_found": search_terms_not_found,
+    }
     return results
 
 
@@ -177,7 +223,9 @@ def generate_queries(query_args, proximity=False):
             if ("uris" in query_type or "identifiers" in query_type) and proximity:
                 pass  # don't need proximity search on
             else:
-                queries = create_query(**kwargs, query_type=query_type, proximity=proximity)
+                queries = create_query(
+                    **kwargs, query_type=query_type, proximity=proximity
+                )
                 all_queries.extend([(query_type, query) for query in queries])
     return all_queries
 
@@ -194,7 +242,9 @@ def get_query_args(all_metadata_elems, mapping, theme_names=None):
     }
     if theme_names:
         for prefix_key in query_args:
-            query_args[prefix_key]["theme_uris"] = [themes_map[theme_name] for theme_name in theme_names]
+            query_args[prefix_key]["theme_uris"] = [
+                themes_map[theme_name] for theme_name in theme_names
+            ]
     return query_args
 
 
@@ -211,7 +261,11 @@ def remove_exact_and_uri_matches(all_bindings, all_metadata_elems):
 async def run_queries(queries):
     async with AsyncClient(auth=(user, passwd) if user else None, timeout=30) as client:
         return await asyncio.gather(
-            *[tabular_query_to_dict(query, query_type, client) for query_type, query in queries])
+            *[
+                tabular_query_to_dict(query, query_type, client)
+                for query_type, query in queries
+            ]
+        )
 
 
 def execute_async_func(func, *args, **kwargs):
@@ -222,29 +276,35 @@ def execute_async_func(func, *args, **kwargs):
 
 def flatten_results(json_doc, method):
     method_labels = {
-        'all_uris': ('All', 'URI Match'),
-        'all_identifiers': ('All', 'Identifiers Match'),
-        'keywords_strings': ('Keywords', 'Text Match'),
-        'instrument_strings': ('Instrument', 'Text Match'),
-        'instrument_identifiers': ('Instrument', 'Identifiers Match'),
-        'instrument_uris': ('Instrument', 'URI Match'),
-        'variable_strings': ('Variable', 'Text Match'),
-        'variable_identifiers': ('Variable', 'Identifiers Match'),
-        'variable_uris': ('Variable', 'URI Match'),
-        'platform_strings': ('Platform', 'Text Match'),
-        'platform_identifiers': ('Platform', 'Identifiers Match'),
-        'platform_uris': ('Platform', 'URI Match'),
+        "all_uris": ("All", "URI Match"),
+        "all_identifiers": ("All", "Identifiers Match"),
+        "keywords_strings": ("Keywords", "Text Match"),
+        "instrument_strings": ("Instrument", "Text Match"),
+        "instrument_identifiers": ("Instrument", "Identifiers Match"),
+        "instrument_uris": ("Instrument", "URI Match"),
+        "variable_strings": ("Variable", "Text Match"),
+        "variable_identifiers": ("Variable", "Identifiers Match"),
+        "variable_uris": ("Variable", "URI Match"),
+        "platform_strings": ("Platform", "Text Match"),
+        "platform_identifiers": ("Platform", "Identifiers Match"),
+        "platform_uris": ("Platform", "URI Match"),
     }
 
-    new_head = {'vars': [head for head in json_doc['head']['vars'] + ["Method", "TargetElement"]]}
+    new_head = {
+        "vars": [
+            head for head in json_doc["head"]["vars"] + ["Method", "TargetElement"]
+        ]
+    }
 
     target_element, method_label = method_labels[method]
     label_dict = {
         "Method": {"type": "literal", "value": method_label},
-        "TargetElement": {"type": "literal", "value": target_element}
+        "TargetElement": {"type": "literal", "value": target_element},
     }
 
-    new_bindings = [{**label_dict, **binding} for binding in json_doc['results']['bindings']]
+    new_bindings = [
+        {**label_dict, **binding} for binding in json_doc["results"]["bindings"]
+    ]
     return new_head, new_bindings
 
 
@@ -258,8 +318,9 @@ def create_query(predicate, terms, query_type, theme_uris=None, proximity=False)
         if terms:
             terms = [escape_for_lucene_and_sparql(term) for term in terms]
     # Render the template with the necessary parameters
-    query = template.render(predicate=predicate, terms=terms, proximity=proximity,
-                            theme_uris=theme_uris)  # template imported at module level.
+    query = template.render(
+        predicate=predicate, terms=terms, proximity=proximity, theme_uris=theme_uris
+    )  # template imported at module level.
     queries.append(query)
     return queries
 
@@ -267,10 +328,10 @@ def create_query(predicate, terms, query_type, theme_uris=None, proximity=False)
 def escape_for_lucene_and_sparql(query):
     # First, escape the Lucene special characters.
     chars_to_escape = re.compile(r'([\+\-!\(\)\{\}\[\]\^"~\*\?:\\/])')
-    lucene_escaped = chars_to_escape.sub(r'\\\1', query)
+    lucene_escaped = chars_to_escape.sub(r"\\\1", query)
 
     # Then, double escape the backslashes for SPARQL.
-    sparql_escaped = lucene_escaped.replace('\\', '\\\\')
+    sparql_escaped = lucene_escaped.replace("\\", "\\\\")
     return sparql_escaped
 
 
@@ -281,14 +342,17 @@ def get_root_from_remote(xml_url):
         # Check if the request was successful
         if response.status_code != 200:
             logger.error(
-                f"Failed to fetch XML from {xml_url}. Status code: {response.status_code}. Response: {response.text}")
+                f"Failed to fetch XML from {xml_url}. Status code: {response.status_code}. Response: {response.text}"
+            )
             raise Exception(f"HTTP error {response.status_code} when fetching XML.")
 
         root = ET.fromstring(response.text)
         return root
 
     except httpx.HTTPError as e:
-        logger.error(f"HTTP error occurred when fetching XML from {xml_url}. Error: {str(e)}")
+        logger.error(
+            f"HTTP error occurred when fetching XML from {xml_url}. Error: {str(e)}"
+        )
         raise
     except ET.ParseError as e:
         logger.error(f"Failed to parse XML from {xml_url}. Error: {str(e)}")
@@ -297,7 +361,9 @@ def get_root_from_remote(xml_url):
 
 def extract_from_all(root):
     all_dicts = []
-    all_dicts.append({"Keywords": {}, "Instrument": {}, "Variable": {}, "Platform": {}})  # default empty dicts
+    all_dicts.append(
+        {"Keywords": {}, "Instrument": {}, "Variable": {}, "Platform": {}}
+    )  # default empty dicts
     all_dicts.append(extract_from_descriptiveKeywords(root))
     all_dicts.append(extract_from_topic_categories(root))
     all_dicts.append(extract_from_content_info(root))
@@ -306,17 +372,26 @@ def extract_from_all(root):
     return merged
 
 
-def run_methods(doc_name, methods, results, threshold, xml_string, restrict_to_themes, method_type):
+def run_methods(
+        doc_name, methods, results, threshold, xml_string, restrict_to_themes, method_type
+):
     results[doc_name] = {}
     if method_type == "XML":  # run specified xml methods
         for method in methods:
             if method == "xml":
-                results[doc_name][app.config["Methods"]["metadata"][method]] = analyse_from_xml_structure(xml_string, threshold,
-                                                                                              restrict_to_themes)
+                results[doc_name][
+                    app.config["Methods"]["metadata"][method]
+                ] = analyse_from_xml_structure(
+                    xml_string, threshold, restrict_to_themes
+                )
             elif method == "full":
-                results[doc_name][app.config["Methods"]["metadata"][method]] = analyse_from_full_xml(xml_string, restrict_to_themes)
+                results[doc_name][
+                    app.config["Methods"]["metadata"][method]
+                ] = analyse_from_full_xml(xml_string, restrict_to_themes)
     if method_type == "NETCDF":  # run netCDF methods - currently just the one
-        results[doc_name][app.config["Methods"]["netcdf"]["netcdf"]] = analyse_from_netcdf(xml_string, restrict_to_themes)
+        results[doc_name][
+            app.config["Methods"]["netcdf"]["netcdf"]
+        ] = analyse_from_netcdf(xml_string, restrict_to_themes)
 
 
 def extract_urns_from_netcdf(rootgrp: Dataset, var_name: str):

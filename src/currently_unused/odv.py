@@ -46,6 +46,7 @@ def create_odv_prompt(odv_text):
     prompt = PromptTemplate.from_template(template)
     return prompt.format(odv_text=odv_text)
 
+
 def get_urns_from_odv(odv_json):
     # load json data
     data = json.loads(odv_json)
@@ -55,23 +56,22 @@ def get_urns_from_odv(odv_json):
     unit_urns = []
 
     # go through the columns
-    for column in data['columns']:
+    for column in data["columns"]:
         for field in column:
-            if 'column_vocabulary_urn' in column[field]:
-                vocab_urns.append(column[field]['column_vocabulary_urn'])
-            if 'column_unit_urn' in column[field]:
-                unit_urns.append(column[field]['column_unit_urn'])
+            if "column_vocabulary_urn" in column[field]:
+                vocab_urns.append(column[field]["column_vocabulary_urn"])
+            if "column_unit_urn" in column[field]:
+                unit_urns.append(column[field]["column_unit_urn"])
     if not vocab_urns and not unit_urns:
         raise ValueError("No vocabulary or Unit URNs found")
     return vocab_urns, unit_urns
-
 
 
 def main():
     odv_text = read_file(Path("../../data/000545_ODV_77AR2009_00095_H09_V0.txt"))
     prompt = create_odv_prompt(odv_text)
     llm = OpenAI(model_name="gpt-3.5-turbo-0613")
-    if os.getenv("TEST_MODE") == 'true':
+    if os.getenv("TEST_MODE") == "true":
         output = read_file(Path("../../tests/data/odv_response.json"))
     else:
         output = llm(prompt)

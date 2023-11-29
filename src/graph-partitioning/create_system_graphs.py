@@ -18,7 +18,9 @@ sheet = workbook[sheetname]
 iri_dict = {}
 
 # Iterate through the rows in the specified columns
-for row in sheet.iter_rows(min_row=2, max_row=sheet.max_row, min_col=2, max_col=3, values_only=True):
+for row in sheet.iter_rows(
+    min_row=2, max_row=sheet.max_row, min_col=2, max_col=3, values_only=True
+):
     iri_value, sea_data_net_value = row
     if iri_value:
         real_g_uri = URIRef(iri_value)
@@ -31,9 +33,11 @@ for row in sheet.iter_rows(min_row=2, max_row=sheet.max_row, min_col=2, max_col=
                 # If not, create a new list with the SeaDataNet keyword type and URIs as the initial value
                 iri_dict[real_g_uri] = [sea_data_net_value]
 
-string_iri_map = {"parameter": URIRef("http://vocab.nerc.ac.uk/collection/L19/current/SDNKG03/"),
-                  "instrument": URIRef("http://vocab.nerc.ac.uk/collection/L19/current/SDNKG01/"),
-                  "platform": URIRef("http://vocab.nerc.ac.uk/collection/L19/current/SDNKG04/")}
+string_iri_map = {
+    "parameter": URIRef("http://vocab.nerc.ac.uk/collection/L19/current/SDNKG03/"),
+    "instrument": URIRef("http://vocab.nerc.ac.uk/collection/L19/current/SDNKG01/"),
+    "platform": URIRef("http://vocab.nerc.ac.uk/collection/L19/current/SDNKG04/"),
+}
 
 # olis_system_graph = Graph(identifier=OLIS.System)
 # theme_graph = Graph(identifier=THEME_GRAPH)
@@ -49,8 +53,10 @@ for real_g_uri, category_list in iri_dict.items():
         ds.add((string_iri_map[category_str], OLIS.isAliasFor, real_g_uri, OLIS.System))
         ds.add((real_g_uri, DCAT.theme, string_iri_map[category_str], THEME_GRAPH))
 
-ds.serialize(Path(__file__).parent.parent.parent / "output/graph_categories/graph_categories.nq", format="nquads")
+ds.serialize(
+    Path(__file__).parent.parent.parent / "output/graph_categories/graph_categories.nq",
+    format="nquads",
+)
 
 # for s,p,o,g in ds:
 #     print(s,p,o,g)
-
