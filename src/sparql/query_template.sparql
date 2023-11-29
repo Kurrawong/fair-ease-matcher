@@ -54,17 +54,17 @@ SELECT DISTINCT ?SearchTerm ?MatchURI (SAMPLE(?MatchPropertyAll) AS ?MatchProper
   }
   BIND(COALESCE(?OptContainer,"") AS ?Container)
   BIND(COALESCE(?OptContainerPrefLabel,?OptContainerTitle,"") AS ?ContainerLabel)
-  BIND(REPLACE(?EscapedSearchTerm, "\\\\", "") AS ?SearchTerm)
-  BIND(REPLACE(?SearchTerm, "\"", "") AS ?CompletelyUnescaped)
+  BIND(REPLACE(?EscapedSearchTerm, "\\\\", "") AS ?SearchTermRaw)
+  BIND(REPLACE(?SearchTermRaw, "\"", "") AS ?CompletelyUnescaped)
     BIND(
       {% if proximity %}
         "Proximity Match"
       {% else %}
       IF(
-        LCASE(?SearchTerm) = LCASE(?MatchTerm),
+        LCASE(?SearchTermRaw) = LCASE(?MatchTerm),
         "Exact Match",
         IF(
-          LCASE(?CompletelyUnescaped) = LCASE(?MatchTerm),
+          LCASE(?CompletelyUnescaped) = LCASE(?MatchTerm) && LCASE(?SearchTermRaw) != LCASE(?MatchTerm),
           "Exact Match",
           "Wildcard Match"
           )
@@ -73,5 +73,6 @@ SELECT DISTINCT ?SearchTerm ?MatchURI (SAMPLE(?MatchPropertyAll) AS ?MatchProper
       AS ?MethodSubType
       )
   BIND(COALESCE(?prop_label, ?MatchProp) AS ?MatchPropertyAll)
+  BIND(COALESCE(?CompletelyUnescaped, ?SearchTermRaw) AS ?SearchTerm)
 } GROUP BY ?g ?MatchURI ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?MethodSubType
 ORDER BY DESC(?MethodSubType) DESC(?Weight)

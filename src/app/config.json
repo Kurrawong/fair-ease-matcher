@@ -1,7 +1,12 @@
 {
   "Methods": {
-    "xml": "Structured XML Extraction",
-    "full": "Full XML Extraction"
+    "metadata": {
+      "xml": "Structured XML Extraction",
+      "full": "Full XML Extraction"
+    },
+    "netcdf": {
+      "netcdf": "netCDF"
+    }
   },
   "Restrict to Themes": {
     "param": "Parameter",

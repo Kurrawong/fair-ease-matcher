@@ -5,12 +5,16 @@ import os
 import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
+
 import httpx
+from flask import current_app as app
 from httpx import AsyncClient
 from jinja2 import Template
+from netCDF4 import Dataset
 from rdflib import URIRef
-from flask import current_app as app
+
 from src.model_functions import merge_dicts
+from src.sparql_queries import find_vocabs_sparql
 from src.sparql_queries import tabular_query_to_dict
 from src.xml_extract_all import extract_full_xml
 from src.xml_extraction import extract_from_descriptiveKeywords, extract_from_topic_categories, \
@@ -40,7 +44,9 @@ themes_map = {
 
 def analyse_from_full_xml(xml_string, restrict_to_themes):
     types_to_text = extract_full_xml(xml_string)
-    mapping = {"all": [('uris', None)]}
+    mapping = {"all": [('uris', None),
+                       ('identifiers', 'dcterms:identifier')
+                       ]}
     collected_t2t = collect_types(types_to_text)
     query_args = get_query_args(collected_t2t, mapping, restrict_to_themes)
     all_queries = generate_queries(query_args)
@@ -54,11 +60,45 @@ def collect_types(types_to_text: dict):
     result_dict = {"uris": [], "strings": [], "identifiers": []}
     for item in types_to_text:
         guessed_type = item['guessed_type']
+        if guessed_type == "uris":
+            contains_whitespace = any(char.isspace() for char in item['text'])
+            if contains_whitespace:
+                guessed_type = "strings"
         result_dict[guessed_type].append(item['text'])
 
     # Creating the final list of dictionaries
     result = {'All': result_dict}
     return result
+
+
+def analyse_from_netcdf(file_bytes, restrict_to_themes=None):
+    # Use the memory argument to read from file_bytes
+    rootgrp = Dataset(filename=None, mode="r", memory=file_bytes, format="NETCDF4")
+    # try get URNs
+    var_urns = extract_urns_from_netcdf(rootgrp, "sdn_parameter_urn")
+    uom_urns = extract_urns_from_netcdf(rootgrp, "sdn_uom_urn")
+    # try get text
+    var_text = extract_text_from_net_cdf(rootgrp, "sdn_parameter_name")
+    uom_text = extract_text_from_net_cdf(rootgrp, "sdn_uom_name")
+
+    var_query = find_vocabs_sparql(var_urns)
+    uom_query = find_vocabs_sparql(uom_urns)
+
+    all_metadata_elems = {"Variable": {'identifiers': var_urns, 'strings': [], 'uris': []}}
+    mapping = {
+        'variable': [('strings', None),
+                     ('identifiers', 'dcterms:identifier'),
+                     ('uris', None)]
+    }
+    query_args = get_query_args(all_metadata_elems, mapping, None)
+    all_queries = generate_queries(query_args)
+    all_bindings, head = run_all_queries(all_queries)
+
+    results = {'head': head, 'results': {'bindings': all_bindings}, 'all_search_elements': all_metadata_elems}
+    return results
+
+    # var_collections_uris = tabular_query_to_dict(var_query)
+    # uom_collections_uris = tabular_query_to_dict(uom_query)
 
 
 def analyse_from_xml_structure(xml, threshold, restrict_to_themes) -> dict:
@@ -85,8 +125,6 @@ def analyse_from_xml_structure(xml, threshold, restrict_to_themes) -> dict:
     }
 
     query_args = get_query_args(all_metadata_elems, mapping, restrict_to_themes)
-
-    # all_queries = [(query_type, create_query(**kwargs, query_type=query_type)) for query_type, kwargs in query_args.items()]
     all_queries = generate_queries(query_args)
     all_bindings, head = run_all_queries(all_queries)
 
@@ -117,7 +155,8 @@ def analyse_from_xml_structure(xml, threshold, restrict_to_themes) -> dict:
     all_search_terms = set(itertools.chain.from_iterable(itertools.chain.from_iterable(_all_search_terms)))
     search_terms_found = set(d["SearchTerm"]["value"] for d in all_bindings)
     search_terms_not_found = list(all_search_terms - search_terms_found)
-    results = {'head': head, 'results': {'bindings': all_bindings}, 'all_search_elements': all_metadata_elems, 'search_terms_not_found': search_terms_not_found}
+    results = {'head': head, 'results': {'bindings': all_bindings}, 'all_search_elements': all_metadata_elems,
+               'search_terms_not_found': search_terms_not_found}
     return results
 
 
@@ -184,6 +223,7 @@ def execute_async_func(func, *args, **kwargs):
 def flatten_results(json_doc, method):
     method_labels = {
         'all_uris': ('All', 'URI Match'),
+        'all_identifiers': ('All', 'Identifiers Match'),
         'keywords_strings': ('Keywords', 'Text Match'),
         'instrument_strings': ('Instrument', 'Text Match'),
         'instrument_identifiers': ('Instrument', 'Identifiers Match'),
@@ -218,7 +258,8 @@ def create_query(predicate, terms, query_type, theme_uris=None, proximity=False)
         if terms:
             terms = [escape_for_lucene_and_sparql(term) for term in terms]
     # Render the template with the necessary parameters
-    query = template.render(predicate=predicate, terms=terms, proximity=proximity, theme_uris=theme_uris)  # template imported at module level.
+    query = template.render(predicate=predicate, terms=terms, proximity=proximity,
+                            theme_uris=theme_uris)  # template imported at module level.
     queries.append(query)
     return queries
 
@@ -265,10 +306,32 @@ def extract_from_all(root):
     return merged
 
 
-def run_methods(doc_name, methods, results, threshold, xml_string, restrict_to_themes):
+def run_methods(doc_name, methods, results, threshold, xml_string, restrict_to_themes, method_type):
     results[doc_name] = {}
-    for method in methods:
-        if method == "xml":
-            results[doc_name][app.config["Methods"][method]] = analyse_from_xml_structure(xml_string, threshold, restrict_to_themes)
-        elif method == "full":
-            results[doc_name][app.config["Methods"][method]] = analyse_from_full_xml(xml_string, restrict_to_themes)
+    if method_type == "XML":  # run specified xml methods
+        for method in methods:
+            if method == "xml":
+                results[doc_name][app.config["Methods"]["metadata"][method]] = analyse_from_xml_structure(xml_string, threshold,
+                                                                                              restrict_to_themes)
+            elif method == "full":
+                results[doc_name][app.config["Methods"]["metadata"][method]] = analyse_from_full_xml(xml_string, restrict_to_themes)
+    if method_type == "NETCDF":  # run netCDF methods - currently just the one
+        results[doc_name][app.config["Methods"]["netcdf"]["netcdf"]] = analyse_from_netcdf(xml_string, restrict_to_themes)
+
+
+def extract_urns_from_netcdf(rootgrp: Dataset, var_name: str):
+    var_urns = []
+    for var in rootgrp.variables.items():
+        urn_or_none = var[1].__dict__.get(var_name)
+        if urn_or_none:
+            var_urns.append(urn_or_none)
+    return var_urns
+
+
+def extract_text_from_net_cdf(rootgrp: Dataset, var_name: str):
+    var_text = []
+    for var in rootgrp.variables.items():
+        text_or_none = var[1].__dict__.get(var_name)
+        if text_or_none:
+            var_text.append(text_or_none)
+    return var_text

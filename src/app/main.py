@@ -18,7 +18,7 @@ def main(files: List[Path], methods: List, threshold: float) -> dict:
     results = {}
     for file in files:
         xml_string = file.read_text()
-        run_methods(file.stem, methods, results, threshold, xml_string)
+        run_methods(file.stem, methods, results, threshold, xml_string, None)
 
     # Ensure the 'output' directory exists
     output_dir = Path('output') / file.parent.stem

@@ -74,6 +74,7 @@ async def send_query(query: str, mediatype="text/turtle", client=None):
     response = await client.send(query_rq, stream=True)
     return response
 
+
 async def tabular_query_to_dict(query: str, context: URIRef = None, client=None):
     """Sends a SPARQL query asynchronously and parses the response into a table format."""
     response = await send_query(query, "application/sparql-results+json", client)

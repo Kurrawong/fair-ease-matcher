@@ -33,19 +33,35 @@ def process_metadata():
     restrict_to_themes = request.args.get("Restrict to Themes")
     if restrict_to_themes:
         restrict_to_themes = restrict_to_themes.split(",")
-    data = request.json
+
+    if analysis_methods != ["netcdf"]:
+        data = request.json
+    else:
+        data = request.files
     threshold = data.get('threshold')
     responses = {}
-    available_methods = ["xml", "full"]
+    available_methods = ["xml", "full", "netcdf"]
     if not analysis_methods:
         analysis_methods = available_methods
-    # process the XML
-    for doc_name, xml in data.get('xml').items():
-        try:
-            run_methods(doc_name, analysis_methods, responses, threshold, xml, restrict_to_themes)
-        except Exception as e:
-            # Handle exceptions and send a 500 response
-            return make_response(f"Exception from Python: {str(e)}", 500)
+
+    # run XML methods
+    if ("xml" in analysis_methods) or ("full" in analysis_methods):
+        for doc_name, xml in data.get('xml').items():
+            try:
+                run_methods(doc_name, analysis_methods, responses, threshold, xml, restrict_to_themes, "XML")
+            except Exception as e:
+                # Handle exceptions and send a 500 response
+                return make_response(f"Exception from Python: {str(e)}", 500)
+
+    if "netcdf" in analysis_methods:
+        for doc_name in data:
+            doc_data = data[doc_name].read()
+            try:
+                run_methods(doc_name, analysis_methods, responses, threshold, doc_data, restrict_to_themes, "NETCDF")
+            except Exception as e:
+                # Handle exceptions and send a 500 response
+                return make_response(f"Exception from Python: {str(e)}", 500)
+
     response = jsonify(responses)
     response.headers['Access-Control-Allow-Origin'] = '*'
     logger.info(f"Time taken: {time.time() - start_time}")
