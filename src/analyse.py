@@ -14,7 +14,6 @@ from netCDF4 import Dataset
 from rdflib import URIRef
 
 from src.model_functions import merge_dicts
-from src.sparql_queries import find_vocabs_sparql
 from src.sparql_queries import tabular_query_to_dict
 from src.xml_extract_all import extract_full_xml
 from src.xml_extraction import (
@@ -53,10 +52,20 @@ def analyse_from_full_xml(xml_string, restrict_to_themes):
     query_args = get_query_args(collected_t2t, mapping, restrict_to_themes)
     all_queries = generate_queries(query_args)
     all_bindings, head = run_all_queries(all_queries)
+
+    _all_search_terms = [list(i.values()) for i in collected_t2t.values()]
+    all_search_terms = set(
+        itertools.chain.from_iterable(itertools.chain.from_iterable(_all_search_terms))
+    )
+    search_terms_found = set(d["SearchTerm"]["value"] for d in all_bindings)
+    search_terms_not_found = list(all_search_terms - search_terms_found)
+
     results = {
         "head": head,
         "results": {"bindings": all_bindings},
         "all_search_elements": collected_t2t,
+        "search_terms_not_found": search_terms_not_found,
+        "stats": {"found": len(search_terms_found), "total": len(all_search_terms)},
     }
     return results
 
@@ -79,32 +88,58 @@ def collect_types(types_to_text: dict):
 
 def analyse_from_netcdf(file_bytes, restrict_to_themes=None):
     # Use the memory argument to read from file_bytes
-    rootgrp = Dataset(filename=None, mode="r", memory=file_bytes, format="NETCDF4")
+    rootgrp = Dataset(filename=None, mode="r", memory=file_bytes, format="NETCDF3")
     # try get URNs
     var_urns = extract_urns_from_netcdf(rootgrp, "sdn_parameter_urn")
     uom_urns = extract_urns_from_netcdf(rootgrp, "sdn_uom_urn")
-    # try get text
-    var_text = extract_text_from_net_cdf(rootgrp, "sdn_parameter_name")
-    uom_text = extract_text_from_net_cdf(rootgrp, "sdn_uom_name")
-
-    var_query = find_vocabs_sparql(var_urns)
-    uom_query = find_vocabs_sparql(uom_urns)
 
     var_names = list(set(rootgrp.variables.keys()))
-    var_names_long = list(set([
-        getattr(rootgrp.variables[var_name], "long_name", None)
-        for var_name in var_names
-        if hasattr(rootgrp.variables[var_name], "long_name")
-    ]))
-    var_names_standard = list(set([
-        getattr(rootgrp.variables[var_name], "standard_name", None)
-        for var_name in var_names
-        if hasattr(rootgrp.variables[var_name], "standard_name")
-    ]))
+    var_names_long = list(
+        set(
+            [
+                getattr(rootgrp.variables[var_name], "long_name", None)
+                for var_name in var_names
+                if hasattr(rootgrp.variables[var_name], "long_name")
+            ]
+        )
+    )
+    var_names_standard = list(
+        set(
+            [
+                getattr(rootgrp.variables[var_name], "standard_name", None)
+                for var_name in var_names
+                if hasattr(rootgrp.variables[var_name], "standard_name")
+            ]
+        )
+    )
     all_var_strings = var_names + var_names_long + var_names_standard
 
+    source = getattr(
+        rootgrp, "source", ""
+    )  # example values appear to be platforms e.g. 'drifting surface float'
+    platform_name = getattr(rootgrp, "platform_name", "")
+    platform_names = []
+    if source:
+        platform_names.append(source)
+    if platform_name:
+        platform_names.append(platform_name)
+
+    platform_code = getattr(rootgrp, "platform_code", "")
+    platform_codes = []
+    if platform_code:
+        platform_codes.append(platform_code)
+
+    # add convetnions to keywords - not a great fit though.
+    conventions = getattr(rootgrp, "Conventions", "").split()
+
     all_metadata_elems = {
-        "Variable": {"identifiers": var_urns, "strings": all_var_strings, "uris": []}
+        "Keywords": {"identifiers": [], "strings": conventions, "uris": []},
+        "Variable": {"identifiers": var_urns, "strings": all_var_strings, "uris": []},
+        "Platform": {
+            "identifiers": platform_codes,
+            "strings": platform_names,
+            "uris": [],
+        },
     }
     mapping = {
         "variable": [
@@ -113,7 +148,8 @@ def analyse_from_netcdf(file_bytes, restrict_to_themes=None):
             ("uris", None),
         ]
     }
-    query_args = get_query_args(all_metadata_elems, mapping, None)
+
+    query_args = get_query_args(all_metadata_elems, mapping, restrict_to_themes)
     all_queries = generate_queries(query_args)
     all_bindings, head = run_all_queries(all_queries)
 
@@ -129,6 +165,7 @@ def analyse_from_netcdf(file_bytes, restrict_to_themes=None):
         "results": {"bindings": all_bindings},
         "all_search_elements": all_metadata_elems,
         "search_terms_not_found": search_terms_not_found,
+        "stats": {"found": len(search_terms_found), "total": len(all_search_terms)},
     }
     return results
 
@@ -202,6 +239,7 @@ def analyse_from_xml_structure(xml, threshold, restrict_to_themes) -> dict:
         "results": {"bindings": all_bindings},
         "all_search_elements": all_metadata_elems,
         "search_terms_not_found": search_terms_not_found,
+        "stats": {"found": len(search_terms_found), "total": len(all_search_terms)},
     }
     return results
 
@@ -373,7 +411,7 @@ def extract_from_all(root):
 
 
 def run_methods(
-        doc_name, methods, results, threshold, xml_string, restrict_to_themes, method_type
+    doc_name, methods, results, threshold, xml_string, restrict_to_themes, method_type
 ):
     results[doc_name] = {}
     if method_type == "XML":  # run specified xml methods

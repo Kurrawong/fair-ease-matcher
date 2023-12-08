@@ -38,7 +38,7 @@ services:
         source: fair-ease-volume
         target: /databases
     environment:
-        DATASET: "fair-ease"
+        DATASET: "fair-ease-with-rdfs"
         SKIP_VALIDATION: "true"
         NO_SPATIAL: "true"
 #        USE_XLOADER: "true"

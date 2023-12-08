@@ -7,6 +7,7 @@ from rdflib import URIRef
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 sparql_endpoint = os.getenv("SPARQL_ENDPOINT")
 user = os.getenv("SPARQL_USERNAME", "")
 passwd = os.getenv("SPARQL_PASSWORD", "")

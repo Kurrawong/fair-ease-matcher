@@ -27,6 +27,7 @@ def add_last_element_after_separator(list_of_strings: list):
         newlist.append(string)
     return newlist
 
+
 def split_list_of_strings(list_of_strings: list):
     intermediate_list = []
     newlist = []
