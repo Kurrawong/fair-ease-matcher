@@ -1,6 +1,10 @@
 # Semantic Analyser Documentation
 
-[Structured XML Analysis](#structured-xml-analysis)
+[Structured XML Analysis](#structured-xml-analysis)  
+[Full XML Analysis](#full-xml-analysis)  
+[netCDF Analysis](#netcdf-analysis)  
+[SPARQL query generation](#sparql-query-generation)
+
 The semantic analyser backend takes as its input a JSON payload in the following structure for analysis of ISO19115 XML metadata records:
 
 ```json
@@ -93,6 +97,7 @@ The following list details the places within the metadata, and type of target me
 - Keyword Strings from the `conventions` metadata element
 
 These extracted metadata elements are then used as arguments in the parameterised queries used for all search methods, and the results are returned and rendered in the same format as per the XML methods.
+
 ## SPARQL query generation
 
 The extracted, cleaned, and categorised set of terms is then substituted into two SPARQL queries; one query where the search terms are URIs, and another query where the search terms are strings or identifiers.
@@ -124,11 +129,11 @@ SELECT ?SearchTerm ?MatchURI ?MatchProperty ?MatchTerm ?Container ?ContainerLabe
       VALUES ?theme_uri {
     {%- for theme_uri in theme_uris -%}<{{theme_uri}}>{%- endfor %}
       }
-        GRAPH <https://themes> {?g dcat:theme ?theme_uri .
+        GRAPH &#003Chttps://themes> {?g dcat:theme ?theme_uri .
             ?theme_uri rdfs:label ?VocabCategory }
     {%- else %}
       OPTIONAL {
-        GRAPH <https://themes> {?g dcat:theme ?theme_uri .
+        GRAPH &#003Chttps://themes> {?g dcat:theme ?theme_uri .
             ?theme_uri rdfs:label ?VocabCategory }
       }
     {%- endif %}
@@ -169,11 +174,11 @@ SELECT DISTINCT ?SearchTerm ?MatchURI (SAMPLE(?MatchPropertyAll) AS ?MatchProper
       VALUES ?theme_uri {
     {%- for theme_uri in theme_uris -%}<{{theme_uri}}>{%- endfor %}
       }
-        GRAPH <https://themes> {?g dcat:theme ?theme_uri .
+        GRAPH &#003Chttps://themes> {?g dcat:theme ?theme_uri .
             ?theme_uri rdfs:label ?VocabCategory }
     {%- else %}
       OPTIONAL {
-        GRAPH <https://themes> {?g dcat:theme ?theme_uri .
+        GRAPH &#003Chttps://themes> {?g dcat:theme ?theme_uri .
             ?theme_uri rdfs:label ?VocabCategory }
       }
     {%- endif %}
