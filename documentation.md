@@ -1,3 +1,6 @@
+# Semantic Analyser Documentation
+
+[Structured XML Analysis](#structured-xml-analysis)
 The semantic analyser backend takes as its input a JSON payload in the following structure for analysis of ISO19115 XML metadata records:
 
 ```json
@@ -104,6 +107,7 @@ If a user has specified to restrict the search to certain themes, the graph to t
 
 The two SPARQL template queries are shown below. They are written in a templating language called jinja2.
 
+<details><summary>Query for URIs</summary>
 ```jinja2
 SELECT ?SearchTerm ?MatchURI ?MatchProperty ?MatchTerm ?Container ?ContainerLabel ?MethodSubType (GROUP_CONCAT(DISTINCT(?VocabCategory);separator=", ") AS ?Categories)
 {
@@ -143,8 +147,9 @@ SELECT ?SearchTerm ?MatchURI ?MatchProperty ?MatchTerm ?Container ?ContainerLabe
     BIND(COALESCE(?OptContainerLabel,"") AS ?ContainerLabel)
 } GROUP BY ?g ?MatchURI ?MatchProperty ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?MethodSubType
 ```
-_Query for URIs_
+</details>
 
+<details><summary>Query for identifiers and strings</summary>
 ```jinja2
 SELECT DISTINCT ?SearchTerm ?MatchURI (SAMPLE(?MatchPropertyAll) AS ?MatchProperty) ?MatchTerm ?Container ?ContainerLabel ?MethodSubType (GROUP_CONCAT(DISTINCT(?VocabCategory);separator=", ") AS ?Categories)
 {
@@ -153,7 +158,6 @@ SELECT DISTINCT ?SearchTerm ?MatchURI (SAMPLE(?MatchPropertyAll) AS ?MatchProper
       {% if proximity %}"\"{{ term }}\"~10"{% else %}"{{ term }}" "\"{{ term }}\""{% endif %}
     {%- endfor %}
   }
-
   {%- if not predicate %}
     {% set predicate = "skos:definition skos:prefLabel dcterms:description skos:altLabel dcterms:identifier rdfs:label" %}
   {%- else %}
@@ -217,7 +221,7 @@ SELECT DISTINCT ?SearchTerm ?MatchURI (SAMPLE(?MatchPropertyAll) AS ?MatchProper
 } GROUP BY ?g ?MatchURI ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?MethodSubType
 ORDER BY DESC(?MethodSubType) DESC(?Weight)
 ```
-_Query for identifiers and strings_
+</details>
 
 Where a search term has not returned an exact or URI match with these methods, a follow-up query is performed on the these unmatched terms using the proximity method that is a part of Apache Lucene.
 
