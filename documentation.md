@@ -4,6 +4,10 @@
 [Full XML Analysis](#full-xml-analysis)  
 [netCDF Analysis](#netcdf-analysis)  
 [SPARQL query generation](#sparql-query-generation)
+[Knowledge base construction](#knowledge-base-construction)
+[Federated Search across OntoPortal instances](#federated-search-across-ontoportal-instances)
+[User Interface](#user-interface)
+[Future Work](#future-work)
 
 The semantic analyser backend takes as its input a JSON payload in the following structure for analysis of ISO19115 XML metadata records:
 
@@ -112,7 +116,8 @@ If a user has specified to restrict the search to certain themes, the graph to t
 
 The two SPARQL template queries are shown below. They are written in a templating language called jinja2.
 
-<details><summary>Query for URIs</summary>
+<details><summary>Query for URIs</summary>  
+
 ```jinja2
 SELECT ?SearchTerm ?MatchURI ?MatchProperty ?MatchTerm ?Container ?ContainerLabel ?MethodSubType (GROUP_CONCAT(DISTINCT(?VocabCategory);separator=", ") AS ?Categories)
 {
@@ -129,11 +134,11 @@ SELECT ?SearchTerm ?MatchURI ?MatchProperty ?MatchTerm ?Container ?ContainerLabe
       VALUES ?theme_uri {
     {%- for theme_uri in theme_uris -%}<{{theme_uri}}>{%- endfor %}
       }
-        GRAPH &#003Chttps://themes> {?g dcat:theme ?theme_uri .
+        GRAPH <https://themes> {?g dcat:theme ?theme_uri .
             ?theme_uri rdfs:label ?VocabCategory }
     {%- else %}
       OPTIONAL {
-        GRAPH &#003Chttps://themes> {?g dcat:theme ?theme_uri .
+        GRAPH <https://themes> {?g dcat:theme ?theme_uri .
             ?theme_uri rdfs:label ?VocabCategory }
       }
     {%- endif %}
@@ -151,10 +156,12 @@ SELECT ?SearchTerm ?MatchURI ?MatchProperty ?MatchTerm ?Container ?ContainerLabe
     BIND(COALESCE(?OptContainer,"") AS ?Container)
     BIND(COALESCE(?OptContainerLabel,"") AS ?ContainerLabel)
 } GROUP BY ?g ?MatchURI ?MatchProperty ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?MethodSubType
-```
+```  
+
 </details>
 
 <details><summary>Query for identifiers and strings</summary>
+
 ```jinja2
 SELECT DISTINCT ?SearchTerm ?MatchURI (SAMPLE(?MatchPropertyAll) AS ?MatchProperty) ?MatchTerm ?Container ?ContainerLabel ?MethodSubType (GROUP_CONCAT(DISTINCT(?VocabCategory);separator=", ") AS ?Categories)
 {
@@ -250,8 +257,6 @@ An example snippet of the file is as follows:
 <http://vocab.nerc.ac.uk/collection/P08/current/> <http://www.w3.org/ns/dcat#theme> <http://vocab.nerc.ac.uk/collection/L19/current/SDNKG03/> <https://themes> .
 ```
 As it was not anticipated that this process would need to be run often, it has not been automated, but this would not be hard to do.
-
-\
 
 ## Federated Search across OntoPortal instances
 
