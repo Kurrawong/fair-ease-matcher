@@ -3,11 +3,11 @@
 [Structured XML Analysis](#structured-xml-analysis)  
 [Full XML Analysis](#full-xml-analysis)  
 [netCDF Analysis](#netcdf-analysis)  
-[SPARQL query generation](#sparql-query-generation)
-[Knowledge base construction](#knowledge-base-construction)
-[Federated Search across OntoPortal instances](#federated-search-across-ontoportal-instances)
-[User Interface](#user-interface)
-[Future Work](#future-work)
+[SPARQL query generation](#sparql-query-generation)  
+[Knowledge base construction](#knowledge-base-construction)  
+[Federated Search across OntoPortal instances](#federated-search-across-ontoportal-instances)  
+[User Interface](#user-interface)  
+[Future Work](#future-work)  
 
 The semantic analyser backend takes as its input a JSON payload in the following structure for analysis of ISO19115 XML metadata records:
 
