@@ -11,11 +11,11 @@ Note the analyser only reads the metadata portion of netCDF files, so where user
 This input is sent from the frontend web application.
 
 Three analysis methods are currently supported by the analyser, these are:
-1. Structured XML analysis - based on the structure of ISO19115 XML.
-2. "Full" XML analysis - which strips XML files of all textual fields.
-3. netCDF analysis - which considers only the netCDF metadata.
+1. Structured XML Analysis - based on the structure of ISO19115 XML.
+2. "Full" XML Analysis - which strips XML files of all textual fields.
+3. netCDF Analysis - which considers only the netCDF metadata.
 
-## Structured
+## Structured XML Analysis
 
 A number of metadata elements are then parsed from each document. These are listed in the table below:
 
@@ -72,6 +72,24 @@ def quack_analyser(value: str) -> str:
 A parameterised unit test is available in `/tests` which gives an idea of the kinds of categorisation these regular expressions perform.
 If the type is determined to be a URI, then a second search term is added; the same URI with the prefix changed to either http or https to give the "other" variant compared to what was extracted.
 
+## Full XML Analysis
+The  full XML Analysis method works by extracting all text using Python's ElementTree library (`element.text`), tails (`element.tail`), xlinks (where the attribute is "{http://www.w3.org/1999/xlink}href"), and attribute values (`element.attrib.values`).
+The types (URI, Identifier, or String) are then guessed for each extracted piece of text.
+Where the guessed type is a URI, the variant of http/https that the URI is not is added as an additional serach term. Similarly, additional search terms are added with/without trailing slashes to complement the original extracted text.
+The guessed types are then collected into a dictionary with keys as the types. As the target metadata element is unknown (there is no context other than the text extracted), the target metadata element is set as "All" such that the query code used for Structured Extraction can be reused.
+The queries are then run against the triplestore, using the methodology and queries detailed below.
+Where terms are not found, this is recorded, and a link is created to provide search against a number of different "OntoPortal" instances. This additional federated search is documented below.
+
+## netCDF analysis
+The netCDF analysis follows a similar methodology as the Structured XML Analysis. A set of terms is extracted from known places in the netCDF metadata, and these are inserted into parameterise SPARQL queries to search against the knowledge base.
+The following list details the places within the metadata, and type of target metadata element expected to be extracted from that location.
+- Variable Identifiers from the `sdn_parameter_urn` metadata element. These are Sea Data Net URNs.
+- Variables Strings, from the metadata element "variables"; including "long" and "standard" versions of these (`long_name` and `standard_name`) attributes on the `variables` metadata element.
+- Platform Strings from the `source` and `platform_name` metadata elements
+- Platform Identifiers from the `platform_code` metadata elements
+- Keyword Strings from the `conventions` metadata element
+
+These extracted metadata elements are then used as arguments in the parameterised queries used for all search methods, and the results are returned and rendered in the same format as per the XML methods.
 ## SPARQL query generation
 
 The extracted, cleaned, and categorised set of terms is then substituted into two SPARQL queries; one query where the search terms are URIs, and another query where the search terms are strings or identifiers.
@@ -200,10 +218,13 @@ SELECT DISTINCT ?SearchTerm ?MatchURI (SAMPLE(?MatchPropertyAll) AS ?MatchProper
 ORDER BY DESC(?MethodSubType) DESC(?Weight)
 ```
 _Query for identifiers and strings_
-The results from the queries are in a tabular format, with the following headers:
-...
-Where a search term has not returned a result with these methods, a follow up query is performed on the these unmatched terms using the proximity method that is a part of Apache Lucene.
 
+Where a search term has not returned an exact or URI match with these methods, a follow-up query is performed on the these unmatched terms using the proximity method that is a part of Apache Lucene.
+
+The results from the queries are in a tabular format, with the following headers:
+SearchTerm, MatchURI, MatchProperty, MatchTerm, Container, ContainerLabel, MethodSubType, and Categories
+
+These results are returned to the frontend application as JSON, with two additional columns to specify the target metadata element, and the search method (referring to how the query was parameterised, e.g. instruments using identifiers).
 
 ## Knowledge base construction
 The knowledge base is composed of a number of Oceanographic related ontologies and vocabularies.
@@ -221,3 +242,34 @@ An example snippet of the file is as follows:
 ```
 As it was not anticipated that this process would need to be run often, it has not been automated, but this would not be hard to do.
 
+\
+
+## Federated Search across OntoPortal instances
+
+Where search terms are not found, a facility has been provided to search for them in a set of related portals (under the "OntoPortal" banner).
+The considerations and motivations influencing this design are:
+- although these portals provide SPARQL endpoints, hitting these with the queries used against the Semantic Analyser is not possible as they are running on a different triplestore, and the queries for the Semantic Analyser make use of Apache Jena's full text search integration with Apache Lucene. The query syntax would not be interpretable by any other triplestore "out of the box".
+- some of these portals are frequently updated and contain a large amount of data; it is preferable to avoid duplicating this data if possible
+- the portals offer a full text search facility, as such it is low effort to utilise this
+- the results are returned in an RDF format, so future work can easily integrate these responses with the Semantic Analyser processing or results, as the Semantic Analyser is also an RDF based application.
+
+## User interface
+The user interface implements the following design goals:
+- Users can select metadata records provided by the GeoDAB
+- One or more metadata records can be selected for concurrent analysis
+- Users can view the raw XML of records selected for analysis 
+- The analysis can be resticted to different theme graphs in the triplestore
+- The analysis method can be selected
+- The results shall be displayed in a tabular format providing information on:
+  - the method and submethod used; search and match terms; match URIs/links for the object with the property/object that matched; and the property that was matched on.
+  - the portion of search terms for which a result was found in the knowledge graph
+- unmatched terms can be searched in 'federated' type manner in other analyser/search systems
+
+## Future work
+The output of the Semantic Analyser (as passed from the backend to the frontend) have a model; at present it is a number of columns that are required for results to be displayed.
+To improve upon this model, a formal ontological model could be created to represent these results.
+Such a model would be expressed in OWL, and include additional shape validation using SHACL.
+The model would extend beyond the results format, to enumerate common input types, and also to provide a framework for interpreting results.
+Such a model is conceptually very close to one that would describe machine learning methodologies.
+In machine learning terminology, there is a set of raw data (metadata), from which terms are extracted (feature engineering), and these are used with models (Apache Lucene's full text search, and exact matching), to produce predictions with probabilities (1 in the case of URI matches, close to 1 for exact matches, and less than one for other matches).
+Creating, or aligining to existing models in this space, will allow for the comparison of the performance of the Semantic Analyser against other analysis methods, enhancing interoperability and highlighing areas of strength and weakness. 
