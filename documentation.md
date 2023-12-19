@@ -49,12 +49,12 @@ Three analysis methods are currently supported by the analyser, these are:
 
 ## Structured XML Analysis
 
-A number of metadata elements are then parsed from each document. These are listed in the table below:
+Where the Structure XML Analysis method is used, a number of metadata elements are parsed from each document. These are listed in the table below:
 
 - Descriptive Keywords - ".//gmd:descriptiveKeywords". 
-- Topic Categories - ".//gmd:topicCategory/gmd:MD_TopicCategoryCode" - #TODO used for what?
-- Content info - ".//gmd:contentType/gmd:MD_CoverageContentTypeCode", ".//gmd:attributeDescription/gco:RecordType" - #TODO used for what?
-- Acquisition info - ".//gmi:acquisitionInformation/gmi:MI_AcquisitionInformation/{xml_path}"
+- Topic Categories - ".//gmd:topicCategory/gmd:MD_TopicCategoryCode" - used as Strings and for the Keywords metadata element.
+- Content info - ".//gmd:contentType/gmd:MD_CoverageContentTypeCode", ".//gmd:attributeDescription/gco:RecordType" - used as Strings, URIs, and Identifiers for the Variables metadata element.
+- Acquisition info - ".//gmi:acquisitionInformation/gmi:MI_AcquisitionInformation/{xml_path}" - used as Strings, URIs, and Identifiers for Instruments or Platforms (depending on the XML).
 
 There are further sub expressions for some of the above elements, which target strings, URIs, or other nested elements within the XML.
 
@@ -62,7 +62,8 @@ The analyser extracts candidate search terms to match against the knowledge base
 Terms extracted from Descriptive Keywords are mapped to all metadata element categories (not just Keywords). The mapping to different categories is done by extracting the following element:
 `".//gmd:type/gmd:MD_KeywordTypeCode"`.
 
-The tag map is as follows:
+The tag map is shown below:
+<details><summary>Tag Map</summary>
 
 ```python
 metadata_element_map = {
@@ -75,6 +76,7 @@ metadata_element_map = {
     "parameter": "Variable",
 }
 ```
+</details>
 For each category of variable, the terms are split out into three further subcategories relating to their datatype. The datatypes are either inferred from the place in the XML they were found, or for indeterminate places in the XML initially processed as a string, then categorised into a string, URI, or identifier once cleaned.
 
 Where the determined or guessed type is string, The terms are then cleaned using the following processes:
@@ -84,6 +86,7 @@ Where the determined or guessed type is string, The terms are then cleaned using
 4. Creating a second search string where there is a "|" in the original string, for the last part of the original string after the "|"
 
 The list of strings is then deduplicated and again categorised into strings, URIs, and identifiers. The function to guess the type of strings is:
+<details><summary>Regular Expressions</summary></details>
 
 ```python
 def quack_analyser(value: str) -> str:
@@ -293,10 +296,10 @@ The user interface implements the following design goals:
 - Users can select metadata records provided by the GeoDAB
 - One or more metadata records can be selected for concurrent analysis
 - Users can view the raw XML of records selected for analysis 
-- The analysis can be resticted to different theme graphs in the triplestore
+- The analysis can be restricted to different theme graphs in the triplestore
 - The analysis method can be selected
 - The results shall be displayed in a tabular format providing information on:
-  - the method and submethod used; search and match terms; match URIs/links for the object with the property/object that matched; and the property that was matched on.
+  - the method and sub-method used; search and match terms; match URIs/links for the object with the property/object that matched; and the property that was matched on.
   - the portion of search terms for which a result was found in the knowledge graph
 - unmatched terms can be searched in 'federated' type manner in other analyser/search systems
 
@@ -353,7 +356,7 @@ Such a model would be expressed in OWL, and include additional shape validation 
 The model would extend beyond the results format, to enumerate common input types, and also to provide a framework for interpreting results.
 Such a model is conceptually very close to one that would describe machine learning methodologies.
 In machine learning terminology, there is a set of raw data (metadata), from which terms are extracted (feature engineering), and these are used with models (Apache Lucene's full text search, and exact matching), to produce predictions with probabilities (1 in the case of URI matches, close to 1 for exact matches, and less than one for other matches).
-Creating, or aligining to existing models in this space, will allow for the comparison of the performance of the Semantic Analyser against other analysis methods, enhancing interoperability and highlighing areas of strength and weakness.
+Creating, or aligning to existing models in this space, will allow for the comparison of the performance of the Semantic Analyser against other analysis methods, enhancing interoperability and highlighing areas of strength and weakness.
 
 ## Appendix A - Artifacts
 
