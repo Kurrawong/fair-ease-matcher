@@ -11,6 +11,8 @@
 [User Interface](#user-interface)  
 [Configuration](#configuration)  
 [Future Work](#future-work)  
+[License & Rights](#license--rights)  
+[Contacts](#contacts)  
 [Appendix A - Artifacts](#appendix-a---artifacts)  
 [Appendix B - Live Instances](#appendix-b---live-instances)  
 
@@ -361,20 +363,6 @@ Such a model is conceptually very close to one that would describe machine learn
 In machine learning terminology, there is a set of raw data (metadata), from which terms are extracted (feature engineering), and these are used with models (Apache Lucene's full text search, and exact matching), to produce predictions with probabilities (1 in the case of URI matches, close to 1 for exact matches, and less than one for other matches).
 Creating, or aligning to existing models in this space, will allow for the comparison of the performance of the Semantic Analyser against other analysis methods, enhancing interoperability and highlighing areas of strength and weakness.
 
-## Appendix A - Artifacts
-
-The backend code repository is available on Github [here](https://github.com/Kurrawong/fair-ease-matcher).
-Configuration for Apache Jena Fuseki, including the Full Text Search index configuration is within the `compose/` directory of the above repo.
-The frontend UI application code is available on Github [here](https://github.com/Kurrawong/bodc-analyser-ui).
-Note the 
-## Appendix B - Live Instances
-
-At the time of writing there are two instances online, these both utilise the same UI, but can be pointed at different backend analysers.
-1. [Production](https://kurrawong.github.io/bodc-analyser-ui/?endpoint=https://99koor0nmj.execute-api.ap-southeast-2.amazonaws.com/production)  
-2. [Development](https://kurrawong.github.io/bodc-analyser-ui/?endpoint=https://4p5qsqlhhi.execute-api.ap-southeast-2.amazonaws.com/dev)  
-
-At some point these instances will be brought offline and the Semantic Analyser will be available within BODC.
-
 ## License & Rights
 
 This software was developed by [KurrawongAI](https://kurrawong.ai) for the [British Oceanographic Data Centre](https://www.bodc.ac.uk/).
@@ -390,7 +378,21 @@ For general use, please contact:
 
 The software authors can be contacted at:
 
-*KurrawongAI* + 
-Brisbane Queensland +
-https://kurrawong.ai +
-info@kurrawong.ai 
+*KurrawongAI*  
+Brisbane Queensland  
+https://kurrawong.ai  
+info@kurrawong.ai  
+
+## Appendix A - Artifacts
+
+The backend code repository is available on Github [here](https://github.com/Kurrawong/fair-ease-matcher).
+Configuration for Apache Jena Fuseki, including the Full Text Search index configuration is within the `compose/` directory of the above repo.
+The frontend UI application code is available on Github [here](https://github.com/Kurrawong/bodc-analyser-ui).
+Note the 
+## Appendix B - Live Instances
+
+At the time of writing there are two instances online, these both utilise the same UI, but can be pointed at different backend analysers.
+1. [Production](https://kurrawong.github.io/bodc-analyser-ui/?endpoint=https://99koor0nmj.execute-api.ap-southeast-2.amazonaws.com/production)  
+2. [Development](https://kurrawong.github.io/bodc-analyser-ui/?endpoint=https://4p5qsqlhhi.execute-api.ap-southeast-2.amazonaws.com/dev)  
+
+At some point these instances will be brought offline and the Semantic Analyser will be available within BODC.
