@@ -19,7 +19,7 @@ SELECT DISTINCT ?SearchTerm ?MatchURI (SAMPLE(?MatchPropertyAll) AS ?MatchProper
   {%- else %}
     {% set predicate = predicate %}
   {%- endif %}
-  (?MatchURI ?Weight ?MatchTerm ?graph ?MatchProp) text:query ({{ predicate }} ?EscapedSearchTerm 5 ) .
+  (?MatchURI ?Weight ?MatchTerm ?graph ?MatchProp) text:query ({{ predicate }} ?EscapedSearchTerm 10 ) .
     GRAPH ?g {?MatchURI ?p ?o}
     {%- if theme_uris %}
       VALUES ?theme_uri {
