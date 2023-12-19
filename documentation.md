@@ -22,11 +22,13 @@ The three components are therefore coupled in the following ways:
 - requirement of there being a triplestore with full text indexes  
 - the format of the input to the analyser  
 - the format of the output from the analyser  
+
 These interfaces have been implemented using simple models, and could be modified without much effort.
 The Future Work section describes how a semantic model could be implemented create a self describing model of the interfaces and data exchanged between these.
 A high level diagram showing the main components is shown below.
 
- 
+![High Level Architecture](architecture.png)
+
 ## Analyser Input
 The semantic analyser backend takes as its input a JSON payload in the following structure for analysis of ISO19115 XML metadata records:
 
