@@ -388,7 +388,7 @@ info@kurrawong.ai
 The backend code repository is available on Github [here](https://github.com/Kurrawong/fair-ease-matcher).
 Configuration for Apache Jena Fuseki, including the Full Text Search index configuration is within the `compose/` directory of the above repo.
 The frontend UI application code is available on Github [here](https://github.com/Kurrawong/bodc-analyser-ui).
-Note the 
+Note the User Interface has been rebuilt by the BODC using React, and has some additional functionality.  
 ## Appendix B - Live Instances
 
 At the time of writing there are two instances online, these both utilise the same UI, but can be pointed at different backend analysers.
