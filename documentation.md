@@ -9,9 +9,10 @@
 [Knowledge base construction](#knowledge-base-construction)  
 [Federated Search across OntoPortal instances](#federated-search-across-ontoportal-instances)    
 [User Interface](#user-interface)  
-[Configuration](#configuration)
+[Configuration](#configuration)  
 [Future Work](#future-work)  
-[Appendix A - Artifacts]()
+[Appendix A - Artifacts](#appendix-a---artifacts)
+[Appendix B - Live Instances](#appendix-b---live-instances)
 
 ## High Level Overview
 This documentation details the functional logic of the Semantic Analyser; predominantly implemented in a FastAPI based Python application. 
