@@ -25,6 +25,7 @@ from src.string_functions import quack_analyser
         ("SDN::L10", "identifier"),  # real example
         ("SDN:L10", "identifier"),  # variation
         ("lithology", "string"),
+        ("SDN:L05::60", "identifier")
     ],
 )
 def test_quack_analyser(input_str, expected):
@@ -32,3 +33,5 @@ def test_quack_analyser(input_str, expected):
     assert (
         result == expected
     ), f"Expected {expected} but got {result} for input {input_str}"
+
+#TODO add more identifier tests for full identifiers

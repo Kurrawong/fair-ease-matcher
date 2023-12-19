@@ -23,20 +23,20 @@ def extract_full_xml(xml_string):
     ]
     variants = []
     for gt2t in types_to_text:
-        if gt2t["guessed_type"] == "URI":
+        if gt2t["guessed_type"] == "uris":
             http_https_variant = get_http_https_variant(gt2t["text"])
             if http_https_variant:
-                variants.append({"guessed_type": "URI", "text": http_https_variant})
+                variants.append({"guessed_type": "uris", "text": http_https_variant})
                 trailing_slash_on_http_variant = get_trailing_slash_variant(
                     http_https_variant
                 )
                 if trailing_slash_on_http_variant:
                     variants.append(
-                        {"guessed_type": "URI", "text": trailing_slash_on_http_variant}
+                        {"guessed_type": "uris", "text": trailing_slash_on_http_variant}
                     )
             trailing_slash_variant = get_trailing_slash_variant(gt2t["text"])
             if trailing_slash_variant:
-                variants.append({"guessed_type": "URI", "text": trailing_slash_variant})
+                variants.append({"guessed_type": "uris", "text": trailing_slash_variant})
     types_to_text.extend(variants)
     return types_to_text
 
