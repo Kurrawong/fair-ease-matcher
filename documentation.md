@@ -374,3 +374,23 @@ At the time of writing there are two instances online, these both utilise the sa
 2. [Development](https://kurrawong.github.io/bodc-analyser-ui/?endpoint=https://4p5qsqlhhi.execute-api.ap-southeast-2.amazonaws.com/dev)  
 
 At some point these instances will be brought offline and the Semantic Analyser will be available within BODC.
+
+## License & Rights
+
+This software was developed by [KurrawongAI](https://kurrawong.ai) for the [British Oceanographic Data Centre](https://www.bodc.ac.uk/).
+
+This software is all © British Oceanographic Data Centre, 2023
+
+## Contacts
+
+For general use, please contact:
+
+*BODC Team* +
+<>
+
+The software authors can be contacted at:
+
+*KurrawongAI* + 
+Brisbane Queensland +
+https://kurrawong.ai +
+info@kurrawong.ai 
