@@ -8,8 +8,10 @@
 [SPARQL query generation](#sparql-query-generation)  
 [Knowledge base construction](#knowledge-base-construction)  
 [Federated Search across OntoPortal instances](#federated-search-across-ontoportal-instances)    
-[User Interface](#user-interface)    
+[User Interface](#user-interface)  
+[Configuration](#configuration)
 [Future Work](#future-work)  
+[Appendix A - Artifacts]()
 
 ## High Level Overview
 This documentation details the functional logic of the Semantic Analyser; predominantly implemented in a FastAPI based Python application. 
@@ -295,6 +297,52 @@ The user interface implements the following design goals:
   - the portion of search terms for which a result was found in the knowledge graph
 - unmatched terms can be searched in 'federated' type manner in other analyser/search systems
 
+## Configuration
+The Semantic Analyser backend requires the following environment variables to be specified.
+
+SPARQL_ENDPOINT - the SPARQL endpoint for the Knowledge Base the Semantic Analyser depends on.
+SPARQL_USERNAME - a username for the SPARQL endpoint, if Basic Authentication is enabled.
+SPARQL_PASSWORD - a password for the SPARQL endpoint, if Basic Authentication is enabled.
+
+The following config section in `src/app/config.json` is used to specify the methods the analyser makes available.
+It also lists the theme graphs that the backend can restrict search to within the Knowledge Base.
+The current frontend application reads these and renders them as available options in the UI.
+To implement further methods or theme restrictions, Python code must be written for the implementation, and the methods will further need to be specified in this config, such that the frontend can read what is available.
+
+<details><summary>Methods Configuration</summary>
+
+```json
+{
+  "Methods": {
+    "metadata": {
+      "xml": "Structured XML Extraction",
+      "full": "Full XML Extraction"
+    },
+    "netcdf": {
+      "netcdf": "netCDF"
+    }
+  },
+  "Restrict to Themes": {
+    "param": "Parameter",
+    "inst": "Instrument",
+    "plat": "Platform"
+  }
+}
+```
+</details>
+
+The User Interface must be supplied with the endpoint at which the analyser is deployed.
+Tokens for the different federated search portals (EarthPortal and BioPortal) can also be supplied.
+These can be obtained by signing up at the following websites:  
+1. [BioPortal](https://bioportal.bioontology.org/)  
+2. [EarthPortal](https://earthportal.eu/)
+
+The analyser can be modified rather than configured at a lower level without much difficulty, though knowledge of Python and or SPARQL would be a requirement.
+The string cleaning functions for example can altered or 'commented out'.
+The SPARQL query can be modified to change the number of Full Text Search results _per search term_ within the `src/sparql/query_template.sparql` file
+on line 22. This number is currently set to 10 in the production instance, and 5 in the development instance (see [Appendix B](#appendix-b---live-instances)).
+Changing this mostly impacts the number of Wildcard results, which are of a poorer quality than Exact and URI matches. It is suggested that this number could be set as low as possible such that a 'complete' set of Exact matches is returned.
+
 ## Future work
 The output of the Semantic Analyser (as passed from the backend to the frontend) have a model; at present it is a number of columns that are required for results to be displayed.
 To improve upon this model, a formal ontological model could be created to represent these results.
@@ -302,4 +350,17 @@ Such a model would be expressed in OWL, and include additional shape validation 
 The model would extend beyond the results format, to enumerate common input types, and also to provide a framework for interpreting results.
 Such a model is conceptually very close to one that would describe machine learning methodologies.
 In machine learning terminology, there is a set of raw data (metadata), from which terms are extracted (feature engineering), and these are used with models (Apache Lucene's full text search, and exact matching), to produce predictions with probabilities (1 in the case of URI matches, close to 1 for exact matches, and less than one for other matches).
-Creating, or aligining to existing models in this space, will allow for the comparison of the performance of the Semantic Analyser against other analysis methods, enhancing interoperability and highlighing areas of strength and weakness. 
+Creating, or aligining to existing models in this space, will allow for the comparison of the performance of the Semantic Analyser against other analysis methods, enhancing interoperability and highlighing areas of strength and weakness.
+
+## Appendix A - Artifacts
+
+The backend code repository is available on Github [here](https://github.com/Kurrawong/fair-ease-matcher).
+Configuration for Apache Jena Fuseki, including the Full Text Search index configuration is within the `compose/` directory of the above repo.
+The frontend UI application code is available on Github [here](https://github.com/Kurrawong/bodc-analyser-ui).
+Note the 
+## Appendix B - Live Instances
+
+At the time of writing there are two instances online, these both utilise the same UI, but can be pointed at different backend analysers.
+1. [Production](https://kurrawong.github.io/bodc-analyser-ui/?endpoint=https://99koor0nmj.execute-api.ap-southeast-2.amazonaws.com/production)  
+2. [Development](https://kurrawong.github.io/bodc-analyser-ui/?endpoint=https://4p5qsqlhhi.execute-api.ap-southeast-2.amazonaws.com/dev)  
+At some point these instances will be brought offline and the Semantic Analyser will be available within BODC.
