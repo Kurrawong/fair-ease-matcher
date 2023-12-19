@@ -1,14 +1,30 @@
 # Semantic Analyser Documentation
 
+[High Level Overview](#high-level-overview)
+[Analyser Input](#analyser-input)
 [Structured XML Analysis](#structured-xml-analysis)  
 [Full XML Analysis](#full-xml-analysis)  
 [netCDF Analysis](#netcdf-analysis)  
 [SPARQL query generation](#sparql-query-generation)  
 [Knowledge base construction](#knowledge-base-construction)  
-[Federated Search across OntoPortal instances](#federated-search-across-ontoportal-instances)  
-[User Interface](#user-interface)  
+[Federated Search across OntoPortal instances](#federated-search-across-ontoportal-instances)    
+[User Interface](#user-interface)    
 [Future Work](#future-work)  
 
+## High Level Overview
+This documentation details the functional logic of the Semantic Analyser; predominantly implemented in a FastAPI based Python application. 
+The Semantic Analyser requires an instance of Jena Fuseki with full text indexes appropriately constructed.
+An optional frontend application can be used to select records for analysis, send these to the backend, and render the results.
+The three components are therefore coupled in the following ways:
+- requirement of there being a triplestore with full text indexes  
+- the format of the input to the analyser  
+- the format of the output from the analyser  
+These interfaces have been implemented using simple models, and could be modified without much effort.
+The Future Work section describes how a semantic model could be implemented create a self describing model of the interfaces and data exchanged between these.
+A high level diagram showing the main components is shown below.
+
+ 
+## Analyser Input
 The semantic analyser backend takes as its input a JSON payload in the following structure for analysis of ISO19115 XML metadata records:
 
 ```json
