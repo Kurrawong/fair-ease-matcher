@@ -81,7 +81,7 @@ For each category of variable, the terms are split out into three further subcat
 
 Where the determined or guessed type is string, The terms are then cleaned using the following processes:
 1. Split strings which appear to be lists (where the separator is ">" and "/")
-2. Clean strings by removing the following characters: """, ",", "-", "_"
+2. Clean strings by removing the following characters: """, ",", "-", "_" (this code is located [here](https://github.com/Kurrawong/fair-ease-matcher/blob/413d499e4873efaee647a84d39d04189fc646f3b/src/string_functions.py#L47))
 3. Removing empty strings (where the string is only whitespace)
 4. Creating a second search string where there is a "|" in the original string, for the last part of the original string after the "|"
 
@@ -110,6 +110,8 @@ If the type is determined to be a URI, then a second search term is added; the s
 ## Full XML Analysis
 The  full XML Analysis method works by extracting all text using Python's ElementTree library (`element.text`), tails (`element.tail`), xlinks (where the attribute is "{http://www.w3.org/1999/xlink}href"), and attribute values (`element.attrib.values`).
 The types (URI, Identifier, or String) are then guessed for each extracted piece of text.
+**Only where the type is identified as a URI is the term searched for in the Knowledge Base at present**.
+As the other non URI types are also extracted, these could easily be searched for in the Knowledge Base in the future, if desired. 
 Where the guessed type is a URI, the variant of http/https that the URI is not is added as an additional serach term. Similarly, additional search terms are added with/without trailing slashes to complement the original extracted text.
 The guessed types are then collected into a dictionary with keys as the types. As the target metadata element is unknown (there is no context other than the text extracted), the target metadata element is set as "All" such that the query code used for Structured Extraction can be reused.
 The queries are then run against the triplestore, using the methodology and queries detailed below.
@@ -272,7 +274,7 @@ These form a set of reference data against which Metadata or data elements can b
 The ontologies and vocabularies have been organised into named graphs, with the named graph URIs typically being the namespace of the vocabulary or ontology.
 The ontologies and vocabularies have been categorised into the metadata elements (Keywords, Instruments, Parameters, and Platforms) that the terms within the vocabulary describe.
 The categorisation is done in practice by mapping the Graph name to a theme URI.
-A python script has been provided to automatically create this information as RDF, based on a Google sheet maintained by the BODC.
+A python script has been provided to automatically create this information as RDF, based on a Google sheet maintained by the BODC. The sheet is private and available [here](https://docs.google.com/spreadsheets/d/17-MXAugIzrxBICMkh1VYvqkPfiwgLrOP8WXHnRaAV8s/edit#gid=0) for those with access.
 The Google sheet can be downloaded as an Excel file, and used with the Python script, located at `/src/graph-partitioning/create_system_graph.py`.
 The output of the script is an nquads file, which can be uploaded to the triplestore.
 An example snippet of the file is as follows:
@@ -302,6 +304,7 @@ The user interface implements the following design goals:
   - the method and sub-method used; search and match terms; match URIs/links for the object with the property/object that matched; and the property that was matched on.
   - the portion of search terms for which a result was found in the knowledge graph
 - unmatched terms can be searched in 'federated' type manner in other analyser/search systems
+- export of results in common data formats. Currently this has been implemented by BODC as CSV and JSON exports.
 
 ## Configuration
 The Semantic Analyser backend requires the following environment variables to be specified.
@@ -313,7 +316,7 @@ SPARQL_PASSWORD - a password for the SPARQL endpoint, if Basic Authentication is
 The following config section in `src/app/config.json` is used to specify the methods the analyser makes available.
 It also lists the theme graphs that the backend can restrict search to within the Knowledge Base.
 The current frontend application reads these and renders them as available options in the UI.
-To implement further methods or theme restrictions, Python code must be written for the implementation, and the methods will further need to be specified in this config, such that the frontend can read what is available.
+To implement further methods or theme restrictions, Python code must first be written for the implementation, and the methods will further need to be specified in this config, such that the frontend can read what is available.
 
 <details><summary>Methods Configuration</summary>
 
@@ -344,7 +347,7 @@ These can be obtained by signing up at the following websites:
 2. [EarthPortal](https://earthportal.eu/)
 
 The analyser can be modified rather than configured at a lower level without much difficulty, though knowledge of Python and or SPARQL would be a requirement.
-The string cleaning functions for example can altered or 'commented out'.
+The string cleaning functions for example can be altered or 'commented out'.
 The SPARQL query can be modified to change the number of Full Text Search results _per search term_ within the `src/sparql/query_template.sparql` file
 on line 22. This number is currently set to 10 in the production instance, and 5 in the development instance (see [Appendix B](#appendix-b---live-instances)).
 Changing this mostly impacts the number of Wildcard results, which are of a poorer quality than Exact and URI matches. It is suggested that this number could be set as low as possible such that a 'complete' set of Exact matches is returned.
