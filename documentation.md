@@ -373,8 +373,10 @@ This software is all © British Oceanographic Data Centre, 2023
 
 For general use, please contact:
 
-*BODC Team* +
-<>
+*BODC Team*
+Dr Gwenaëlle Moncoiffé
+Dr Alexandra Kokkinaki
+vocab.services@bodc.ac.uk
 
 The software authors can be contacted at:
 
