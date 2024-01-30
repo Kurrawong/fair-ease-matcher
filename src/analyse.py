@@ -204,6 +204,7 @@ def analyse_from_xml_structure(xml, threshold, restrict_to_themes) -> dict:
     all_bindings, head = run_all_queries(all_queries)
 
     exact_or_uri_matches = {k: False for k in all_metadata_elems}
+    remove_uri_matches_from_other_matches(all_bindings)
     remove_exact_and_uri_matches(all_bindings, all_metadata_elems)
 
     # If there are no Exact or URI matches for a metadata element, also run a proximity search on those metadata elements
@@ -284,6 +285,22 @@ def get_query_args(all_metadata_elems, mapping, theme_names=None):
                 themes_map[theme_name] for theme_name in theme_names
             ]
     return query_args
+
+
+def remove_uri_matches_from_other_matches(all_bindings):
+    """If a search term matches a URI, remove it from the other matches"""
+    uri_match_uris = [result["MatchURI"]["value"] for result in all_bindings if
+                      result["MethodSubType"]["value"] == "URI Match"]
+
+    to_remove = [result for result in all_bindings if
+                 result["MatchURI"]["value"] in uri_match_uris and
+                 result["MethodSubType"]["value"] != "URI Match"]
+    logger.info(msg=f"Deduplicating {len(to_remove)} matches where the URI has already been exactly matched.")
+
+    # Then, rebuild the list excluding the non-URI matches not found in the collected URIs
+    all_bindings[:] = [result for result in all_bindings if
+                       result["MethodSubType"]["value"] == "URI Match" or
+                       result["MatchURI"]["value"] not in uri_match_uris]
 
 
 def remove_exact_and_uri_matches(all_bindings, all_metadata_elems):
@@ -411,7 +428,7 @@ def extract_from_all(root):
 
 
 def run_methods(
-    doc_name, methods, results, threshold, xml_string, restrict_to_themes, method_type
+        doc_name, methods, results, threshold, xml_string, restrict_to_themes, method_type
 ):
     results[doc_name] = {}
     if method_type == "XML":  # run specified xml methods
