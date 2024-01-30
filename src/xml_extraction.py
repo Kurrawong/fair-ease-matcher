@@ -65,7 +65,7 @@ def extract_from_descriptiveKeywords(root):
         if keyword_typecode is not None:
             keyword_type = keyword_typecode.get("codeListValue")
         else:
-            keyword_type = "Keywords"
+            keyword_type = "theme"
         # Consolidate the results by metadata type
         if keyword_type in metadata_element_map:
             meta_type = metadata_element_map[keyword_type]
