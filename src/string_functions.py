@@ -40,11 +40,11 @@ def split_list_of_strings(list_of_strings: list):
 
 def clean_list_of_strings(list_of_strings: list):
     return [
-        string.strip()
+        string.strip()  # removes whitespace
         .replace('"', "")
         .replace(",", "")
-        .replace("-", " ")
-        .replace("_", " ")
+        # .replace("-", " ")
+        # .replace("_", " ")
         for string in list_of_strings
     ]
 
