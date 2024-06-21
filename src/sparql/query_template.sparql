@@ -35,17 +35,12 @@ SELECT DISTINCT ?SearchTerm ?MatchURI (SAMPLE(?MatchPropertyAll) AS ?MatchProper
     {%- endif %}
   OPTIONAL {
     ?MatchURI skos:prefLabel|rdfs:label|dcterms:title|sdo:name ?match_label .
-  }
-  OPTIONAL {
     ?MatchProp skos:prefLabel|rdfs:label|dcterms:title|sdo:name ?prop_label .
     FILTER(LANGMATCHES(LANG(?prop_label), "en") || LANG(?prop_label) = "")
   }
   OPTIONAL {
     ?OptContainer skos:member ?MatchURI ;
-                  skos:prefLabel ?OptContainerPrefLabel .
-  }
-  OPTIONAL {
-    ?OptContainer skos:member ?MatchURI ;
+                  skos:prefLabel ?OptContainerPrefLabel ;
                   dcterms:title ?OptContainerTitle .
   }
   OPTIONAL {
