@@ -6,6 +6,9 @@
     },
     "netcdf": {
       "netcdf": "netCDF"
+    },
+    "terms": {
+      "source": "geoDABterms"
     }
   },
   "Restrict to Themes": {

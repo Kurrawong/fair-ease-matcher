@@ -45,11 +45,11 @@ themes_map = {
 }
 
 
-def analyse_from_full_xml(xml_string, restrict_to_themes):
-    types_to_text = extract_full_xml(xml_string)
+def analyse_from_full_xml(xml_string, restrict_to_themes):        
+    types_to_text = extract_full_xml(xml_string)            
     mapping = {"all": [("uris", None)]}
-    collected_t2t = collect_types(types_to_text)
-    query_args = get_query_args(collected_t2t, mapping, restrict_to_themes)
+    collected_t2t = collect_types(types_to_text)                
+    query_args = get_query_args(collected_t2t, mapping, restrict_to_themes)            
     all_queries = generate_queries(query_args)
     all_bindings, head = run_all_queries(all_queries)
 
@@ -73,6 +73,7 @@ def analyse_from_full_xml(xml_string, restrict_to_themes):
 def collect_types(types_to_text: dict):
     # Using a dictionary to group texts by their guessed_type
     result_dict = {"uris": [], "strings": [], "identifiers": []}
+            
     for item in types_to_text:
         guessed_type = item["guessed_type"]
         if guessed_type == "uris":
@@ -169,14 +170,112 @@ def analyse_from_netcdf(file_bytes, restrict_to_themes=None):
     }
     return results
 
+def map_geodab_meta_to_sparql_meta(term):
+    mapping = {
+        'instrument': ['inst'],
+        'platform': ['plat'],
+        'parameter': ['param'],
+        'keyword': None
+    }
+    return mapping.get(term, None)
+
+def get_terms_elements(terms, restrict_to_theme):
+    all_terms_elements = {
+        'Instrument': {'uris': [], 'identifiers': [], 'strings': []},
+        'Variable': {'uris': [], 'identifiers': [], 'strings': []},
+        'Keywords': {'uris': [], 'identifiers': [], 'strings': []},
+        'Platform': {'uris': [], 'identifiers': [], 'strings': []}
+    }
+
+    dab_term_map = {
+        'instrument': 'Instrument',
+        'parameter': 'Variable',
+        'keyword': 'Keywords',
+        'platform': 'Platform'
+    }
+    
+    theme_key = dab_term_map.get(restrict_to_theme, 'Keywords')
+    if theme_key:
+        all_terms_elements[theme_key]['strings'] = terms    
+    return all_terms_elements
+
+def analyse_from_geodab_terms(terms, restrict_to_theme) -> dict:                
+    terms_clean = [el.replace('"', "\'") for el in terms]
+    all_metadata_elems = get_terms_elements(terms_clean, restrict_to_theme)                
+    restrict_to_theme = map_geodab_meta_to_sparql_meta(restrict_to_theme)
+                                           
+    mapping = {
+        "keywords": [("strings", None)],
+        "instrument": [
+            ("strings", None),
+            ("identifiers", "dcterms:identifier"),
+            ("uris", None),
+        ],
+        "variable": [
+            ("strings", None),
+            ("identifiers", "dcterms:identifier"),
+            ("uris", None),
+        ],
+        "platform": [
+            ("strings", None),
+            ("identifiers", "dcterms:identifier"),
+            ("uris", None),
+        ],
+    }    
+    
+    query_args = get_query_args(all_metadata_elems, mapping, restrict_to_theme)    
+    all_queries = generate_queries(query_args)                                    
+    all_bindings, head = run_all_queries(all_queries)            
+    exact_or_uri_matches = {k: False for k in all_metadata_elems}
+    
+    remove_uri_matches_from_other_matches(all_bindings)
+    remove_exact_and_uri_matches(all_bindings, all_metadata_elems)
+    
+# If there are no Exact or URI matches for a metadata element, also run a proximity search on those metadata elements
+    proximity_preds = "skos:prefLabel dcterms:description skos:altLabel dcterms:identifier rdfs:label"  # https://github.com/Kurrawong/fair-ease-matcher/issues/37
+    for metadata_element, has_exact_or_uri_match in exact_or_uri_matches.items():
+        if has_exact_or_uri_match:
+            mapping.pop(metadata_element.lower())
+            all_metadata_elems.pop(metadata_element)
+        else:
+            lower_metadata_element = metadata_element.lower()
+            mapping_tuples = mapping.get(lower_metadata_element, [])
+
+            for i, (metadata_type, value) in enumerate(mapping_tuples):
+                if value is None:
+                    mapping_tuples[i] = (metadata_type, proximity_preds)
+
+    proximity_query_args = get_query_args(
+        all_metadata_elems, mapping, restrict_to_theme
+    )
+    proximity_queries = generate_queries(proximity_query_args, proximity=True)
+    if proximity_queries:
+        proximity_bindings, _ = run_all_queries(proximity_queries)
+        all_bindings.extend(proximity_bindings)
+
+    _all_search_terms = [list(i.values()) for i in all_metadata_elems.values()]
+    all_search_terms = set(
+        itertools.chain.from_iterable(itertools.chain.from_iterable(_all_search_terms))
+    )
+    search_terms_found = set(d["SearchTerm"]["value"] for d in all_bindings)
+    search_terms_not_found = list(all_search_terms - search_terms_found)
+    results = {
+        "head": head,
+        "results": {"bindings": all_bindings},
+        "all_search_elements": all_metadata_elems,
+        "search_terms_not_found": search_terms_not_found,
+        "stats": {"found": len(search_terms_found), "total": len(all_search_terms)},
+    }    
+    
+    return results
 
 def analyse_from_xml_structure(xml, threshold, restrict_to_themes) -> dict:
     root = ET.fromstring(xml)
     logger.info("Obtained root from remote XML.")
-
+    
     all_metadata_elems = extract_from_all(root)
     logger.info(f"Info extracted:\n{dict(all_metadata_elems)}".replace("}, '", "},\n'"))
-
+    
     # tuple 1: config for text search
     # tuple 2: for identifiers (only search in dcterms:identifier predicate)
     # tuple 3: config for uri search
@@ -198,14 +297,14 @@ def analyse_from_xml_structure(xml, threshold, restrict_to_themes) -> dict:
             ("uris", None),
         ],
     }
-
+    
     query_args = get_query_args(all_metadata_elems, mapping, restrict_to_themes)
-    all_queries = generate_queries(query_args)
-    all_bindings, head = run_all_queries(all_queries)
-
+    all_queries = generate_queries(query_args)            
+    all_bindings, head = run_all_queries(all_queries)        
     exact_or_uri_matches = {k: False for k in all_metadata_elems}
+        
     remove_uri_matches_from_other_matches(all_bindings)
-    remove_exact_and_uri_matches(all_bindings, all_metadata_elems)
+    remove_exact_and_uri_matches(all_bindings, all_metadata_elems)    
 
     # If there are no Exact or URI matches for a metadata element, also run a proximity search on those metadata elements
     proximity_preds = "skos:prefLabel dcterms:description skos:altLabel dcterms:identifier rdfs:label"  # https://github.com/Kurrawong/fair-ease-matcher/issues/37
@@ -249,13 +348,15 @@ def run_all_queries(all_queries):
     all_bindings = []
     head = {}
     all_results = asyncio.run(run_queries(all_queries))
+    
     for query_type, result in all_results:
         head, bindings = flatten_results(result, query_type)
         all_bindings.extend(bindings)
+        
     return all_bindings, head
 
 
-def generate_queries(query_args, proximity=False):
+def generate_queries(query_args, proximity=False):            
     all_queries = []
     for query_type, kwargs in query_args.items():
         if kwargs["terms"]:
@@ -264,8 +365,8 @@ def generate_queries(query_args, proximity=False):
             else:
                 queries = create_query(
                     **kwargs, query_type=query_type, proximity=proximity
-                )
-                all_queries.extend([(query_type, query) for query in queries])
+                )                
+                all_queries.extend([(query_type, query) for query in queries])                                
     return all_queries
 
 
@@ -279,14 +380,15 @@ def get_query_args(all_metadata_elems, mapping, theme_names=None):
         for prefix, configs in mapping.items()
         for (key, predicate) in configs
     }
+                    
     if theme_names:
         for prefix_key in query_args:
             query_args[prefix_key]["theme_uris"] = [
                 themes_map[theme_name] for theme_name in theme_names
             ]
+    
     return query_args
-
-
+        
 def remove_uri_matches_from_other_matches(all_bindings):
     """If a search term matches a URI, remove it from the other matches"""
     uri_match_uris = [result["MatchURI"]["value"] for result in all_bindings if
@@ -314,14 +416,13 @@ def remove_exact_and_uri_matches(all_bindings, all_metadata_elems):
 
 
 async def run_queries(queries):
-    async with AsyncClient(auth=(user, passwd) if user else None, timeout=30) as client:
+    async with AsyncClient(auth=(user, passwd) if user else None, timeout=280) as client:
         return await asyncio.gather(
             *[
                 tabular_query_to_dict(query, query_type, client)
                 for query_type, query in queries
             ]
         )
-
 
 def execute_async_func(func, *args, **kwargs):
     loop = asyncio.new_event_loop()
@@ -373,10 +474,11 @@ def create_query(predicate, terms, query_type, theme_uris=None, proximity=False)
         if terms:
             terms = [escape_for_lucene_and_sparql(term) for term in terms]
     # Render the template with the necessary parameters
+
     query = template.render(
         predicate=predicate, terms=terms, proximity=proximity, theme_uris=theme_uris
     )  # template imported at module level.
-    queries.append(query)
+    queries.append(query)        
     return queries
 
 
@@ -423,10 +525,15 @@ def extract_from_all(root):
     all_dicts.append(extract_from_topic_categories(root))
     all_dicts.append(extract_from_content_info(root))
     all_dicts.append(extract_instruments_platforms_from_acquisition_info(root))
-    merged = merge_dicts(all_dicts)
+    merged = merge_dicts(all_dicts)    
     return merged
 
-
+def run_method_dab_terms(doc_name, results, terms, restrict_to_theme):
+    results[doc_name] = {}     
+    results[doc_name][
+        app.config["Methods"]["terms"]["source"]
+    ] = analyse_from_geodab_terms(terms, restrict_to_theme)
+    
 def run_methods(
         doc_name, methods, results, threshold, xml_string, restrict_to_themes, method_type
 ):
@@ -447,7 +554,6 @@ def run_methods(
         results[doc_name][
             app.config["Methods"]["netcdf"]["netcdf"]
         ] = analyse_from_netcdf(xml_string, restrict_to_themes)
-
 
 def extract_urns_from_netcdf(rootgrp: Dataset, var_name: str):
     var_urns = []
