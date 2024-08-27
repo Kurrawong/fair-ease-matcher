@@ -5,8 +5,9 @@ PREFIX ex: <http://www.example.org/resources#>
 PREFIX text: <http://jena.apache.org/text#>
 PREFIX sdo: <https://schema.org/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
-SELECT ?SearchTerm ?MatchURI ?MatchProperty ?MatchTerm ?Container ?ContainerLabel ?MethodSubType (GROUP_CONCAT(DISTINCT(?VocabCategory);separator=", ") AS ?Categories)
+SELECT ?SearchTerm ?MatchURI ?MatchProperty ?MatchTerm ?Container ?ContainerLabel ?MethodSubType ?Status (GROUP_CONCAT(DISTINCT(?VocabCategory);separator=", ") AS ?Categories)
 {
     {
       SELECT REDUCED ?MatchURI {
@@ -36,10 +37,17 @@ SELECT ?SearchTerm ?MatchURI ?MatchProperty ?MatchTerm ?Container ?ContainerLabe
     ?OptContainer skos:member ?MatchURI ;
                  skos:prefLabel ?OptContainerLabel .
     }
+    OPTIONAL {
+      ?MatchURI owl:deprecated ?isDeprecated .
+    }
+    BIND( if (
+      COALESCE(?isDeprecated, "false") = "false", "Accepted", "Deprecated"
+      ) AS ?Status
+    )
     BIND(?MatchURI AS ?SearchTerm)
     BIND("N/A" AS ?MatchProperty)
     BIND(COALESCE(?MatchLabel,"") AS ?MatchTerm)
     BIND("URI Match" AS ?MethodSubType)
     BIND(COALESCE(?OptContainer,"") AS ?Container)
     BIND(COALESCE(?OptContainerLabel,"") AS ?ContainerLabel)
-} GROUP BY ?g ?MatchURI ?MatchProperty ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?MethodSubType
+} GROUP BY ?g ?MatchURI ?MatchProperty ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?MethodSubType ?Status
