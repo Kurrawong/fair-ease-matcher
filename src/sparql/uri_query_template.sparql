@@ -41,7 +41,7 @@ SELECT ?SearchTerm ?MatchURI ?MatchProperty ?MatchTerm ?Container ?ContainerLabe
       ?MatchURI owl:deprecated ?isDeprecated .
     }
     BIND( if (
-      COALESCE(?isDeprecated, "false") = "false", "Active", "Deprecated"
+      COALESCE(?isDeprecated, "false") = "false", "Accepted", "Deprecated"
       ) AS ?Status
     )
     BIND(?MatchURI AS ?SearchTerm)
