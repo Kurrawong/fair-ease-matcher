@@ -5,8 +5,9 @@ PREFIX ex: <http://www.example.org/resources#>
 PREFIX text: <http://jena.apache.org/text#>
 PREFIX sdo: <https://schema.org/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
-SELECT DISTINCT ?SearchTerm ?MatchURI (SAMPLE(?MatchPropertyAll) AS ?MatchProperty) ?MatchTerm ?Container ?ContainerLabel ?MethodSubType (GROUP_CONCAT(DISTINCT(?VocabCategory);separator=", ") AS ?Categories)
+SELECT DISTINCT ?SearchTerm ?MatchURI (SAMPLE(?MatchPropertyAll) AS ?MatchProperty) ?MatchTerm ?Container ?ContainerLabel ?MethodSubType ?Status (GROUP_CONCAT(DISTINCT(?VocabCategory);separator=", ") AS ?Categories)
 {
   VALUES ?EscapedSearchTerm {
     {%- for term in terms -%}
@@ -47,6 +48,13 @@ SELECT DISTINCT ?SearchTerm ?MatchURI (SAMPLE(?MatchPropertyAll) AS ?MatchProper
     ?MatchURI skos:inScheme ?OptContainer .
     ?OptContainer skos:prefLabel ?OptContainerLabel .
   }
+  OPTIONAL {
+    ?MatchURI owl:deprecated ?isDeprecated .
+  }
+  BIND( if (
+    COALESCE(?isDeprecated, "false") = "false", "Active", "Deprecated"
+    ) AS ?Status
+  )
   BIND(COALESCE(?OptContainer,"") AS ?Container)
   BIND(COALESCE(?OptContainerPrefLabel,?OptContainerTitle,"") AS ?ContainerLabel)
   BIND(REPLACE(?EscapedSearchTerm, "\\\\", "") AS ?SearchTermRaw)
@@ -69,5 +77,5 @@ SELECT DISTINCT ?SearchTerm ?MatchURI (SAMPLE(?MatchPropertyAll) AS ?MatchProper
       )
   BIND(COALESCE(?prop_label, ?MatchProp) AS ?MatchPropertyAll)
   BIND(COALESCE(?CompletelyUnescaped, ?SearchTermRaw) AS ?SearchTerm)
-} GROUP BY ?g ?MatchURI ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?MethodSubType
+} GROUP BY ?g ?MatchURI ?MatchTerm ?SearchTerm ?Container ?ContainerLabel ?MethodSubType ?Status
 ORDER BY DESC(?MethodSubType) DESC(?Weight)
