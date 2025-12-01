@@ -10,7 +10,7 @@ packages = [{include = "bodc_matcher"}]
 python = "^3.10"
 sparqlwrapper = "^2.0.0"
 cython = "^3.0.0"
-setuptools = "^70.0.0"
+setuptools = "^78.1.1"
 pytest = "^7.4.0"
 httpx = "^0.24.1"
 jinja2 = "^3.1.6"
