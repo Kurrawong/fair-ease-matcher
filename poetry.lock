@@ -785,14 +785,14 @@ files = [
 
 [[package]]
 name = "pip"
-version = "23.3"
+version = "25.3"
 description = "The PyPA recommended tool for installing Python packages."
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "pip-23.3-py3-none-any.whl", hash = "sha256:bc38bb52bc286514f8f7cb3a1ba5ed100b76aaef29b521d48574329331c5ae7b"},
-    {file = "pip-23.3.tar.gz", hash = "sha256:bb7d4f69f488432e4e96394612f43ab43dd478d073ef7422604a570f7157561e"},
+    {file = "pip-25.3-py3-none-any.whl", hash = "sha256:9655943313a94722b7774661c21049070f6bbb0a1516bf02f7c8d5d9201514cd"},
+    {file = "pip-25.3.tar.gz", hash = "sha256:8d0538dbbd7babbd207f261ed969c65de439f6bc9e5dbd3b3b9a77f25d95f343"},
 ]
 
 [[package]]
@@ -1414,4 +1414,4 @@ wheel = "*"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "b678aaab6ce58160b08aa85797e7895c4b761d72f10f2e7f1bd2b51947e73ae9"
+content-hash = "c9c1251d3501df964a7883b810212aff7f24f617370acac61d9413f39aedc151"
